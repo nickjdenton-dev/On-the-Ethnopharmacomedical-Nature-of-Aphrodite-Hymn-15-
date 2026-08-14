@@ -272,6 +272,8 @@ select.status:focus{outline:none;border-color:var(--line-strong)}
   pointer-events:none;paint-order:stroke;stroke:rgba(13,9,6,.92);stroke-width:3.4px;stroke-linejoin:round;
 }
 .gnode.dim{opacity:.13}
+#graph.labels-off .gnode text{opacity:0;transition:opacity .15s}
+#graph.labels-off .gnode.sel text{opacity:1}
 .gnode.sel text{fill:var(--gold);font-weight:600}
 .glink{stroke:rgba(239,227,203,.16);stroke-width:1}
 .glink.hot{stroke:rgba(224,173,72,.62);stroke-width:1.7}
@@ -290,6 +292,26 @@ select.status:focus{outline:none;border-color:var(--line-strong)}
 .legend button:hover{color:var(--gold)}
 .legend button.off{opacity:.32}
 .legend button i{width:9px;height:9px;border-radius:50%;flex:0 0 auto;display:inline-block}
+.legtoggle{
+  display:flex !important;align-items:center;gap:6px;width:100%;background:transparent;border:0;
+  font-family:var(--sans);font-size:9px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--mute);font-weight:600;cursor:pointer;padding:0 0 6px !important;
+}
+.legtoggle:hover{color:var(--gold)}
+.legtoggle span{margin-left:auto;font-size:10px}
+#zoomctl{
+  position:absolute;right:12px;top:12px;display:flex;flex-direction:column;gap:6px;z-index:6;
+}
+#zoomctl button{
+  width:38px;height:38px;border-radius:2px;cursor:pointer;
+  background:rgba(13,9,6,.9);border:1px solid var(--line-strong);color:var(--ochre);
+  font-family:var(--sans);font-size:16px;line-height:1;padding:0;transition:.15s;
+}
+#zoomctl button:hover{background:var(--ochre);color:#150e07}
+@media(max-width:760px){
+  #zoomctl{right:8px;top:8px;gap:8px}
+  #zoomctl button{width:42px;height:42px;font-size:17px}
+}
 .graphhint{
   position:absolute;right:16px;bottom:14px;font-family:var(--sans);font-size:9.5px;
   letter-spacing:.15em;text-transform:uppercase;color:var(--mute);text-align:right;line-height:1.9;
@@ -447,6 +469,82 @@ kbd{
 #wpop a:hover{background:var(--ochre);color:#150e07}
 #wpop .x{position:absolute;top:6px;right:9px;color:var(--mute);cursor:pointer;font-size:12px}
 #wpop .x:hover{color:var(--gold)}
+
+/* ==================================================================
+   MOBILE — phones. The header needed 568px inside a 375px screen,
+   which pushed the mode switch off the edge. Below 760px the header
+   becomes two rows and the mode switch owns the second one.
+   ================================================================== */
+html{-webkit-text-size-adjust:100%}
+body{overflow-x:hidden}
+#graph{touch-action:none}          /* drag a node without scrolling the page */
+
+@media (max-width:760px){
+  .wide-only{display:none}
+
+  header.topbar{
+    flex-wrap:wrap;row-gap:8px;gap:7px;padding:8px 10px;
+  }
+  .brandmark{order:1;flex:0 0 auto}
+  .spacer{display:none}
+  .progresswrap{display:none}
+  header.topbar .tool{
+    order:2;padding:10px 11px;font-size:10px;letter-spacing:.08em;flex:0 0 auto;
+  }
+  #btnImport{display:none}
+  /* the mode switch gets its own full-width row and big tap targets */
+  .modeswitch{order:3;width:100%;display:flex;flex:1 0 100%}
+  .modeswitch button{
+    flex:1 1 0;min-width:0;padding:13px 6px;font-size:11px;letter-spacing:.12em;
+    text-align:center;
+  }
+
+  /* slides */
+  .slide{padding:26px 16px 44px}
+  .slidegrid{gap:22px}
+  .greekblock{padding-left:14px}
+  .prose p{font-size:16px}
+  .slidenav{padding:8px 10px;gap:8px}
+  .slidenav .tool{padding:10px 12px}
+  .dots{gap:7px}
+  .dot{width:9px;height:9px}
+
+  /* constellation: stack instead of side-by-side */
+  #webview{flex-direction:column}
+  #graphwrap{flex:1 1 auto;min-height:0}
+  #panel{
+    flex:0 0 auto;width:100%;max-width:none;max-height:46vh;
+    border-left:0;border-top:1px solid var(--line-strong);
+    padding:16px 15px 26px;
+  }
+  #panel .emptypanel{font-size:10.5px;letter-spacing:.1em;line-height:1.8}
+  .legend{left:8px;top:8px;padding:8px 10px;max-width:150px}
+  .legend button{font-size:10px;padding:4px 0}
+  .graphhint{display:none}
+  .gnode text{font-size:11px}
+
+  /* reader */
+  #reader .rhead{padding:8px 10px;gap:6px;row-gap:6px}
+  #reader .rtitle{flex:1 0 100%}
+  #reader input[type=search]{flex:1 1 auto;width:auto;min-width:0}
+  #reader .rhead .tool{padding:9px 10px;font-size:9.5px}
+  #rcopy{display:none}
+  #rbody{padding:20px 14px 80px;--fs:18px}
+  .vs .n{flex:0 0 30px;font-size:9px}
+
+  /* popovers must never exceed the screen */
+  #pop,#wpop{max-width:calc(100vw - 24px)}
+
+  /* modal */
+  .modal{padding:12px}
+  .modalbox{padding:20px 16px}
+}
+
+/* very narrow phones */
+@media (max-width:390px){
+  header.topbar .tool{padding:9px 9px;font-size:9.5px;letter-spacing:.06em}
+  .modeswitch button{font-size:10.5px;padding:12px 4px}
+}
 
 .warn{
   font-family:var(--sans);font-size:10px;letter-spacing:.1em;color:var(--mute);
@@ -871,8 +969,8 @@ kbd{
     </div>
 
     <div class="modeswitch">
-      <button id="btnScroll" class="on">Ἡ Ῥαψῳδία · Scroll</button>
-      <button id="btnWeb">Τὸ Δίκτυον · Constellation</button>
+      <button id="btnScroll" class="on"><span class="wide-only">Ἡ Ῥαψῳδία · </span>Scroll</button>
+      <button id="btnWeb"><span class="wide-only">Τὸ Δίκτυον · </span>Constellation</button>
     </div>
 
     <div class="spacer"></div>
@@ -882,7 +980,7 @@ kbd{
       <span class="progressbar"><i id="progFill" style="width:0"></i></span>
     </div>
 
-    <button class="tool" id="btnReader">Ἀναγνώστης · Text</button>
+    <button class="tool" id="btnReader"><span class="wide-only">Ἀναγνώστης · </span>Text</button>
     <button class="tool" id="btnKey">Key</button>
     <button class="tool" id="btnImport">Import</button>
     <button class="tool accent" id="btnExport">Export</button>
@@ -1893,6 +1991,7 @@ function buildGraph(){
       const c = TYPES[n.d.type].color;
       const r = n.d.type==="beat" ? 9 : (n.d.type==="thesis" ? 8 : 7);
       return `<g class="gnode" data-id="${n.id}" style="cursor:pointer">
+        <circle class="hit" r="${r+13}" fill="transparent" stroke="none"/>
         <circle r="${r}" fill="${c}" stroke="#0d0906" stroke-width="2"/>
         <circle class="ring" r="${r+4}" fill="none" stroke="${c}" stroke-width="1" opacity="0"/>
         <text x="0" y="${-(r+7)}" text-anchor="middle">${esc(n.d.label)}</text>
@@ -1900,17 +1999,44 @@ function buildGraph(){
   </g>`;
   G.root = svg.querySelector("#groot");
 
-  // legend
+  // legend — collapsible, starts closed on phones so it doesn't cover the graph
   const lg = $("#legend");
-  lg.innerHTML = `<h6>Strata</h6>` + Object.entries(TYPES).map(([k,v])=>{
-    const c = N.filter(n=>n.type===k).length;
-    return `<button data-t="${k}"><i style="background:${v.color}"></i>${v.label} <span style="opacity:.5;margin-left:auto">${c}</span></button>`;
-  }).join("");
-  lg.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+  const small = window.matchMedia("(max-width:760px)").matches;
+  lg.innerHTML = `<button class="legtoggle" type="button">Strata <span>${small?"▸":"▾"}</span></button>`
+    + `<div class="legbody"${small?' style="display:none"':''}>`
+    + Object.entries(TYPES).map(([k,v])=>{
+        const c = N.filter(n=>n.type===k).length;
+        return `<button data-t="${k}"><i style="background:${v.color}"></i>${v.label} <span style="opacity:.5;margin-left:auto">${c}</span></button>`;
+      }).join("")
+    + `</div>`;
+  const lgt = lg.querySelector(".legtoggle");
+  lgt.onclick = ()=>{
+    const body = lg.querySelector(".legbody");
+    const open = body.style.display !== "none";
+    body.style.display = open ? "none" : "";
+    lgt.querySelector("span").textContent = open ? "▸" : "▾";
+  };
+  lg.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{
     const t = b.dataset.t;
     if(state.hidden.has(t)) state.hidden.delete(t); else state.hidden.add(t);
     b.classList.toggle("off", state.hidden.has(t));
-    applyFilter();
+    applyFilter(); fitGraph();
+  });
+
+  // zoom / fit controls — the only way to work a 49-node graph on a phone
+  const zc = document.createElement("div");
+  zc.id = "zoomctl";
+  zc.innerHTML = `<button type="button" data-z="out" aria-label="Zoom out">−</button>`
+               + `<button type="button" data-z="fit" aria-label="Fit to screen">⤢</button>`
+               + `<button type="button" data-z="in" aria-label="Zoom in">+</button>`;
+  wrap.appendChild(zc);
+  zc.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    const m = b.dataset.z;
+    if(m === "fit") return fitGraph();
+    const nk = Math.max(.25, Math.min(3, G.k * (m === "in" ? 1.28 : 1/1.28)));
+    G.tx = G.w/2 - (G.w/2 - G.tx) * (nk/G.k);
+    G.ty = G.h/2 - (G.h/2 - G.ty) * (nk/G.k);
+    G.k = nk; applyTransform();
   });
 
   svg.querySelectorAll(".gnode").forEach(g=>{
@@ -1950,12 +2076,43 @@ function buildGraph(){
   }, {passive:false});
 
   new ResizeObserver(()=>{
-    G.w = wrap.clientWidth||G.w; G.h = wrap.clientHeight||G.h; G.alpha=.4; run();
+    G.w = wrap.clientWidth||G.w; G.h = wrap.clientHeight||G.h;
+    G.fitted = false;                 // re-frame after a rotate / resize
+    G.alpha = Math.max(G.alpha, .25); run();
   }).observe(wrap);
 
   G.alpha = 1; run();
 }
-function applyTransform(){ G.root.setAttribute("transform", `translate(${G.tx},${G.ty}) scale(${G.k})`); }
+function applyTransform(){
+  G.root.setAttribute("transform", `translate(${G.tx},${G.ty}) scale(${G.k})`);
+  /* Counter-scaled labels would collide at low zoom — hide them until the
+     user zooms in. The selected node keeps its label either way. */
+  G.svg.classList.toggle("labels-off", G.k < 0.52);
+  paintGraph();
+}
+
+/* Frame the whole constellation inside the viewport. Essential on phones,
+   where the settled layout is far wider than the screen. */
+function fitGraph(pad){
+  if(!G.root || !G.nodes.length) return;
+  const isSmall = G.w < 760;
+  pad = pad != null ? pad : (isSmall ? 30 : 56);
+  let minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity, any=false;
+  G.nodes.forEach(n=>{
+    if(state.hidden.has(n.d.type)) return;
+    any = true;
+    if(n.x<minX)minX=n.x; if(n.x>maxX)maxX=n.x;
+    if(n.y<minY)minY=n.y; if(n.y>maxY)maxY=n.y;
+  });
+  if(!any) return;
+  const bw = Math.max(1, maxX-minX), bh = Math.max(1, maxY-minY);
+  const k = Math.max(.25, Math.min(1.35,
+    Math.min((G.w - pad*2)/bw, (G.h - pad*2)/bh)));
+  G.k = k;
+  G.tx = G.w/2 - ((minX+maxX)/2)*k;
+  G.ty = G.h/2 - ((minY+maxY)/2)*k;
+  applyTransform();
+}
 function toLocal(ev){
   const r = G.svg.getBoundingClientRect();
   return {x:((ev.clientX-r.left)-G.tx)/G.k, y:((ev.clientY-r.top)-G.ty)/G.k};
@@ -2007,14 +2164,21 @@ function paintGraph(){
     e.setAttribute("x1",l.s.x); e.setAttribute("y1",l.s.y);
     e.setAttribute("x2",l.t.x); e.setAttribute("y2",l.t.y);
   });
+  /* Counter-scale the nodes so dots and labels keep a usable size on screen
+     even when the whole constellation is zoomed out to fit a phone. */
+  const s = Math.max(1, 0.62 / (G.k || 1));
   G.svg.querySelectorAll(".gnode").forEach(g=>{
     const n = G.nodes.find(x=>x.id===g.dataset.id);
-    if(n) g.setAttribute("transform",`translate(${n.x},${n.y})`);
+    if(n) g.setAttribute("transform",`translate(${n.x},${n.y}) scale(${s.toFixed(3)})`);
   });
 }
 function run(){
   cancelAnimationFrame(G.raf);
-  const step = ()=>{ tick(); if(G.alpha>0.005) G.raf = requestAnimationFrame(step); };
+  const step = ()=>{
+    tick();
+    if(G.alpha>0.005) G.raf = requestAnimationFrame(step);
+    else if(!G.fitted){ G.fitted = true; fitGraph(); }   // frame it once it settles
+  };
   step();
 }
 function applyFilter(){
