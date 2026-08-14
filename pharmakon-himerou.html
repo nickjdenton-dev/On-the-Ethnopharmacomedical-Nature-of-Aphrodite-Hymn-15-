@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ΦΑΡΜΑΚΟΝ ΙΜΕΡΟΥ · The Drug of Desire — A Working Map of Homeric Hymn 5</title>
+<style>
+:root{
+  --ink:#0d0906;
+  --ink2:#161009;
+  --ink3:#1f1710;
+  --terra:#c9552c;
+  --terra-lt:#e07a45;
+  --ochre:#e0ad48;
+  --gold:#f2cd6b;
+  --bone:#efe3cb;
+  --bone-dim:#c9bda6;
+  --mute:#8d8069;
+  --vine:#7d9a6a;
+  --wine:#8e2f3f;
+  --lapis:#4a6f8f;
+  --line:rgba(224,173,72,.22);
+  --line-strong:rgba(224,173,72,.45);
+  --serif:'Palatino Linotype','Book Antiqua',Palatino,'New Athena Unicode',Cardo,'Times New Roman',serif;
+  --grk:'Palatino Linotype','New Athena Unicode',Cardo,'Times New Roman','DejaVu Serif',serif;
+  --sans:'Optima','Gill Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{
+  background:
+    radial-gradient(1200px 700px at 78% -8%, rgba(201,85,44,.13), transparent 62%),
+    radial-gradient(900px 600px at 8% 108%, rgba(224,173,72,.09), transparent 60%),
+    var(--ink);
+  color:var(--bone);
+  font-family:var(--serif);
+  font-size:16px;
+  line-height:1.6;
+  overflow:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.05;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.55'/></svg>");
+}
+::selection{background:rgba(224,173,72,.3);color:#fff}
+
+/* ---------- chrome ---------- */
+#app{display:flex;flex-direction:column;height:100vh}
+header.topbar{
+  flex:0 0 auto;display:flex;align-items:center;gap:18px;
+  padding:10px 20px;border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(31,23,16,.96),rgba(13,9,6,.88));
+  backdrop-filter:blur(6px);z-index:60;
+}
+.brandmark{display:flex;align-items:center;gap:11px;min-width:0}
+.brandmark svg{flex:0 0 auto}
+.brandtext{min-width:0}
+.brandtext b{
+  display:block;font-family:var(--grk);font-size:15px;letter-spacing:.19em;
+  color:var(--gold);font-weight:600;white-space:nowrap;
+}
+.brandtext span{
+  display:block;font-family:var(--sans);font-size:9.5px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--mute);white-space:nowrap;
+}
+.modeswitch{display:flex;gap:0;border:1px solid var(--line-strong);border-radius:2px;overflow:hidden}
+.modeswitch button{
+  font-family:var(--sans);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  background:transparent;color:var(--bone-dim);border:0;padding:8px 16px;cursor:pointer;
+  transition:.18s;white-space:nowrap;
+}
+.modeswitch button+button{border-left:1px solid var(--line)}
+.modeswitch button:hover{color:var(--gold);background:rgba(224,173,72,.07)}
+.modeswitch button.on{background:var(--ochre);color:#150e07;font-weight:600}
+.spacer{flex:1 1 auto}
+@media(max-width:1180px){.brandtext{display:none}}
+@media(max-width:980px){.progresswrap{display:none}.modeswitch button{padding:8px 10px;font-size:9.5px;letter-spacing:.12em}header.topbar{gap:10px;padding:9px 12px}}
+@media(max-width:700px){#btnImport{display:none}.navhint{display:none}}
+.tool{
+  font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  background:transparent;color:var(--bone-dim);border:1px solid var(--line);
+  padding:7px 13px;cursor:pointer;border-radius:2px;transition:.18s;white-space:nowrap;
+}
+.tool:hover{color:var(--gold);border-color:var(--line-strong);background:rgba(224,173,72,.06)}
+.tool.accent{color:var(--ochre);border-color:rgba(224,173,72,.4)}
+.progresswrap{display:flex;align-items:center;gap:9px;font-family:var(--sans);font-size:10px;letter-spacing:.14em;color:var(--mute)}
+.progressbar{width:120px;height:2px;background:rgba(239,227,203,.13);position:relative}
+.progressbar i{position:absolute;left:0;top:0;bottom:0;background:var(--ochre);transition:width .35s}
+
+main{flex:1 1 auto;position:relative;overflow:hidden}
+.view{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .32s}
+.view.on{opacity:1;pointer-events:auto}
+
+/* ---------- meander ---------- */
+.meander{height:14px;width:100%;opacity:.42}
+
+/* ---------- SCROLL / slide view ---------- */
+#scrollview{display:flex;flex-direction:column}
+.slidestage{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth}
+.slide{
+  min-height:100%;display:flex;align-items:center;justify-content:center;
+  padding:44px 32px 60px;
+}
+.slideinner{width:100%;max-width:1120px}
+.actline{
+  font-family:var(--sans);font-size:10px;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--terra-lt);margin-bottom:10px;display:flex;align-items:center;gap:12px;
+}
+.actline::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line-strong),transparent)}
+h1.slidetitle{
+  font-family:var(--serif);font-size:clamp(28px,4.6vw,50px);line-height:1.08;margin:0 0 4px;
+  color:var(--bone);font-weight:400;letter-spacing:-.01em;
+}
+.subtitle{font-family:var(--sans);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);margin-bottom:22px}
+.slidegrid{display:grid;grid-template-columns:minmax(0,1.32fr) minmax(0,1fr);gap:34px;align-items:start}
+@media(max-width:940px){.slidegrid{grid-template-columns:1fr}}
+
+.greekblock{
+  border-left:2px solid var(--terra);padding:14px 0 14px 20px;margin:0 0 20px;
+  background:linear-gradient(90deg,rgba(201,85,44,.09),transparent 70%);
+}
+.greekblock .grk{
+  font-family:var(--grk);font-size:clamp(17px,2vw,21px);line-height:1.62;color:var(--gold);
+  margin:0 0 9px;font-style:normal;
+}
+.greekblock .translit{font-family:var(--sans);font-size:11.5px;letter-spacing:.09em;color:var(--mute);margin:0 0 9px;font-style:italic}
+.greekblock .eng{font-size:16px;color:var(--bone);margin:0 0 8px}
+.greekblock .cite{font-family:var(--sans);font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:var(--terra-lt)}
+
+.prose p{margin:0 0 15px;font-size:16.5px;color:#ded1b8}
+.prose p:last-child{margin-bottom:0}
+.prose em{color:var(--gold);font-style:italic}
+.prose strong{color:var(--bone);font-weight:600}
+.lex{
+  font-family:var(--grk);color:var(--ochre);border-bottom:1px dotted rgba(224,173,72,.5);
+  cursor:help;
+}
+
+.artframe{
+  border:1px solid var(--line);background:linear-gradient(160deg,#171009,#0e0a06);
+  padding:14px;position:relative;
+}
+.artframe svg{display:block;width:100%;height:auto}
+.artcap{
+  font-family:var(--sans);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mute);margin-top:10px;text-align:center;line-height:1.7;
+}
+
+/* source chips */
+.sources{margin-top:18px;display:flex;flex-direction:column;gap:7px}
+.srchead{font-family:var(--sans);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--mute);margin-bottom:2px}
+.src{
+  display:flex;gap:9px;align-items:flex-start;font-size:12.6px;line-height:1.5;
+  padding:6px 9px;border:1px solid rgba(239,227,203,.09);background:rgba(239,227,203,.025);
+  border-radius:2px;color:var(--bone-dim);
+}
+.src a{color:var(--ochre);text-decoration:none;border-bottom:1px solid rgba(224,173,72,.3)}
+.src a:hover{color:var(--gold);border-color:var(--gold)}
+.tier{
+  flex:0 0 auto;font-family:var(--sans);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;
+  padding:2px 6px;border-radius:2px;margin-top:2px;white-space:nowrap;font-weight:600;
+}
+.t-v{background:rgba(125,154,106,.2);color:#a7c493;border:1px solid rgba(125,154,106,.4)}
+.t-a{background:rgba(224,173,72,.15);color:var(--ochre);border:1px solid rgba(224,173,72,.35)}
+.t-i{background:rgba(74,111,143,.18);color:#8fb2cd;border:1px solid rgba(74,111,143,.4)}
+
+/* axis readings */
+.axes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+@media(max-width:720px){.axes{grid-template-columns:1fr}}
+.axis{border:1px solid var(--line);padding:11px 12px;background:rgba(224,173,72,.03);border-radius:2px}
+.axis h5{
+  margin:0 0 6px;font-family:var(--sans);font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  display:flex;align-items:center;gap:6px;font-weight:600;
+}
+.axis h5 i{width:7px;height:7px;border-radius:50%;display:inline-block;flex:0 0 auto}
+.ax-e h5{color:var(--vine)} .ax-e h5 i{background:var(--vine)}
+.ax-m h5{color:#b58bc4} .ax-m h5 i{background:#b58bc4}
+.ax-p h5{color:var(--terra-lt)} .ax-p h5 i{background:var(--terra-lt)}
+.axis p{margin:0;font-size:13px;line-height:1.55;color:var(--bone-dim)}
+
+/* note editor inside slide */
+.notebox{margin-top:20px;border:1px dashed rgba(224,173,72,.28);padding:12px;border-radius:2px;background:rgba(224,173,72,.02)}
+.notebox label{
+  font-family:var(--sans);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);
+  display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;
+}
+.notebox textarea{
+  width:100%;min-height:78px;resize:vertical;background:rgba(13,9,6,.7);
+  border:1px solid var(--line);color:var(--bone);font-family:var(--serif);font-size:14.5px;
+  padding:9px 11px;border-radius:2px;line-height:1.55;
+}
+.notebox textarea:focus{outline:none;border-color:var(--line-strong);background:rgba(13,9,6,.95)}
+select.status{
+  background:rgba(13,9,6,.8);color:var(--ochre);border:1px solid var(--line);
+  font-family:var(--sans);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  padding:4px 7px;border-radius:2px;cursor:pointer;
+}
+select.status:focus{outline:none;border-color:var(--line-strong)}
+
+.slidenav{
+  flex:0 0 auto;display:flex;align-items:center;gap:14px;padding:9px 20px;
+  border-top:1px solid var(--line);background:rgba(13,9,6,.9);
+}
+.dots{display:flex;gap:5px;flex-wrap:wrap;flex:1 1 auto}
+.dot{
+  width:7px;height:7px;border-radius:50%;background:rgba(239,227,203,.18);cursor:pointer;
+  transition:.18s;border:0;padding:0;
+}
+.dot:hover{background:var(--bone-dim);transform:scale(1.35)}
+.dot.on{background:var(--ochre);box-shadow:0 0 0 3px rgba(224,173,72,.18)}
+.dot.noted{background:var(--vine)}
+.dot.on.noted{background:var(--ochre);box-shadow:0 0 0 3px rgba(125,154,106,.35)}
+.navhint{font-family:var(--sans);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+
+/* ---------- CONSTELLATION ---------- */
+#webview{display:flex}
+#graphwrap{flex:1 1 auto;position:relative;overflow:hidden}
+#graph{width:100%;height:100%;display:block;cursor:grab}
+#graph.grabbing{cursor:grabbing}
+.gnode circle{transition:stroke-width .15s,r .15s}
+.gnode text{
+  font-family:var(--sans);font-size:9.6px;letter-spacing:.07em;fill:var(--bone-dim);
+  pointer-events:none;paint-order:stroke;stroke:rgba(13,9,6,.92);stroke-width:3.4px;stroke-linejoin:round;
+}
+.gnode.dim{opacity:.13}
+.gnode.sel text{fill:var(--gold);font-weight:600}
+.glink{stroke:rgba(239,227,203,.16);stroke-width:1}
+.glink.hot{stroke:rgba(224,173,72,.62);stroke-width:1.7}
+.glink.dim{stroke:rgba(239,227,203,.045)}
+
+.legend{
+  position:absolute;left:16px;top:16px;background:rgba(13,9,6,.86);border:1px solid var(--line);
+  padding:11px 13px;border-radius:2px;backdrop-filter:blur(4px);max-width:210px;
+}
+.legend h6{margin:0 0 8px;font-family:var(--sans);font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.legend button{
+  display:flex;align-items:center;gap:8px;width:100%;background:transparent;border:0;
+  padding:3px 0;cursor:pointer;font-family:var(--sans);font-size:10.5px;letter-spacing:.08em;
+  color:var(--bone-dim);text-align:left;transition:.15s;
+}
+.legend button:hover{color:var(--gold)}
+.legend button.off{opacity:.32}
+.legend button i{width:9px;height:9px;border-radius:50%;flex:0 0 auto;display:inline-block}
+.graphhint{
+  position:absolute;right:16px;bottom:14px;font-family:var(--sans);font-size:9.5px;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--mute);text-align:right;line-height:1.9;
+}
+
+/* ---------- detail panel ---------- */
+#panel{
+  flex:0 0 400px;max-width:44vw;border-left:1px solid var(--line);
+  background:linear-gradient(180deg,#151009,#0d0906);overflow-y:auto;padding:22px 20px 40px;
+}
+@media(max-width:820px){#panel{flex-basis:320px}}
+#panel .ptype{font-family:var(--sans);font-size:9px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+#panel .ptype i{width:8px;height:8px;border-radius:50%;display:inline-block}
+#panel h3{margin:0 0 3px;font-size:24px;font-weight:400;line-height:1.15;color:var(--bone)}
+#panel .pgrk{font-family:var(--grk);font-size:19px;color:var(--gold);margin:6px 0 2px}
+#panel .ptr{font-family:var(--sans);font-size:11px;letter-spacing:.1em;color:var(--mute);font-style:italic;margin-bottom:14px}
+#panel .pbody{font-size:14.6px;line-height:1.62;color:#dbcfb6}
+#panel .pbody p{margin:0 0 12px}
+#panel .rule{height:1px;background:var(--line);margin:18px 0}
+#panel .axes{grid-template-columns:1fr;gap:8px}
+#panel .greekblock{margin-bottom:14px}
+.emptypanel{color:var(--mute);font-family:var(--sans);font-size:11.5px;letter-spacing:.12em;line-height:2;text-transform:uppercase}
+.gotoslide{
+  margin-top:16px;width:100%;font-family:var(--sans);font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;background:rgba(224,173,72,.1);color:var(--ochre);
+  border:1px solid rgba(224,173,72,.35);padding:9px;cursor:pointer;border-radius:2px;transition:.18s;
+}
+.gotoslide:hover{background:var(--ochre);color:#150e07}
+.linkedlist{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.linkedlist button{
+  font-family:var(--sans);font-size:10px;letter-spacing:.06em;background:rgba(239,227,203,.05);
+  border:1px solid rgba(239,227,203,.14);color:var(--bone-dim);padding:4px 8px;border-radius:2px;cursor:pointer;transition:.15s;
+}
+.linkedlist button:hover{border-color:var(--line-strong);color:var(--gold)}
+
+/* ---------- modal ---------- */
+.modal{
+  position:fixed;inset:0;background:rgba(6,4,3,.9);z-index:200;display:none;
+  align-items:center;justify-content:center;padding:28px;backdrop-filter:blur(3px);
+}
+.modal.on{display:flex}
+.modalbox{
+  background:linear-gradient(170deg,#1b140c,#0d0906);border:1px solid var(--line-strong);
+  max-width:760px;width:100%;max-height:86vh;overflow-y:auto;padding:28px 30px;border-radius:3px;
+  box-shadow:0 30px 90px rgba(0,0,0,.7);
+}
+.modalbox h2{margin:0 0 6px;font-size:26px;font-weight:400;color:var(--gold);font-family:var(--grk)}
+.modalbox h4{margin:22px 0 8px;font-family:var(--sans);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--terra-lt)}
+.modalbox p,.modalbox li{font-size:14.6px;line-height:1.65;color:#d8ccb3}
+.modalbox ul{padding-left:19px;margin:0 0 12px}
+.modalbox pre{
+  background:rgba(0,0,0,.5);border:1px solid var(--line);padding:12px;border-radius:2px;
+  font-size:11.5px;color:var(--bone-dim);overflow-x:auto;max-height:280px;white-space:pre-wrap;word-break:break-word;
+}
+.closemodal{float:right;background:transparent;border:1px solid var(--line);color:var(--bone-dim);cursor:pointer;padding:4px 10px;border-radius:2px;font-family:var(--sans);font-size:11px}
+.closemodal:hover{color:var(--gold);border-color:var(--line-strong)}
+kbd{
+  font-family:var(--sans);font-size:10px;background:rgba(239,227,203,.09);border:1px solid var(--line);
+  padding:1px 5px;border-radius:2px;color:var(--gold);
+}
+.toast{
+  position:fixed;left:50%;bottom:66px;transform:translateX(-50%) translateY(12px);
+  background:rgba(224,173,72,.95);color:#150e07;font-family:var(--sans);font-size:11px;
+  letter-spacing:.16em;text-transform:uppercase;padding:9px 20px;border-radius:2px;
+  opacity:0;pointer-events:none;transition:.28s;z-index:300;font-weight:600;
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* scrollbars */
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:rgba(0,0,0,.3)}
+::-webkit-scrollbar-thumb{background:rgba(224,173,72,.22);border-radius:0}
+::-webkit-scrollbar-thumb:hover{background:rgba(224,173,72,.4)}
+
+.warn{
+  font-family:var(--sans);font-size:10px;letter-spacing:.1em;color:var(--mute);
+  border-left:2px solid rgba(224,173,72,.35);padding:6px 10px;margin-top:14px;line-height:1.7;
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <pattern id="pmeander" width="48" height="14" patternUnits="userSpaceOnUse">
+    <path d="M0 12 L0 2 L10 2 L10 9 L5 9 L5 5 L14 5 L14 12 L24 12 L24 2 L34 2 L34 9 L29 9 L29 5 L38 5 L38 12 L48 12"
+      fill="none" stroke="#e0ad48" stroke-width="1.6"/>
+  </pattern>
+  <linearGradient id="gterra" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#e07a45"/><stop offset="1" stop-color="#a8431f"/>
+  </linearGradient>
+  <linearGradient id="ggold" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f2cd6b"/><stop offset="1" stop-color="#c99a35"/>
+  </linearGradient>
+  <radialGradient id="gsmoke" cx=".5" cy="1" r="1">
+    <stop offset="0" stop-color="#e0ad48" stop-opacity=".55"/>
+    <stop offset="1" stop-color="#e0ad48" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="gaura" cx=".5" cy=".5" r=".5">
+    <stop offset="0" stop-color="#f2cd6b" stop-opacity=".38"/>
+    <stop offset="1" stop-color="#f2cd6b" stop-opacity="0"/>
+  </radialGradient>
+
+  <!-- ===== reusable figures ===== -->
+  <symbol id="f-woman" viewBox="0 0 64 148">
+    <g fill="url(#gterra)">
+      <path d="M32 4c6 0 10 4.4 10 10.4 0 3-1 5.4-2.4 7.2 3.6 1 5.4 2.8 4.6 5.2-.8 2.6-4 2.4-6.6 1.6-1.8.8-3.6 1.2-5.6 1.2s-3.8-.4-5.6-1.2c-2.6.8-5.8 1-6.6-1.6-.8-2.4 1-4.2 4.6-5.2C22.9 19.8 22 17.4 22 14.4 22 8.4 26 4 32 4z"/>
+      <path d="M23.5 28c2.6 1.6 5.5 2.4 8.5 2.4s5.9-.8 8.5-2.4c4.4 1.8 6.8 5.4 7.6 11.4l3 24c.5 4-.6 6-3.2 6.2l-1.6.1 2.8 48c.3 5 .9 9.4 2.1 13.6l1.8 6.2c.5 1.8-.4 2.6-2.6 2.6H14.6c-2.2 0-3.1-.8-2.6-2.6l1.8-6.2c1.2-4.2 1.8-8.6 2.1-13.6l2.8-48-1.6-.1c-2.6-.2-3.7-2.2-3.2-6.2l3-24c.8-6 3.2-9.6 7.6-11.4z"/>
+    </g>
+    <g stroke="#20140c" stroke-width="1.1" fill="none" opacity=".75">
+      <path d="M32 32v78M25 40l-2 66M39 40l2 66M20 60l-1 44M44 60l1 44"/>
+      <path d="M14 118h36M13.5 124h37"/>
+    </g>
+    <path d="M32 4c6 0 10 4.4 10 10.4 0 3-1 5.4-2.4 7.2" fill="none" stroke="#20140c" stroke-width="1"/>
+  </symbol>
+
+  <symbol id="f-man" viewBox="0 0 64 148">
+    <g fill="url(#gterra)">
+      <path d="M32 5c6.2 0 10.6 4.6 10.6 11 0 4-1.6 7.4-4 9.4 3.4 1.2 4.8 3 4 5-.9 2.2-4.4 2-7 1-1.2.4-2.4.6-3.6.6s-2.4-.2-3.6-.6c-2.6 1-6.1 1.2-7-1-.8-2 .6-3.8 4-5-2.4-2-4-5.4-4-9.4 0-6.4 4.4-11 10.6-11z"/>
+      <path d="M32 31c3 0 5.6-.6 8-1.8 5 2 8 6.4 9 13.6l2.4 17c.5 3.6-.6 5.4-3.2 5.6l4 26c.6 4-.6 6-3.6 6h-2.2l1.4 34c.2 4-.8 6-3.2 6h-4c-2.4 0-3.6-2-3.8-6l-1.4-30h-1.6l-1.4 30c-.2 4-1.4 6-3.8 6h-4c-2.4 0-3.4-2-3.2-6l1.4-34h-2.2c-3 0-4.2-2-3.6-6l4-26c-2.6-.2-3.7-2-3.2-5.6l2.4-17c1-7.2 4-11.6 9-13.6 2.4 1.2 5 1.8 8 1.8z"/>
+    </g>
+    <g stroke="#20140c" stroke-width="1.1" fill="none" opacity=".7">
+      <path d="M32 46v22M24 52c4 3 12 3 16 0M22 78c6 4 14 4 20 0"/>
+    </g>
+  </symbol>
+
+  <symbol id="f-lion" viewBox="0 0 150 90">
+    <g fill="url(#gterra)">
+      <path d="M26 40c0-10 8-17 19-17 3-6 9-9 15-9s12 3 15 9c11 0 19 7 19 17 0 4-1 7-3 10 3 3 5 7 5 12 0 3-1 5-2 7l6 14c1 3 0 5-2 5s-3-1-4-3l-6-12c-4 2-9 3-15 3H50c-6 0-11-1-15-3l-6 12c-1 2-2 3-4 3s-3-2-2-5l6-14c-1-2-2-4-2-7 0-5 2-9 5-12-2-3-6-6-6-10z"/>
+      <path d="M99 46c9-2 17-1 24 3 8 5 13 12 15 21 1 4-1 6-3 6s-3-2-4-5c-2-7-6-12-12-15-5-3-11-4-18-3z"/>
+      <path d="M60 14c-3-5-8-8-13-8-2 0-3 1-3 3s1 3 3 4c3 1 6 3 8 6zM90 14c3-5 8-8 13-8 2 0 3 1 3 3s-1 3-3 4c-3 1-6 3-8 6z"/>
+    </g>
+    <g stroke="#20140c" stroke-width="1.2" fill="none" opacity=".7">
+      <path d="M75 26v10M67 33c5 3 11 3 16 0M52 34c0 4 3 7 7 7M98 34c0 4-3 7-7 7"/>
+      <path d="M46 52c8 4 50 4 58 0"/>
+    </g>
+  </symbol>
+
+  <symbol id="f-wolf" viewBox="0 0 150 90">
+    <g fill="url(#gterra)">
+      <path d="M14 40c0-4 3-7 8-8l14-3 8-13c1-2 3-2 4 0l4 8 10-2c14-3 28 0 39 8 10 7 16 17 18 29 1 5-1 8-4 8s-4-2-5-6c-2-9-7-16-15-21-3-2-7-4-11-5l4 12c1 3 0 5-2 6l-8 3-2 14c-1 4-2 6-5 6s-4-2-4-6l1-12-22 2-3 14c-1 4-3 6-6 5s-4-3-3-7l3-13c-7-3-12-8-14-15l-6 2c-3 1-5-1-5-4z"/>
+    </g>
+    <g stroke="#20140c" stroke-width="1.2" fill="none" opacity=".7">
+      <path d="M24 34c3 0 5 2 5 4M40 20l4 10"/>
+    </g>
+  </symbol>
+
+  <symbol id="f-leopard" viewBox="0 0 150 90">
+    <g fill="url(#gterra)">
+      <path d="M18 44c0-5 4-9 10-10l10-2 6-11c1-2 3-2 4 0l3 7 12-2c16-2 32 2 43 12 8 7 13 16 14 26 1 4-1 6-4 6s-4-2-4-5c-2-9-7-16-14-21l3 14c0 3-1 4-4 4l-8 1-3 15c-1 4-3 5-6 5s-4-2-3-6l3-14-24 1-4 15c-1 4-3 5-6 4s-4-3-3-6l4-15c-8-3-13-8-16-15l-5 1c-3 1-5-1-5-4z"/>
+    </g>
+    <g fill="#20140c" opacity=".65">
+      <circle cx="56" cy="40" r="2.6"/><circle cx="68" cy="34" r="2.6"/><circle cx="80" cy="42" r="2.6"/>
+      <circle cx="92" cy="36" r="2.6"/><circle cx="64" cy="50" r="2.6"/><circle cx="86" cy="52" r="2.6"/>
+      <circle cx="100" cy="46" r="2.6"/><circle cx="48" cy="48" r="2.6"/>
+    </g>
+  </symbol>
+
+  <symbol id="f-bear" viewBox="0 0 150 90">
+    <g fill="url(#gterra)">
+      <path d="M22 52c0-12 9-21 22-24 8-9 20-14 33-14 20 0 36 12 40 29 1 4 0 7-2 9l3 12c1 4-1 6-4 6s-4-2-5-5l-2-8c-5 3-12 5-19 5H55c-8 0-15-2-20-6l-3 10c-1 3-2 5-5 5s-4-2-3-6z"/>
+      <circle cx="52" cy="20" r="9"/><circle cx="92" cy="16" r="9"/>
+    </g>
+    <g stroke="#20140c" stroke-width="1.2" fill="none" opacity=".7">
+      <path d="M72 30v8M64 40c5 3 11 3 16 0M44 46c10 4 46 4 56 0"/>
+    </g>
+  </symbol>
+
+  <symbol id="f-alabastron" viewBox="0 0 40 110">
+    <path d="M20 4c5 0 9 3 9 6s-2 4-4 5c4 4 7 12 7 24v46c0 12-5 21-12 21S8 97 8 85V39c0-12 3-20 7-24-2-1-4-2-4-5s4-6 9-6z" fill="url(#gterra)"/>
+    <g stroke="#20140c" stroke-width="1.1" fill="none" opacity=".7">
+      <path d="M11 18h18M9 34h22M9 60h22M11 84h18"/>
+    </g>
+  </symbol>
+
+  <symbol id="f-aryballos" viewBox="0 0 60 70">
+    <path d="M30 2c8 0 14 2 14 5s-3 4-6 5c9 4 16 13 16 24 0 15-11 27-24 27S6 51 6 36c0-11 7-20 16-24-3-1-6-2-6-5s6-5 14-5z" fill="url(#gterra)"/>
+    <g stroke="#20140c" stroke-width="1.1" fill="none" opacity=".7"><circle cx="30" cy="38" r="10"/><circle cx="30" cy="38" r="17"/></g>
+  </symbol>
+
+  <symbol id="f-lyre" viewBox="0 0 70 80">
+    <g fill="url(#ggold)">
+      <path d="M22 74c-7 0-12-5-12-12 0-4 2-7 5-9l-3-30c-1-8 2-14 8-16 2-1 3 0 3 2s-1 3-2 4c-3 2-4 6-3 11l4 28h26l4-28c1-5 0-9-3-11-1-1-2-2-2-4s1-3 3-2c6 2 9 8 8 16l-3 30c3 2 5 5 5 9 0 7-5 12-12 12z"/>
+    </g>
+    <g stroke="#20140c" stroke-width="1" opacity=".7"><path d="M24 52v20M30 52v20M36 52v20M42 52v20M46 52v20"/></g>
+  </symbol>
+
+  <symbol id="f-altar" viewBox="0 0 120 90">
+    <g fill="url(#gterra)">
+      <path d="M10 86h100v-6H10zM18 80h84l-4-46H22zM10 34h100v-7H10zM16 27h88l-6-9H22z"/>
+    </g>
+    <g stroke="#20140c" stroke-width="1.1" fill="none" opacity=".65"><path d="M24 44h72M26 58h68M28 72h64"/></g>
+  </symbol>
+
+  <symbol id="f-palmette" viewBox="0 0 90 60">
+    <g fill="none" stroke="#e0ad48" stroke-width="1.5">
+      <path d="M45 58V32"/>
+      <path d="M45 32c-4-10-14-16-22-14 2 8 10 14 22 14zM45 32c4-10 14-16 22-14-2 8-10 14-22 14z"/>
+      <path d="M45 30c-3-12-2-22 0-28 2 6 3 16 0 28z"/>
+      <path d="M45 31c-4-11-11-19-18-21 1 9 7 18 18 21zM45 31c4-11 11-19 18-21-1 9-7 18-18 21z"/>
+      <path d="M45 33c-6-8-16-12-24-11 3 7 12 12 24 11zM45 33c6-8 16-12 24-11-3 7-12 12-24 11z"/>
+      <path d="M27 56c-8 0-14-5-14-12s5-11 11-11M63 56c8 0 14-5 14-12s-5-11-11-11"/>
+    </g>
+  </symbol>
+
+  <!-- ===== SCENES (viewBox 0 0 400 300) ===== -->
+  <symbol id="art-proem" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <g opacity=".5"><rect x="0" y="0" width="400" height="14" fill="url(#pmeander)"/><rect x="0" y="286" width="400" height="14" fill="url(#pmeander)"/></g>
+    <use href="#f-woman" x="46" y="52" width="70" height="162" opacity=".9"/>
+    <use href="#f-woman" x="165" y="44" width="74" height="170"/>
+    <use href="#f-woman" x="288" y="52" width="70" height="162" opacity=".9"/>
+    <g stroke="#e0ad48" stroke-width="1.4" fill="none" opacity=".85">
+      <circle cx="81" cy="42" r="13"/><path d="M75 42h12M81 36v12"/>
+      <path d="M188 26c8-6 18-6 26 0M201 22v14"/>
+      <path d="M310 40c0-8 6-13 13-13s13 5 13 13c0 6-4 10-8 12M317 52c-3-4-3-8 0-12"/>
+    </g>
+    <g font-family="Palatino Linotype,serif" font-size="12" fill="#e0ad48" text-anchor="middle" letter-spacing="1">
+      <text x="81" y="236">ἈΘΗΝΗ</text><text x="201" y="236">ἌΡΤΕΜΙΣ</text><text x="323" y="236">ἙΣΤΊΗ</text>
+    </g>
+    <text x="200" y="262" font-family="Optima,sans-serif" font-size="9.5" fill="#8d8069" text-anchor="middle" letter-spacing="3">THE THREE SHE CANNOT PERSUADE</text>
+  </symbol>
+
+  <symbol id="art-zeus" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <ellipse cx="200" cy="150" rx="170" ry="120" fill="url(#gaura)"/>
+    <use href="#f-woman" x="238" y="96" width="80" height="184"/>
+    <g fill="url(#ggold)">
+      <path d="M74 34l52 78-30 6 44 66-16-58 30-6z" opacity=".95"/>
+    </g>
+    <g stroke="#c9552c" stroke-width="2.4" fill="none" opacity=".9">
+      <path d="M150 172c26-6 52-2 76 12" stroke-dasharray="6 7"/>
+      <path d="M222 186l8-6 2 10z" fill="#c9552c" stroke="none"/>
+    </g>
+    <circle cx="272" cy="176" r="20" fill="none" stroke="#f2cd6b" stroke-width="1.2" opacity=".7"/>
+    <circle cx="272" cy="176" r="30" fill="none" stroke="#f2cd6b" stroke-width=".8" opacity=".4"/>
+    <text x="200" y="286" font-family="Palatino Linotype,serif" font-size="15" fill="#f2cd6b" text-anchor="middle">γλυκὺν ἵμερον ἔμβαλε θυμῷ</text>
+    <text x="60" y="146" font-family="Optima,sans-serif" font-size="9" fill="#8d8069" letter-spacing="2.4">ΖΕΥΣ</text>
+  </symbol>
+
+  <symbol id="art-ida" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <path d="M0 240l70-92 44 54 52-78 66 84 58-46 110 78z" fill="none" stroke="#8d8069" stroke-width="1.2" opacity=".55"/>
+    <path d="M0 262h400" stroke="#e0ad48" stroke-width="1" opacity=".4"/>
+    <use href="#f-man" x="152" y="104" width="70" height="160"/>
+    <use href="#f-lyre" x="200" y="140" width="52" height="60"/>
+    <g fill="url(#gterra)" opacity=".75">
+      <path d="M22 232c0-14 12-24 30-24h34c18 0 30 10 30 24 0 4-2 6-5 6l-4 16c-1 4-2 6-5 6s-4-2-4-6l1-14H39l1 14c0 4-1 6-4 6s-4-2-5-6l-4-16c-3 0-5-2-5-6z"/>
+      <path d="M104 210c8-4 14-10 16-18 1-4 4-5 6-3s2 5 0 9c-4 8-11 14-20 17z"/>
+    </g>
+    <g stroke="#e0ad48" stroke-width=".9" fill="none" opacity=".5">
+      <path d="M258 128c14-8 26-6 34 4M270 116c16-10 32-6 42 8"/>
+    </g>
+    <text x="200" y="290" font-family="Palatino Linotype,serif" font-size="14" fill="#f2cd6b" text-anchor="middle">πολυπιδάκου Ἴδης · δέμας ἀθανάτοισιν ἐοικώς</text>
+  </symbol>
+
+  <symbol id="art-paphos" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <g opacity=".8" fill="url(#gsmoke)">
+      <ellipse cx="200" cy="120" rx="90" ry="110"/>
+    </g>
+    <g stroke="#e0ad48" stroke-width="1.6" fill="none">
+      <path d="M56 96l144-58 144 58" opacity=".9"/>
+      <path d="M46 96h308v14H46z" fill="rgba(224,173,72,.1)"/>
+      <path d="M70 110v130M118 110v130M166 110v130M234 110v130M282 110v130M330 110v130" opacity=".7"/>
+      <path d="M40 240h320v12H40z" fill="rgba(224,173,72,.08)"/>
+      <path d="M28 252h344v10H28z" fill="rgba(224,173,72,.05)"/>
+    </g>
+    <path d="M200 232c-16 0-24-6-24-14 0-18 10-52 24-74 14 22 24 56 24 74 0 8-8 14-24 14z" fill="url(#ggold)"/>
+    <g stroke="#20140c" stroke-width="1" fill="none" opacity=".55"><path d="M182 210h36M186 190h28M190 170h20"/></g>
+    <g stroke="#f2cd6b" stroke-width="1.2" fill="none" opacity=".65">
+      <path d="M200 138c-10-16 8-24-2-40M200 138c12-14-6-26 4-42"/>
+    </g>
+    <text x="200" y="284" font-family="Palatino Linotype,serif" font-size="14.5" fill="#f2cd6b" text-anchor="middle">θυώδεα νηὸν · βωμός τε θυώδης</text>
+    <text x="200" y="296" font-family="Optima,sans-serif" font-size="8" fill="#8d8069" text-anchor="middle" letter-spacing="2.6">THE CONICAL BAETYL OF PALAIPAPHOS</text>
+  </symbol>
+
+  <symbol id="art-anoint" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <g opacity=".45"><rect x="0" y="0" width="400" height="14" fill="url(#pmeander)"/></g>
+    <ellipse cx="200" cy="150" rx="86" ry="118" fill="url(#gaura)"/>
+    <use href="#f-woman" x="160" y="58" width="82" height="190"/>
+    <use href="#f-woman" x="70" y="82" width="64" height="148" opacity=".82"/>
+    <use href="#f-woman" x="272" y="82" width="64" height="148" opacity=".82"/>
+    <use href="#f-alabastron" x="126" y="126" width="26" height="72"/>
+    <use href="#f-aryballos" x="258" y="140" width="36" height="42"/>
+    <g stroke="#f2cd6b" stroke-width="1.1" fill="none" opacity=".7">
+      <path d="M140 128c8-10 20-14 32-12M266 138c-8-8-18-10-28-8"/>
+    </g>
+    <g fill="#f2cd6b" opacity=".8">
+      <circle cx="176" cy="118" r="1.8"/><circle cx="184" cy="108" r="1.4"/><circle cx="222" cy="120" r="1.8"/><circle cx="214" cy="110" r="1.4"/>
+      <circle cx="200" cy="98" r="2.2"/>
+    </g>
+    <text x="200" y="272" font-family="Palatino Linotype,serif" font-size="14" fill="#f2cd6b" text-anchor="middle">Χάριτες λοῦσαν καὶ χρῖσαν ἐλαίῳ ἀμβρότῳ</text>
+    <text x="200" y="290" font-family="Optima,sans-serif" font-size="8" fill="#8d8069" text-anchor="middle" letter-spacing="2.6">THE ARMING SCENE · HYMN 5.61–63</text>
+  </symbol>
+
+  <symbol id="art-beasts" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <path d="M0 250h400" stroke="#e0ad48" stroke-width="1" opacity=".35"/>
+    <use href="#f-woman" x="6" y="92" width="66" height="152"/>
+    <use href="#f-lion" x="76" y="160" width="112" height="68"/>
+    <use href="#f-wolf" x="168" y="168" width="106" height="64"/>
+    <use href="#f-leopard" x="250" y="170" width="102" height="62"/>
+    <use href="#f-bear" x="316" y="176" width="86" height="52"/>
+    <g stroke="#c9552c" stroke-width="1.4" fill="none" opacity=".7" stroke-dasharray="4 6">
+      <path d="M60 140c40 6 80 14 120 18s80 4 120 0"/>
+    </g>
+    <text x="200" y="278" font-family="Palatino Linotype,serif" font-size="14" fill="#f2cd6b" text-anchor="middle">τοῖς ἐν στήθεσσι βάλʼ ἵμερον</text>
+    <text x="200" y="294" font-family="Optima,sans-serif" font-size="8" fill="#8d8069" text-anchor="middle" letter-spacing="2.6">POTNIA THERON · THE DOSE BROADCAST INTO A LANDSCAPE</text>
+  </symbol>
+
+  <symbol id="art-disguise" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <ellipse cx="150" cy="150" rx="80" ry="112" fill="url(#gaura)"/>
+    <use href="#f-woman" x="108" y="56" width="86" height="198"/>
+    <g stroke="#f2cd6b" stroke-width=".9" fill="none" opacity=".55">
+      <ellipse cx="150" cy="150" rx="62" ry="96"/><ellipse cx="150" cy="150" rx="76" ry="112"/>
+    </g>
+    <use href="#f-man" x="252" y="94" width="66" height="152"/>
+    <g stroke="#c9552c" stroke-width="1.5" fill="none" opacity=".8">
+      <path d="M248 150c-14-6-30-8-44-6" stroke-dasharray="5 6"/>
+    </g>
+    <g fill="#f2cd6b" opacity=".7">
+      <path d="M150 40l4 12 12 4-12 4-4 12-4-12-12-4 12-4z"/>
+    </g>
+    <text x="200" y="278" font-family="Palatino Linotype,serif" font-size="13.5" fill="#f2cd6b" text-anchor="middle">παρθένῳ ἀδμήτῃ μέγεθος καὶ εἶδος ὁμοίη</text>
+    <text x="200" y="294" font-family="Optima,sans-serif" font-size="8" fill="#8d8069" text-anchor="middle" letter-spacing="2.6">DOSE DISGUISED AS ITS OPPOSITE</text>
+  </symbol>
+
+  <symbol id="art-union" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <g opacity=".4"><rect x="0" y="286" width="400" height="14" fill="url(#pmeander)"/></g>
+    <g fill="url(#gterra)">
+      <path d="M60 210h280v14H60zM74 224h10v42H74zM316 224h10v42h-10z"/>
+      <path d="M50 196c14-10 40-14 74-14h152c34 0 60 4 74 14z" opacity=".8"/>
+    </g>
+    <g stroke="#20140c" stroke-width="1.1" fill="none" opacity=".6"><path d="M64 214h272M70 190c30-6 90-8 130-8s100 2 130 8"/></g>
+    <g fill="url(#gterra)" opacity=".95">
+      <ellipse cx="150" cy="170" rx="52" ry="20"/><circle cx="104" cy="158" r="14"/>
+      <ellipse cx="238" cy="172" rx="50" ry="18"/><circle cx="286" cy="160" r="14"/>
+    </g>
+    <g stroke="#20140c" stroke-width="1.1" fill="none" opacity=".6">
+      <path d="M110 168c20-8 60-10 84-4M196 176c20-8 60-8 82-2"/>
+    </g>
+    <g stroke="#e0ad48" stroke-width="1" fill="none" opacity=".45">
+      <path d="M40 140c40-14 80-14 120 0M240 140c40-14 80-14 120 0"/>
+    </g>
+    <text x="200" y="80" font-family="Palatino Linotype,serif" font-size="20" fill="#f2cd6b" text-anchor="middle">οὐ σάφα εἰδώς</text>
+    <text x="200" y="104" font-family="Optima,sans-serif" font-size="9" fill="#8d8069" text-anchor="middle" letter-spacing="3.4">NOT CLEARLY KNOWING · HYMN 5.167</text>
+    <text x="200" y="128" font-family="Optima,sans-serif" font-size="8.5" fill="#c9552c" text-anchor="middle" letter-spacing="2.4">BEARSKIN &amp; LIONSKIN COVERLETS — 5.158–160</text>
+  </symbol>
+
+  <symbol id="art-sleep" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <g fill="url(#gterra)" opacity=".9">
+      <path d="M50 216h300v12H50zM64 228h10v40H64zM326 228h10v40h-10z"/>
+      <ellipse cx="200" cy="196" rx="120" ry="22"/>
+      <circle cx="98" cy="182" r="15"/>
+    </g>
+    <g stroke="#20140c" stroke-width="1.1" fill="none" opacity=".6"><path d="M100 194c40-10 140-10 190 0"/></g>
+    <g fill="url(#ggold)" opacity=".9">
+      <path d="M232 66c10 0 18 8 18 18s-8 18-18 18-18-8-18-18 8-18 18-18z"/>
+      <path d="M244 96c22 0 40 14 46 34-16-10-34-14-52-12z"/>
+      <path d="M220 96c-22 0-40 14-46 34 16-10 34-14 52-12z"/>
+      <path d="M232 108c8 0 14 6 14 14v22c0 8-6 14-14 14s-14-6-14-14v-22c0-8 6-14 14-14z"/>
+    </g>
+    <g stroke="#f2cd6b" stroke-width="1.4" fill="none" opacity=".8">
+      <path d="M232 158c0 12-4 20-10 26" stroke-dasharray="3 5"/>
+    </g>
+    <g fill="#f2cd6b" opacity=".6"><circle cx="220" cy="190" r="2.4"/><circle cx="214" cy="182" r="1.8"/><circle cx="226" cy="180" r="1.4"/></g>
+    <text x="200" y="272" font-family="Palatino Linotype,serif" font-size="15" fill="#f2cd6b" text-anchor="middle">γλυκὺν ὕπνον ἔχευε νήδυμον</text>
+    <text x="200" y="290" font-family="Optima,sans-serif" font-size="8" fill="#8d8069" text-anchor="middle" letter-spacing="2.6">SLEEP AS A POURED SUBSTANCE · HYMN 5.170–171</text>
+  </symbol>
+
+  <symbol id="art-epiphany" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <g stroke="#e0ad48" stroke-width="1.4" fill="none" opacity=".8">
+      <path d="M24 46h352M40 46v220M360 46v220"/>
+    </g>
+    <ellipse cx="176" cy="150" rx="92" ry="128" fill="url(#gaura)"/>
+    <use href="#f-woman" x="124" y="34" width="104" height="234"/>
+    <g stroke="#f2cd6b" stroke-width="1" fill="none" opacity=".7">
+      <path d="M176 58L120 20M176 58l56-38M176 58l-84 4M176 58l84 4"/>
+    </g>
+    <g fill="url(#gterra)">
+      <path d="M280 130c14 0 24 10 24 24l-4 90c-1 8-3 12-8 12h-24c-5 0-7-4-8-12l-4-90c0-14 10-24 24-24z"/>
+      <path d="M256 138c10-14 34-14 44 0 4 6 4 14 0 20-12 10-32 10-44 0-4-6-4-14 0-20z"/>
+    </g>
+    <g stroke="#20140c" stroke-width="1.2" fill="none" opacity=".65"><path d="M258 150c14 6 30 6 44 0M262 168c12 4 26 4 38 0"/></g>
+    <text x="200" y="288" font-family="Palatino Linotype,serif" font-size="13.5" fill="#f2cd6b" text-anchor="middle">τάρβησεν · χλαίνῃ καλύψατο καλὰ πρόσωπα</text>
+  </symbol>
+
+  <symbol id="art-thunder" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <g fill="url(#ggold)" opacity=".95">
+      <path d="M196 20l-56 132 42-6-38 134 76-146-44 8z"/>
+    </g>
+    <g stroke="#c9552c" stroke-width="1.4" fill="none" opacity=".7">
+      <circle cx="200" cy="150" r="112" stroke-dasharray="4 8"/>
+      <circle cx="200" cy="150" r="132" stroke-dasharray="2 10"/>
+    </g>
+    <use href="#f-palmette" x="20" y="112" width="72" height="48"/>
+    <use href="#f-palmette" x="308" y="112" width="72" height="48"/>
+    <text x="200" y="278" font-family="Palatino Linotype,serif" font-size="13.5" fill="#f2cd6b" text-anchor="middle">ἴσχεο μηδʼ ὀνόμαινε · θεῶν δʼ ἐποπίζεο μῆνιν</text>
+    <text x="200" y="294" font-family="Optima,sans-serif" font-size="8" fill="#8d8069" text-anchor="middle" letter-spacing="2.6">THE SEAL ON THE MYSTERY · HYMN 5.286–290</text>
+  </symbol>
+
+  <symbol id="art-vessels" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <g opacity=".45"><rect x="0" y="4" width="400" height="14" fill="url(#pmeander)"/><rect x="0" y="282" width="400" height="14" fill="url(#pmeander)"/></g>
+    <use href="#f-alabastron" x="36" y="56" width="46" height="126"/>
+    <use href="#f-aryballos" x="112" y="102" width="66" height="78"/>
+    <use href="#f-alabastron" x="204" y="48" width="52" height="140"/>
+    <use href="#f-aryballos" x="286" y="98" width="76" height="88"/>
+    <g font-family="Optima,sans-serif" font-size="8" fill="#8d8069" text-anchor="middle" letter-spacing="1.8">
+      <text x="59" y="204">ALABASTRON</text><text x="145" y="204">ARYBALLOS</text>
+      <text x="230" y="204">ALABASTRON</text><text x="324" y="204">ARYBALLOS</text>
+    </g>
+    <text x="200" y="240" font-family="Palatino Linotype,serif" font-size="16" fill="#f2cd6b" text-anchor="middle">μύρα · τὰ ἀρώματα</text>
+    <text x="200" y="262" font-family="Optima,sans-serif" font-size="8.5" fill="#c9552c" text-anchor="middle" letter-spacing="2.4">THE DELIVERY SYSTEM: NARROW NECK, SLOW DOSE</text>
+  </symbol>
+
+  <symbol id="art-kestos" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <ellipse cx="200" cy="150" rx="150" ry="80" fill="url(#gaura)" opacity=".7"/>
+    <g fill="none" stroke="url(#ggold)" stroke-width="12" stroke-linecap="round">
+      <path d="M52 150c30-38 96-56 148-56s118 18 148 56"/>
+    </g>
+    <g fill="none" stroke="#20140c" stroke-width="1.4" opacity=".65">
+      <path d="M60 146c30-36 92-52 140-52s110 16 140 52"/>
+      <path d="M60 156c30-36 92-52 140-52s110 16 140 52"/>
+    </g>
+    <g fill="#c9552c">
+      <circle cx="110" cy="122" r="4"/><circle cx="155" cy="108" r="4"/><circle cx="200" cy="102" r="4"/>
+      <circle cx="245" cy="108" r="4"/><circle cx="290" cy="122" r="4"/>
+    </g>
+    <g font-family="Palatino Linotype,serif" font-size="12.5" fill="#f2cd6b" text-anchor="middle">
+      <text x="200" y="206">κεστὸς ἱμάς · ποικίλος</text>
+    </g>
+    <g font-family="Optima,sans-serif" font-size="8.5" fill="#8d8069" text-anchor="middle" letter-spacing="2.2">
+      <text x="200" y="228">φιλότης · ἵμερος · ὀαριστύς · πάρφασις</text>
+      <text x="200" y="248">LOVE · DESIRE · INTIMATE TALK · BEGUILEMENT</text>
+      <text x="200" y="268">ILIAD 14.214–217 — THE FORMULA, WORN</text>
+    </g>
+  </symbol>
+
+  <symbol id="art-synthesis" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <g stroke="#e0ad48" stroke-width=".9" fill="none" opacity=".5">
+      <circle cx="200" cy="146" r="118"/><circle cx="200" cy="146" r="88"/><circle cx="200" cy="146" r="58"/>
+    </g>
+    <g fill="#7d9a6a"><circle cx="200" cy="28" r="7"/></g>
+    <g fill="#b58bc4"><circle cx="302" cy="205" r="7"/></g>
+    <g fill="#e07a45"><circle cx="98" cy="205" r="7"/></g>
+    <g stroke="#e0ad48" stroke-width="1.2" fill="none" opacity=".8">
+      <path d="M200 28L302 205L98 205Z"/>
+    </g>
+    <use href="#f-palmette" x="166" y="118" width="68" height="46"/>
+    <g font-family="Optima,sans-serif" font-size="8.5" letter-spacing="2.2" text-anchor="middle">
+      <text x="200" y="16" fill="#7d9a6a">ETHNOMEDICAL</text>
+      <text x="332" y="228" fill="#b58bc4">MYSTICAL</text>
+      <text x="70" y="228" fill="#e07a45">PHARMACOLOGICAL</text>
+    </g>
+    <text x="200" y="262" font-family="Palatino Linotype,serif" font-size="15" fill="#f2cd6b" text-anchor="middle">τὸ φάρμακον τοῦ ἱμέρου</text>
+    <text x="200" y="284" font-family="Optima,sans-serif" font-size="8" fill="#8d8069" text-anchor="middle" letter-spacing="2.6">ONE MYTH, THREE READINGS</text>
+  </symbol>
+
+  <symbol id="art-title" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="#100b07"/>
+    <g opacity=".55"><rect x="0" y="2" width="400" height="14" fill="url(#pmeander)"/><rect x="0" y="284" width="400" height="14" fill="url(#pmeander)"/></g>
+    <ellipse cx="200" cy="150" rx="100" ry="120" fill="url(#gaura)"/>
+    <use href="#f-woman" x="152" y="52" width="96" height="200"/>
+    <use href="#f-alabastron" x="72" y="120" width="34" height="94"/>
+    <use href="#f-aryballos" x="288" y="146" width="48" height="56"/>
+    <g stroke="#f2cd6b" stroke-width=".9" fill="none" opacity=".5">
+      <path d="M106 158c18-12 34-14 46-10M290 172c-14-10-28-12-40-8"/>
+    </g>
+    <use href="#f-palmette" x="166" y="18" width="68" height="44"/>
+  </symbol>
+</defs>
+</svg>
+<div id="app">
+  <header class="topbar">
+    <div class="brandmark">
+      <svg width="30" height="30" viewBox="0 0 40 40">
+        <circle cx="20" cy="20" r="18" fill="none" stroke="#e0ad48" stroke-width="1.2"/>
+        <circle cx="20" cy="20" r="13" fill="none" stroke="#c9552c" stroke-width="1"/>
+        <path d="M20 8c3.5 5 3.5 19 0 24-3.5-5-3.5-19 0-24z" fill="#e0ad48" opacity=".85"/>
+        <circle cx="20" cy="20" r="3" fill="#100b07"/>
+      </svg>
+      <div class="brandtext">
+        <b>ΦΑΡΜΑΚΟΝ ἹΜΕΡΟΥ</b>
+        <span>The Drug of Desire · Working Map</span>
+      </div>
+    </div>
+
+    <div class="modeswitch">
+      <button id="btnScroll" class="on">Ἡ Ῥαψῳδία · Scroll</button>
+      <button id="btnWeb">Τὸ Δίκτυον · Constellation</button>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="progresswrap" title="Beats you have annotated">
+      <span id="progLabel">0 / 0 ANNOTATED</span>
+      <span class="progressbar"><i id="progFill" style="width:0"></i></span>
+    </div>
+
+    <button class="tool" id="btnKey">Key</button>
+    <button class="tool" id="btnImport">Import</button>
+    <button class="tool accent" id="btnExport">Export</button>
+  </header>
+
+  <main>
+    <!-- ============ SCROLL VIEW ============ -->
+    <section class="view on" id="scrollview">
+      <div class="slidestage" id="stage"></div>
+      <div class="slidenav">
+        <button class="tool" id="prevBtn">‹ Prev</button>
+        <div class="dots" id="dots"></div>
+        <span class="navhint">← → or J / K · G for graph</span>
+        <button class="tool" id="nextBtn">Next ›</button>
+      </div>
+    </section>
+
+    <!-- ============ CONSTELLATION VIEW ============ -->
+    <section class="view" id="webview">
+      <div id="graphwrap">
+        <svg id="graph"></svg>
+        <div class="legend" id="legend"><h6>Strata</h6></div>
+        <div class="graphhint">
+          drag a node to pin it · double-click to release<br>
+          click for the source card · scroll to zoom
+        </div>
+      </div>
+      <aside id="panel">
+        <div class="emptypanel">
+          Select a node.<br>Each one carries its Greek, its<br>source tier, and your notes.
+        </div>
+      </aside>
+    </section>
+  </main>
+</div>
+
+<div class="modal" id="modal"><div class="modalbox" id="modalbody"></div></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="fileIn" accept=".json" style="display:none">
+<script>
+/* ============================================================
+   ΦΑΡΜΑΚΟΝ ἹΜΕΡΟΥ — data layer
+   tier: v = Greek verified this session against the Perseus
+             canonical-greekLit XML (tlg0013.tlg005.perseus-grc2)
+         a = attested in a library edition consulted earlier;
+             exact chapter/page not re-verified here
+         i = interpretive — a reading, not a source claim
+   ============================================================ */
+
+const PERSEUS = "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0137:hymn=5";
+const GREEKLIT = "https://raw.githubusercontent.com/PerseusDL/canonical-greekLit/master/data/tlg0013/tlg005/tlg0013.tlg005.perseus-grc2.xml";
+
+const TYPES = {
+  beat:    {label:"Narrative beat",  color:"#e0ad48"},
+  pharmakon:{label:"Pharmakon",      color:"#e07a45"},
+  term:    {label:"Greek term",      color:"#7d9a6a"},
+  agent:   {label:"Agent",           color:"#4a6f8f"},
+  source:  {label:"Source",          color:"#c9bda6"},
+  thesis:  {label:"Your thesis",     color:"#b58bc4"}
+};
+
+const N = [
+
+/* ─────────────── 0 · TITLE ─────────────── */
+{
+ id:"s0", type:"beat", order:0, art:"art-title",
+ act:"Orientation", label:"The Drug of Desire",
+ title:"Φάρμακον Ἱμέρου", sub:"A working map of Homeric Hymn 5 read as an ethnomedical document",
+ grk:"Μοῦσά μοι ἔννεπε ἔργα πολυχρύσου Ἀφροδίτης",
+ translit:"Mousá moi énnepe érga polykhrýsou Aphrodítēs",
+ eng:"Muse, tell me the works of golden Aphrodite.",
+ cite:"Homeric Hymn 5.1",
+ prose:`<p>This is not a retelling. It is a <strong>workbench</strong>. The <em>Homeric Hymn to Aphrodite</em> runs 293 lines and contains, on my reading, a complete pharmacological sequence: a compound is prepared in a temple, applied to a body, carried to a target, delivered through scent and speech, and produces a measurable effect — <em>the loss of clear knowing</em>. Then a sedative is administered. Then the operator is wounded by her own procedure, and seals it with an interdiction.</p>
+ <p>Every panel here carries the <strong>original Greek</strong>, a line citation, a source tier, and three parallel readings — <span style="color:#7d9a6a">ethnomedical</span>, <span style="color:#b58bc4">mystical</span>, <span style="color:#e07a45">pharmacological-discovery</span>. Write into any of them. Nothing is stored in your browser; use <strong>Export</strong> to take your notes with you and <strong>Import</strong> to bring them back.</p>
+ <p><strong>Two modes.</strong> <em>Ἡ Ῥαψῳδία</em> walks the story in order. <em>Τὸ Δίκτυον</em> dissolves it into a constellation of beats, substances, terms, agents, sources and your own theses — so you can find the thread that isn't chronological.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5 (To Aphrodite), 293 lines. Greek verified against the Perseus canonical-greekLit XML.", url:GREEKLIT},
+  {tier:"v", text:"Perseus Digital Library, Hymn 5 to Aphrodite — Greek & apparatus.", url:PERSEUS}
+ ],
+ museum:[
+  {t:"Aphrodite on a goose — white-ground kylix, Pistoxenos Painter, c. 470–460 BC · British Museum", url:"https://www.britishmuseum.org/collection/object/G_1864-1007-77"},
+  {t:"Commons: Aphrodite in ancient art", url:"https://commons.wikimedia.org/wiki/Category:Aphrodite"}
+ ],
+ axes:{
+  e:"Treat the hymn as a field report: a named preparation, a named site of manufacture, a named class of practitioner (the Charites), and an observed effect on a human subject.",
+  m:"The hymn is a theophany narrative. The mortal encounters the god at the exact moment his rational faculty is suspended — and cannot bear the sight afterward.",
+  p:"Discovery in the ancient world is rarely reported as experiment. It is reported as <em>myth about who gave it to us</em>. Read the god as the compound's origin story."
+ },
+ links:["s5","s12","th-discovery","src-hh5"]
+},
+
+/* ─────────────── 1 · PROEM ─────────────── */
+{
+ id:"s1", type:"beat", order:1, art:"art-proem",
+ act:"Act I · The Setup", label:"The Three She Cannot Persuade",
+ title:"Contraindications", sub:"Athena, Artemis, Hestia — the hymn opens with a list of who is immune",
+ grk:"τρισσὰς δʼ οὐ δύναται πεπιθεῖν φρένας οὐδʼ ἀπατῆσαι",
+ translit:"trissàs d' ou dýnatai pepitheîn phrénas oud' apatêsai",
+ eng:"Three hearts she cannot persuade, nor yet deceive.",
+ cite:"Homeric Hymn 5.7",
+ prose:`<p>Before it tells a story, the hymn does something a pharmacopoeia does: it defines the <strong>limits of the agent's action</strong>. Twenty-five lines are spent on the three goddesses on whom Aphrodite's power has no purchase — Athena, Artemis, Hestia — each with her own counter-domain: craft and war, the hunt and the wild, the fixed hearth.</p>
+ <p>Note the two verbs. <span class="lex" title="peithō — to persuade, to win over">πεπιθεῖν</span> (persuade) and <span class="lex" title="apataō — to deceive, to trick">ἀπατῆσαι</span> (deceive). Aphrodite's power is being defined from the outset as <em>persuasion plus deception</em> — not force. That is the grammar of a drug, not of a weapon.</p>
+ <p>Hestia's case is the sharpest: she refused marriage, swore a great oath, and Zeus gave her a compensating honour — she sits <em>in the middle of the house</em> and takes the fat of the offering. Immunity is purchased with a vow and rewarded with the centre of the domestic fire. The hymn is already thinking in terms of exposure and protection.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5.7–32 — the three exempt goddesses.", url:PERSEUS},
+  {tier:"i", text:"Reading the proem as a contraindications list is interpretive, not something the text states."}
+ ],
+ museum:[
+  {t:"Commons: Athena · Artemis · Hestia in Greek vase painting", url:"https://commons.wikimedia.org/wiki/Category:Athena_in_ancient_Greek_pottery"},
+  {t:"Ludovisi Throne — Aphrodite's rising, c. 460 BC, Palazzo Altemps", url:"https://en.wikipedia.org/wiki/Ludovisi_Throne"}
+ ],
+ axes:{
+  e:"Ancient materia medica routinely opens by naming who must <em>not</em> take a thing. The hymn's proem has the same architecture: the substance is characterised by its exceptions.",
+  m:"The three immune goddesses are the three ascetic disciplines — craft, the hunt, the hearth. Each is a technique of not being moved. This is a map of what protects you inside the mystery.",
+  p:"A compound whose action can be blocked is a compound with a mechanism. The proem quietly asserts that Aphrodite's power is specific, not universal — the first sign it is being modelled as a substance."
+ },
+ links:["s2","t-thelxis","ag-aphrodite"]
+},
+
+/* ─────────────── 2 · ZEUS ─────────────── */
+{
+ id:"s2", type:"beat", order:2, art:"art-zeus",
+ act:"Act I · The Setup", label:"Zeus Doses the Goddess",
+ title:"The Counter-Dose", sub:"The verb is ἔμβαλε — he throws it into her",
+ grk:"τῇ δὲ καὶ αὐτῇ Ζεὺς γλυκὺν ἵμερον ἔμβαλε θυμῷ\nἀνδρὶ καταθνητῷ μιχθήμεναι",
+ translit:"têi dè kaì autêi Zeùs glykỳn hímeron émbale thymôi / andrì katathnētôi mikhthḗmenai",
+ eng:"But into her too Zeus cast sweet desire in her heart — to be mingled with a mortal man.",
+ cite:"Homeric Hymn 5.45–46",
+ prose:`<p>Aphrodite had been laughing at the gods for their entanglements with mortals. Zeus's response is not a punishment in any juridical sense. It is a <strong>dose</strong>.</p>
+ <p>The verb is <span class="lex" title="emballō — to throw in, to cast into, to inject">ἔμβαλε</span> — aorist of <em>ἐμβάλλω</em>, "to throw in." Desire is not something she feels; it is something <em>put into</em> her <span class="lex" title="thymos — the seat of impulse, breath-soul, not 'mind'">θυμός</span>. The hymn will use this exact formula <strong>three times</strong>, and the repetition is the argument: line 45 (into Aphrodite), line 53 (into Aphrodite, specifying Anchises), line 143 (into Anchises). The same phrase, the same construction — <em>γλυκὺν ἵμερον ἔμβαλε θυμῷ</em>. What happens to the goddess is what she will then do to the man.</p>
+ <p>Read the whole hymn from this line and its shape changes: <strong>the operator is herself operated on first.</strong> Zeus is not seducing anyone. He is demonstrating a mechanism on its own owner.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5.45–46 — Greek confirmed verbatim: τῇ δὲ καὶ αὐτῇ Ζεὺς γλυκὺν ἵμερον ἔμβαλε θυμῷ / ἀνδρὶ καταθνητῷ μιχθήμεναι.", url:GREEKLIT},
+  {tier:"v", text:"The identical formula recurs at 5.53 and 5.143 — verified in the same file."},
+  {tier:"i", text:"Reading ἔμβαλε as administration rather than metaphor is the interpretive move on which this whole map rests."}
+ ],
+ museum:[
+  {t:"Zeus with thunderbolt — Commons category", url:"https://commons.wikimedia.org/wiki/Category:Zeus_in_ancient_Greek_pottery"}
+ ],
+ axes:{
+  e:"Passive construction of affect is standard in Greek medical thinking: humours and pneumata act <em>upon</em> a patient. The hymn puts the god in the patient's chair.",
+  m:"In the mysteries the initiate does not achieve the state — the state is given. ἔμβαλε is the syntax of grace and of possession alike.",
+  p:"An identical formula used three times on three different bodies (goddess, man, and — at 5.73 — wild animals) is a claim of <em>dose-independent universality</em>. That's a pharmacological claim in narrative clothing."
+ },
+ links:["s1","s3","s11","t-himeros","ag-zeus","ag-aphrodite","th-consent"]
+},
+
+/* ─────────────── 3 · IDA ─────────────── */
+{
+ id:"s3", type:"beat", order:3, art:"art-ida",
+ act:"Act I · The Setup", label:"The Target on Ida",
+ title:"Anchises, Alone", sub:"A herdsman with a body like the immortals, on a mountain of many springs",
+ grk:"Ἀγχίσεω δʼ ἄρα οἱ γλυκὺν ἵμερον ἔμβαλε θυμῷ,\nὃς τότʼ ἐν ἀκροπόλοις ὄρεσιν πολυπιδάκου Ἴδης\nβουκολέεσκεν βοῦς δέμας ἀθανάτοισιν ἐοικώς.",
+ translit:"Ankhíseō d' ára hoi glykỳn hímeron émbale thymôi, / hòs tót' en akropólois óresin polypidákou Ídēs / boukoléesken boûs démas athanátoisin eoikṓs.",
+ eng:"Desire for Anchises he cast into her heart — who then on the high peaks of many-fountained Ida herded cattle, in body like the immortals.",
+ cite:"Homeric Hymn 5.53–55",
+ prose:`<p>The setting matters more than it looks. <span class="lex" title="polypidax — of many springs/fountains">πολυπιδάκου Ἴδης</span> — Ida of the many springs, later called <em>μητέρα θηρῶν</em>, mother of wild things (line 68). This is not a pastoral backdrop. It is the <strong>source-landscape</strong>: water, herds, and the whole animal kingdom in one place.</p>
+ <p>Anchises is <em>alone</em> — the herdsmen are out with the flocks — and he is beautiful in a way the hymn measures against gods (<span class="lex" title="demas — bodily frame, build">δέμας</span> ἀθανάτοισιν ἐοικώς, "in build like the immortals"). Isolation plus resemblance-to-the-divine: the conditions under which a mortal becomes a viable subject.</p>
+ <p>For a natural-medicine reading this is the moment to notice: the encounter happens <strong>in the mountains, at the source of the water, among the herds</strong> — the place where materia medica is actually gathered. The myth locates its pharmacology in a real ecology.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5.53–55 — Greek verified verbatim.", url:GREEKLIT},
+  {tier:"v", text:"Ida as μητέρα θηρῶν, 'mother of wild things' — Hymn 5.68.", url:PERSEUS}
+ ],
+ museum:[
+  {t:"Mount Ida (Kaz Dağı), Troad — the hymn's actual mountain", url:"https://en.wikipedia.org/wiki/Mount_Ida_(Turkey)"},
+  {t:"Commons: Greek herdsmen and cattle in vase painting", url:"https://commons.wikimedia.org/wiki/Category:Cattle_in_ancient_Greek_pottery"}
+ ],
+ axes:{
+  e:"Mountain + many springs + grazing herds is the standard collection-ground for aromatics and simples. The hymn's geography is a gathering geography.",
+  m:"Solitude on a high place with a lyre is the classic set-and-setting of ancient vision. The hymn gives Anchises the conditions before it gives him the encounter.",
+  p:"Discovery narratives almost always place the first encounter at the plant's habitat. Ida is where the substance <em>grows</em>, mythologically speaking."
+ },
+ links:["s2","s4","s8","ag-anchises"]
+},
+
+/* ─────────────── 4 · PAPHOS ─────────────── */
+{
+ id:"s4", type:"beat", order:4, art:"art-paphos",
+ act:"Act II · The Preparation", label:"The Fragrant House",
+ title:"Paphos", sub:"θυώδεα νηόν — she goes first to the place where the compound is kept",
+ grk:"ἐς Κύπρον δʼ ἐλθοῦσα θυώδεα νηὸν ἔδυνεν,\nἐς Πάφον· ἔνθα δέ οἱ τέμενος βωμός τε θυώδης.\nἐνθʼ ἥ γʼ εἰσελθοῦσα θύρας ἐπέθηκε φαεινάς·",
+ translit:"es Kýpron d' elthoûsa thyṓdea nēòn édynen, / es Páphon· éntha dé hoi témenos bōmós te thyṓdēs. / enth' hḗ g' eiselthoûsa thýras epéthēke phaeinás·",
+ eng:"Coming to Cyprus she entered her incense-fragrant temple, to Paphos — where her precinct is, and her fragrant altar. Entering, she closed the shining doors.",
+ cite:"Homeric Hymn 5.58–60",
+ prose:`<p>Struck by desire, she does not go to Anchises. She goes <strong>west, to Cyprus, in the wrong direction</strong> — and shuts a door.</p>
+ <p>The adjective repeats inside two lines: <span class="lex" title="thuōdēs — smelling of burnt offering / incense-fragrant; from thuō, to burn as sacrifice">θυώδεα</span> temple, <span class="lex" title="same root — the altar too is saturated with burnt aromatics">θυώδης</span> altar. This is not "sweet-smelling" in a decorative sense. The root is <em>θύω</em>, to burn as sacrifice. The building is <strong>saturated with combusted aromatics</strong>. She walks into a chamber whose air is a preparation.</p>
+ <p>The historical site is real and strange: at Palaipaphos the cult image of Aphrodite was not a statue but an <strong>aniconic conical stone</strong> — a baetyl. The most anthropomorphic goddess in the pantheon was worshipped at her oldest sanctuary as a smooth cone in a smoke-filled enclosure. Whatever the Paphian rite was, it was not primarily about looking.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5.58–60 — Greek verified verbatim; θυώδης used twice.", url:GREEKLIT},
+  {tier:"a", text:"The aniconic conical baetyl of Palaipaphos, now in the Local Museum of Palaipaphos (Kouklia), Cyprus.", url:"https://en.wikipedia.org/wiki/Sanctuary_of_Aphrodite_Paphia"}
+ ],
+ museum:[
+  {t:"Sanctuary of Aphrodite Paphia, Palaipaphos — the conical cult stone", url:"https://en.wikipedia.org/wiki/Sanctuary_of_Aphrodite_Paphia"},
+  {t:"Commons: Palaipaphos / Kouklia sanctuary", url:"https://commons.wikimedia.org/wiki/Category:Sanctuary_of_Aphrodite_(Palaepaphos)"}
+ ],
+ axes:{
+  e:"A dedicated, closed, smoke-saturated room with a standing altar is a <em>compounding room</em>. The temple is where the preparation lives and where it is made.",
+  m:"Closed doors, an aniconic stone, and heavy smoke: every element of a chamber designed to suspend ordinary perception. The Paphian rite is sensory, not visual.",
+  p:"The detour is the tell. If desire were merely an emotion she would fly straight to Ida. She goes to get <em>something</em> first."
+ },
+ links:["s5","s7","ph-kyphi","t-thuodes","src-hh5"]
+},
+
+/* ─────────────── 5 · THE ANOINTING ─────────────── */
+{
+ id:"s5", type:"beat", order:5, art:"art-anoint",
+ act:"Act II · The Preparation", label:"The Anointing",
+ title:"ἔλαιον ἄμβροτον", sub:"The Graces bathe her and anoint her with immortal oil — the load-bearing line",
+ grk:"ἔνθα δέ μιν Χάριτες λοῦσαν καὶ χρῖσαν ἐλαίῳ\nἀμβρότῳ, οἷα θεοὺς ἐπενήνοθεν αἰὲν ἐόντας,\nἀμβροσίῳ ἑδανῷ, τό ῥά οἱ τεθυωμένον ἦεν.",
+ translit:"éntha dé min Khárites loûsan kaì khrîsan elaíōi / ambrótōi, hoîa theoùs epenḗnothen aièn eóntas, / ambrosíōi hedanôi, tó rhá hoi tethyōménon êen.",
+ eng:"There the Graces bathed her and anointed her with immortal oil, such as blooms upon the everlasting gods — ambrosial, sweet, and it had been perfumed for her.",
+ cite:"Homeric Hymn 5.61–63",
+ prose:`<p>This is the centre of the hymn's pharmacology and it takes three lines.</p>
+ <p><span class="lex" title="chriō — to anoint, to rub with oil; the root of christos, 'the anointed'">χρῖσαν</span> — they <em>anointed</em> her. Not perfumed: anointed. The verb is the same one behind <em>χριστός</em>. The medium is <span class="lex" title="elaion ambroton — immortal / deathless olive oil, the carrier">ἔλαιον ἄμβροτον</span>, immortal oil, described with a rare verb — <span class="lex" title="epenēnothe — 'blooms upon', lies upon the surface of">ἐπενήνοθεν</span>, it <em>blooms upon</em> the bodies of the gods, sitting on the skin like a film.</p>
+ <p>And then the crucial participle: <span class="lex" title="tethyōmenon — perfect passive of thuoō: 'it had been made fragrant / infused with burnt aromatics'">τεθυωμένον</span> — perfect passive. The oil <strong>had been</strong> infused. Somebody made this. It is a manufactured preparation with a production history, held in a temple, applied by a trained triad.</p>
+ <p>This is a <strong>Homeric arming scene</strong> — the type-scene where a hero puts on greaves, corselet, helmet before battle. The hymn substitutes an <em>infused oil</em> for the panoply. That substitution is the whole thesis: her weapon is a compound.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5.61–63 — Greek verified verbatim against the canonical XML, including τεθυωμένον.", url:GREEKLIT},
+  {tier:"i", text:"The identification with the epic arming type-scene is a reading; the hymn does not label it."},
+  {tier:"a", text:"Real-world analogues for a temple-held infused oil: the compound unguents of Dioscorides, De Materia Medica Book I (the aromatics and unguents sequence).", url:"https://en.wikipedia.org/wiki/De_materia_medica"}
+ ],
+ museum:[
+  {t:"Charites (the Graces) in ancient art", url:"https://en.wikipedia.org/wiki/Charites"},
+  {t:"Commons: alabastra — the narrow-necked oil flasks this scene implies", url:"https://commons.wikimedia.org/wiki/Category:Alabastra"}
+ ],
+ axes:{
+  e:"Three specialists, a bath, and a named infused oil applied to skin. Strip the divinity and you have a documented topical procedure with a division of labour.",
+  m:"Anointing is the oldest technology of consecration in the eastern Mediterranean. To be χρισθείς is to be changed in kind, not decorated.",
+  p:"τεθυωμένον is the single most important word on this map. A perfect passive participle implies a <em>recipe</em>: an agent, a process, and a prior time at which it was carried out."
+ },
+ links:["s4","s6","ph-elaion","ag-charites","t-ambrotos","th-armory","src-dioscorides"]
+},
+
+/* ─────────────── 6 · THE UNGUENTS ─────────────── */
+{
+ id:"s6", type:"beat", order:6, art:"art-vessels",
+ act:"Act II · The Preparation", label:"What Was In The Jar",
+ title:"τὰ μύρα", sub:"Dioscorides on the compound unguents — the real-world referent of the immortal oil",
+ grk:"μύρον · κύπρινον · ἀμαράκινον · σούσινον",
+ translit:"mýron · kýprinon · amarákinon · soúsinon",
+ eng:"Unguent · oil of cyprus (henna) · marjoram ointment · lily ointment",
+ cite:"Dioscorides, De Materia Medica I — aromatics & unguents",
+ prose:`<p>The hymn says <em>infused oil</em> and stops. Dioscorides, writing in the first century CE, tells us what an infused oil in this tradition actually <strong>was</strong>: olive oil as carrier, loaded with resins, roots, barks and gums — myrrh, nard, cassia, calamus, cardamom, cinnamon, costus, amomum, balsam.</p>
+ <p>Two matter especially here. <strong>Κύπρινον</strong> — oil of cyprus, made from henna flowers, and named for the island the hymn sends Aphrodite to. Dioscorides characterises it as warming and softening, opening obstructions and inflammations around the vulva. <strong>Ἀμαράκινον</strong> (marjoram/sampsuchum ointment) is described as having a sharp, cleansing, warming strength.</p>
+ <p>These are not perfumes in the modern sense. They are <strong>transdermal preparations</strong> — lipophilic carriers loaded with volatile aromatic compounds, rubbed into skin, warming, vasodilating, and in the ancient description explicitly acting on the reproductive tract. The goddess of desire arms herself at Paphos with oil of <em>Cyprus</em>.</p>
+ <p class="warn">Citation honesty: the Greek of the hymn above is verified. The Dioscorides material is attested from a library edition consulted earlier in this project; I have <strong>not</strong> re-verified the individual chapter numbers against a primary text in this session. Treat the substance-claims as strong and the chapter numbers as to-be-confirmed before publication.</p>`,
+ sources:[
+  {tier:"a", text:"Dioscorides, De Materia Medica, Book I (aromatics and compound unguents): kyprinon, amarakinon/sampsuchinon, susinon. Chapter numbers not re-verified in this session.", url:"https://en.wikipedia.org/wiki/De_materia_medica"},
+  {tier:"a", text:"Aëtius of Amida, Libri Medicinales I (Gowling) — later transmission of the same unguent tradition."},
+  {tier:"i", text:"'Transdermal preparation' is a modern framing applied to an ancient description."}
+ ],
+ museum:[
+  {t:"Commons: aryballoi — the round oil flasks", url:"https://commons.wikimedia.org/wiki/Category:Aryballoi"},
+  {t:"Met Museum — search the Greek perfume-vessel holdings", url:"https://www.metmuseum.org/art/collection/search?q=aryballos"},
+  {t:"De Materia Medica — manuscript tradition & Vienna Dioscurides", url:"https://en.wikipedia.org/wiki/Vienna_Dioscurides"}
+ ],
+ axes:{
+  e:"This is the hinge where myth becomes materia medica. The hymn names a class; Dioscorides names the members and their actions.",
+  m:"Aromatics are the connective tissue between medicine and rite in the ancient world — the same substances go on the skin, into the antidote, and onto the coals.",
+  p:"If κύπρινον is 'warming, softening, opening', then the hymn's Cyprus detour is not geography. It is the ingredient list."
+ },
+ links:["s5","s7","ph-kyprinon","ph-amarakinon","ph-susinon","src-dioscorides","src-aetius","th-armory"]
+},
+
+/* ─────────────── 7 · KYPHI ─────────────── */
+{
+ id:"s7", type:"beat", order:7, art:"art-paphos",
+ act:"Act II · The Preparation", label:"The Smoke",
+ title:"κῦφι", sub:"The incense in the room — a compound that is simultaneously offering, antidote and inhalant",
+ grk:"βωμός τε θυώδης",
+ translit:"bōmós te thyṓdēs",
+ eng:"and her fragrant altar",
+ cite:"Homeric Hymn 5.59",
+ prose:`<p>The hymn gives us the altar and the saturated air, and leaves the recipe out. The best-documented temple incense of the eastern Mediterranean is <strong>kyphi</strong> — Egyptian in origin, adopted across the Greek world, and the one genuinely <em>compound</em> preparation Dioscorides bothers to record.</p>
+ <p>What makes it structurally interesting is that it sits in three categories at once. Dioscorides describes it as a perfume welcome to the gods, used abundantly by priests; it is <strong>mixed into antidotes</strong>; and it is <strong>given to asthmatics as a drink</strong>. One substance: liturgy, pharmacy, and respiratory medicine — with no border between them.</p>
+ <p>That absence of a border is the point for your ethnomedical thread. There is no ancient category in which "sacred incense" and "drug" are different kinds of thing. Walking into the Paphian temple was, materially, a route of administration.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5.58–59 establishes the fragrant temple and fragrant altar; the hymn names no specific incense.", url:GREEKLIT},
+  {tier:"a", text:"Dioscorides on kyphi: a perfume welcome to the gods, used by priests, mixed into antidotes, drunk by asthmatics. De Materia Medica I; exact chapter not re-verified here.", url:"https://en.wikipedia.org/wiki/Kyphi"},
+  {tier:"i", text:"Kyphi specifically at Paphos is an inference from regional practice, not a textual attestation."}
+ ],
+ museum:[
+  {t:"Kyphi — composition and the ancient recipe tradition", url:"https://en.wikipedia.org/wiki/Kyphi"},
+  {t:"Commons: thymiateria (incense burners)", url:"https://commons.wikimedia.org/wiki/Category:Thymiateria"}
+ ],
+ axes:{
+  e:"Kyphi is the cleanest single artefact for the argument that ancient people did not separate the sacred aromatic from the therapeutic one.",
+  m:"Smoke is the oldest interface with the divine and the oldest non-oral route of administration. The two facts are the same fact.",
+  p:"An incense that is also an antidote also a bronchodilator is a compound whose <em>indications were discovered inside ritual use</em>. That is a discovery pathway worth naming explicitly."
+ },
+ links:["s4","s6","ph-kyphi","src-dioscorides","th-discovery"]
+},
+
+/* ─────────────── 8 · BEASTS ─────────────── */
+{
+ id:"s8", type:"beat", order:8, art:"art-beasts",
+ act:"Act III · Delivery", label:"The Dose Broadcast",
+ title:"Potnia Therōn", sub:"Wolves, lions, bears, leopards — and she casts it into all of them at once",
+ grk:"σαίνοντες πολιοί τε λύκοι χαροποί τε λέοντες,\nἄρκτοι παρδάλιές τε θοαὶ προκάδων ἀκόρητοι\nἤισαν· … καὶ τοῖς ἐν στήθεσσι βάλʼ ἵμερον· οἳ δʼ ἅμα πάντες\nσύνδυο κοιμήσαντο κατὰ σκιόεντας ἐναύλους·",
+ translit:"saínontes polioí te lýkoi kharopoí te léontes, / árktoi pardáliés te thoaì prokádōn akórētoi / ḗisan· … kaì toîs en stḗthessi bál' hímeron· hoi d' háma pántes / sýndyo koimḗsanto katà skióentas enaúlous·",
+ eng:"Fawning came grey wolves and fierce-eyed lions, bears and swift leopards insatiable for deer … and into their breasts she cast desire; and all of them, two by two, lay down together through the shadowy glens.",
+ cite:"Homeric Hymn 5.70–74",
+ prose:`<p>On the way up Ida, before she reaches Anchises, the predators come to her <span class="lex" title="sainontes — fawning, wagging, as a dog to its master">σαίνοντες</span> — <em>fawning</em>, the word used of dogs — and she doses the entire mountain.</p>
+ <p>The verb shifts slightly: <span class="lex" title="ballō — to throw; same family as emballō">βάλʼ</span> ἵμερον, she <em>threw</em> desire into their chests (<span class="lex" title="stēthea — the chest as the seat of feeling">στήθεσσι</span>). Same mechanism, non-human subjects, immediate and total effect: <em>all of them at once, two by two.</em></p>
+ <p>This is the hymn's <strong>controlled demonstration</strong>. It establishes that the agent works on bodies that have no language, no culture, no capacity to be flattered — which forecloses the reading that Anchises is merely persuaded. Whatever is happening to him is happening on the same substrate as the wolves.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5.68–74 — Greek verified verbatim, including σαίνοντες and βάλʼ ἵμερον.", url:GREEKLIT},
+  {tier:"i", text:"Calling this a 'controlled demonstration' is an interpretive frame, not a claim about the poet's intent."}
+ ],
+ museum:[
+  {t:"Potnia Therōn — the Mistress of Animals type", url:"https://en.wikipedia.org/wiki/Potnia_Theron"},
+  {t:"Commons: lions, wolves and leopards in Greek vase painting", url:"https://commons.wikimedia.org/wiki/Category:Lions_in_ancient_Greek_pottery"}
+ ],
+ axes:{
+  e:"Animal response is the ancient world's nearest thing to a bioassay. The mountain reacts before the human subject does.",
+  m:"The Mistress of Animals is one of the oldest figures in Aegean religion — older than the Olympian Aphrodite. The hymn briefly lets that older, wilder deity through.",
+  p:"Cross-species efficacy is exactly the evidence that separates a pharmacological agent from a social one. The hymn supplies it, unprompted, in five lines."
+ },
+ links:["s3","s9","t-himeros","ag-therion","th-consent"]
+},
+
+/* ─────────────── 9 · DISGUISE ─────────────── */
+{
+ id:"s9", type:"beat", order:9, art:"art-disguise",
+ act:"Act III · Delivery", label:"The Maiden",
+ title:"παρθένῳ ἀδμήτῃ", sub:"She arrives disguised as the one thing that could not do this to him",
+ grk:"στῆ δʼ αὐτοῦ προπάροιθε Διὸς θυγάτηρ Ἀφροδίτη\nπαρθένῳ ἀδμήτῃ μέγεθος καὶ εἶδος ὁμοίη,\nμή μιν ταρβήσειεν ἐν ὀφθαλμοῖσι νοήσας.",
+ translit:"stê d' autoû propároithe Diòs thygátēr Aphrodítē / parthénōi admḗtēi mégethos kaì eîdos homoíē, / mḗ min tarbḗseien en ophthalmoîsi noḗsas.",
+ eng:"And Aphrodite, daughter of Zeus, stood before him, like an untamed maiden in height and form — so that he would not be frightened when he perceived her with his eyes.",
+ cite:"Homeric Hymn 5.81–83",
+ prose:`<p>The stated reason for the disguise is stated plainly: <em>μή μιν ταρβήσειεν</em> — so that he should not be terrified. The dose is <strong>disguised as its opposite</strong>: an <span class="lex" title="admētē — untamed, unbroken, unmarried; from a-damaō, 'not subdued'">ἀδμήτη</span> maiden, unsubdued.</p>
+ <p>Then the hymn gives an inventory of what he actually perceives: a <span class="lex" title="peplos — the robe">πέπλος</span> brighter than the blaze of fire; gold; all-shimmering; and <em>like the moon</em> it glowed about her soft breasts, <span class="lex" title="thauma idesthai — a marvel to behold">θαῦμα ἰδέσθαι</span>. Spiral bracelets, bright rosettes, necklaces.</p>
+ <p>What Anchises registers is <strong>light, metal, and scent</strong> — never a face. The hymn is describing sensory overwhelm, and it tells you the purpose of the packaging in the same breath: to prevent the fear response that would otherwise interrupt the sequence.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5.81–91 — Greek verified verbatim, including μή μιν ταρβήσειεν and θαῦμα ἰδέσθαι.", url:GREEKLIT}
+ ],
+ museum:[
+  {t:"Commons: the peplos and Archaic female dress in sculpture (korai)", url:"https://commons.wikimedia.org/wiki/Category:Kore_(sculpture)"},
+  {t:"Aphrodite of Knidos — the later canonical body", url:"https://en.wikipedia.org/wiki/Aphrodite_of_Knidos"}
+ ],
+ axes:{
+  e:"Palatability and presentation are part of every ancient preparation — honey, wine, rose oil are carriers that make a thing acceptable to the body.",
+  m:"The god withholds full form. Every mystery tradition stages a partial, bearable revelation first. The unbearable one comes after.",
+  p:"The hymn explicitly states a design rationale for the delivery vehicle. That is formulation science expressed as costume."
+ },
+ links:["s8","s10","s14","ag-aphrodite","t-thelxis"]
+},
+
+/* ─────────────── 10 · KESTOS / PARPHASIS ─────────────── */
+{
+ id:"s10", type:"beat", order:10, art:"art-kestos",
+ act:"Act III · Delivery", label:"The Embroidered Formula",
+ title:"κεστὸς ἱμάς", sub:"The lie, the speech, and the one object in Greek epic that is openly a compound",
+ grk:"ἔνθʼ ἔνι μὲν φιλότης, ἐν δʼ ἵμερος, ἐν δʼ ὀαριστὺς\nπάρφασις, ἥ τʼ ἔκλεψε νόον πύκα περ φρονεόντων.",
+ translit:"énth' éni mèn philótēs, en d' hímeros, en d' oaristỳs / párphasis, hḗ t' ékhlepse nóon pýka per phroneóntōn.",
+ eng:"In it are love, and desire, and intimate speech — beguilement, which steals away the mind even of the shrewd.",
+ cite:"Homer, Iliad 14.216–217",
+ prose:`<p>At Ida, Aphrodite lies. She tells Anchises she is a Phrygian princess, daughter of Otreus, brought by Hermes to be his bride (5.107–112). It works. And to see <em>why</em> the lie counts as pharmacology, you have to leave the hymn and go to <em>Iliad</em> 14, where Hera borrows Aphrodite's girdle.</p>
+ <p>The <span class="lex" title="kestos himas — the pierced/embroidered strap; not a 'girdle' in the modern sense">κεστὸς ἱμάς</span> is described exactly as a compound is described: a container with an enumerated list of <em>contents</em>. <em>In it</em> — ἔνι — are four active principles: φιλότης (love), ἵμερος (desire), ὀαριστύς (intimate talk), πάρφασις (beguilement). And the stated effect: <strong>it steals the mind even of those who think closely.</strong></p>
+ <p>Cornutus, writing a Stoic handbook of Greek theology, glosses the object with the same instinct: the embroidered strap is "as it were something elaborately pierced," having "the power of tying and binding together." Speech is not separate from the substance. In this system <em>the words are an ingredient</em>.</p>`,
+ sources:[
+  {tier:"a", text:"Homer, Iliad 14.214–217 — the kestos himas and its four contents. Greek quoted from a library edition; not re-verified against a primary text in this session.", url:"https://en.wikisource.org/wiki/The_Iliad_(Butler)/Book_XIV"},
+  {tier:"v", text:"Aphrodite's Phrygian cover story, Homeric Hymn 5.107–112 — Greek verified verbatim.", url:GREEKLIT},
+  {tier:"a", text:"L. Annaeus Cornutus, Greek Theology (Boys-Stones trans.) on the girdle as 'elaborately pierced' with 'the power of tying and binding together'."}
+ ],
+ museum:[
+  {t:"Iliad Book XIV — the Deception of Zeus (Διὸς Ἀπάτη)", url:"https://en.wikisource.org/wiki/The_Iliad_(Butler)/Book_XIV"},
+  {t:"Lucius Annaeus Cornutus", url:"https://en.wikipedia.org/wiki/Lucius_Annaeus_Cornutus"}
+ ],
+ axes:{
+  e:"Incantation and preparation are not separable in ancient practice. The ἐπῳδή sung over the drug is part of the drug. The kestos makes that explicit and material.",
+  m:"πάρφασις — the beguilement that steals the mind of the shrewd — is a precise description of what mystery-cult claims to do to the rational faculty, stated approvingly.",
+  p:"A named object with an enumerated contents list and a stated pharmacodynamic effect ('steals the νόος') is, formally, a monograph entry."
+ },
+ links:["s9","s11","t-thelxis","src-iliad14","src-cornutus","th-secrecy"]
+},
+
+/* ─────────────── 11 · DOSE LANDS ─────────────── */
+{
+ id:"s11", type:"beat", order:11, art:"art-zeus",
+ act:"Act III · Delivery", label:"The Same Line, Third Time",
+ title:"ὣς εἰποῦσα", sub:"The formula from line 45 recurs verbatim — now aimed at the man",
+ grk:"ὣς εἰποῦσα θεὰ γλυκὺν ἵμερον ἔμβαλε θυμῷ.\nἈγχίσην δʼ ἔρος εἷλεν",
+ translit:"hòs eipoûsa theà glykỳn hímeron émbale thymôi. / Ankhísēn d' éros heîlen",
+ eng:"So speaking, the goddess cast sweet desire into his heart. And love seized Anchises.",
+ cite:"Homeric Hymn 5.143–144",
+ prose:`<p>Line 45: Zeus casts sweet desire into Aphrodite's heart. Line 53: the same, specifying Anchises as its object. Line 143: <strong>Aphrodite casts sweet desire into Anchises' heart.</strong> Identical phrase — <em>γλυκὺν ἵμερον ἔμβαλε θυμῷ</em>.</p>
+ <p>The circuit closes. What was administered at the top of the poem has been passed down a chain: <strong>Zeus → Aphrodite → the animals of Ida → Anchises.</strong> Nobody in the sequence initiates. Everyone transmits.</p>
+ <p>Note the trigger clause: <span class="lex" title="hōs eipousa — 'so having spoken'; the delivery is verbal">ὣς εἰποῦσα</span>. The dose lands <em>on the completion of the speech</em>. The lie is the last step of the administration.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5.143–144 — Greek verified verbatim; the formula is identical to 5.45 and 5.53.", url:GREEKLIT}
+ ],
+ museum:[
+  {t:"Commons: Eros and Aphrodite in vase painting", url:"https://commons.wikimedia.org/wiki/Category:Eros_in_ancient_Greek_pottery"}
+ ],
+ axes:{
+  e:"Transmissibility down a chain of bodies is how ancient sources describe both contagion and efficacy. The hymn treats desire as transmissible.",
+  m:"Initiation is a chain: you receive it from one who received it. The hymn's formula-repetition is structurally a lineage.",
+  p:"Three administrations, one formula, three classes of recipient (immortal, beast, mortal). If you wanted to demonstrate a general mechanism in narrative, this is exactly how you would do it."
+ },
+ links:["s2","s10","s12","t-himeros","th-consent"]
+},
+
+/* ─────────────── 12 · OU SAFA EIDŌS ─────────────── */
+{
+ id:"s12", type:"beat", order:12, art:"art-union",
+ act:"Act IV · The Effect", label:"Not Clearly Knowing",
+ title:"οὐ σάφα εἰδώς", sub:"The hymn states the endpoint in three words",
+ grk:"ὃ δʼ ἔπειτα θεῶν ἰότητι καὶ αἴσῃ\nἀθανάτῃ παρέλεκτο θεᾷ βροτός, οὐ σάφα εἰδώς.",
+ translit:"ho d' épeita theôn iótēti kaì aísēi / athanátēi parélekto theâi brotós, ou sápha eidṓs.",
+ eng:"And then, by the will of the gods and by destiny, a mortal lay beside an immortal goddess — not clearly knowing.",
+ cite:"Homeric Hymn 5.166–167",
+ prose:`<p>Everything on this map converges here. <span class="lex" title="ou sapha eidōs — 'not clearly knowing'; sapha = clearly, distinctly, with certainty">οὐ σάφα εἰδώς</span>.</p>
+ <p>Not "unwilling." Not "deceived," exactly. <strong>Not clearly knowing.</strong> The faculty that has been affected is the capacity for distinct cognition — <em>σάφα</em>, clearly, plainly, with certainty. This is precisely the endpoint an ancient writer reports for an intoxicant, and precisely the endpoint a mystery-cult initiate reports for the moment of the rite.</p>
+ <p>The bed is worth noticing too. He leads her to a bed already spread with the <strong>skins of bears and lions he had killed himself</strong> (5.158–160) — the same animals that were doped on the mountain path an hour earlier. The predators lie down two by two in the glens; their hides are underneath the human couple. The hymn does not comment. It just puts them there.</p>
+ <p>And the clause before: <span class="lex" title="theōn iotēti kai aisēi — by the will of the gods and by destiny">θεῶν ἰότητι καὶ αἴσῃ</span>. Agency is assigned outward, twice, in the same line as the loss of knowing.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5.166–167 — Greek verified verbatim: ἀθανάτῃ παρέλεκτο θεᾷ βροτός, οὐ σάφα εἰδώς.", url:GREEKLIT},
+  {tier:"v", text:"The bear- and lion-skin coverlets, Homeric Hymn 5.158–160.", url:PERSEUS},
+  {tier:"i", text:"Equating οὐ σάφα εἰδώς with a pharmacological endpoint is the central interpretive claim of this map."}
+ ],
+ museum:[
+  {t:"Commons: klinē and symposium/bed scenes in Greek vase painting", url:"https://commons.wikimedia.org/wiki/Category:Klinai_in_ancient_Greek_pottery"}
+ ],
+ axes:{
+  e:"'Not clearly knowing' is a clinical observation dressed as narrative. It is the reported endpoint, and it names the affected faculty precisely.",
+  m:"Aristotle's line about the initiates at Eleusis is that they did not <em>learn</em> anything but <em>experienced</em> something. οὐ σάφα εἰδώς is the same distinction from the inside.",
+  p:"If you were cataloguing an agent by its effects, this is your entry: 'abolishes distinct cognition while leaving action intact.' The hymn gives you that in three words."
+ },
+ links:["s11","s13","t-ousafa","ag-anchises","th-epistemic","th-consent"]
+},
+
+/* ─────────────── 13 · SLEEP ─────────────── */
+{
+ id:"s13", type:"beat", order:13, art:"art-sleep",
+ act:"Act IV · The Effect", label:"Sleep, Poured",
+ title:"νήδυμος ὕπνος", sub:"The second administration — and this one is unmistakably a liquid",
+ grk:"τῆμος ἄρʼ Ἀγχίσῃ μὲν ἐπὶ γλυκὺν ὕπνον ἔχευε\nνήδυμον, αὐτὴ δὲ χροῒ ἕννυτο εἵματα καλά.",
+ translit:"têmos ár' Ankhísēi mèn epì glykỳn hýpnon ékheue / nḗdymon, autḕ dè khroï hénnyto heímata kalá.",
+ eng:"Then over Anchises she poured sweet sleep, deep sleep — and she herself put fair clothing on her body.",
+ cite:"Homeric Hymn 5.170–171",
+ prose:`<p>The verb is <span class="lex" title="echeue — aorist of cheō, to pour (of liquids)">ἔχευε</span>. She <strong>pours</strong> it. Sleep is handled grammatically as a fluid, poured over a body, at a chosen moment, for an operational reason: she needs him unconscious while she re-dresses and resumes divine scale.</p>
+ <p>The epithet <span class="lex" title="nēdymos — deep, sweet; a rare Homeric word of disputed etymology, always of sleep">νήδυμον</span> is used in Homer almost exclusively of divinely administered sleep — the same register as the sleep Hypnos pours over Zeus in <em>Iliad</em> 14, in the very episode where the kestos appears.</p>
+ <p>So the sequence in full is: <strong>arousal agent, then sedative.</strong> Administered by the same operator, to the same subject, within twenty lines. If there were any doubt that the hymn is thinking in terms of applied states, this closes it.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5.170–171 — Greek verified verbatim: ἐπὶ γλυκὺν ὕπνον ἔχευε νήδυμον.", url:GREEKLIT},
+  {tier:"a", text:"Hypnos pouring sleep over Zeus in the Διὸς Ἀπάτη, Iliad 14 — the same episode as the kestos himas.", url:"https://en.wikisource.org/wiki/The_Iliad_(Butler)/Book_XIV"}
+ ],
+ museum:[
+  {t:"Hypnos — the god of sleep, and the bronze head type", url:"https://en.wikipedia.org/wiki/Hypnos"},
+  {t:"Commons: Hypnos and Thanatos in ancient art", url:"https://commons.wikimedia.org/wiki/Category:Hypnos"}
+ ],
+ axes:{
+  e:"Ancient soporifics — mandrake, poppy, henbane — are consistently described as poured, given, or administered. The verb here is the standard verb of administration.",
+  m:"Sacred sleep is a technique, not an accident: incubation at Asklepieia is deliberately induced sleep in a temple, for the purpose of receiving a vision.",
+  p:"Two opposite states induced by one operator on one subject in one scene is the strongest structural evidence in the hymn that we are looking at applied pharmacology and not metaphor."
+ },
+ links:["s12","s14","ph-hypnos","ag-hypnos","ph-nepenthes","src-iliad14"]
+},
+
+/* ─────────────── 14 · EPIPHANY & ACHOS ─────────────── */
+{
+ id:"s14", type:"beat", order:14, art:"art-epiphany",
+ act:"Act V · The Cost", label:"The Unveiling and the Wound",
+ title:"αἰνὸν ἄχος", sub:"He covers his face. She names her son after her own grief.",
+ grk:"τάρβησέν τε καὶ ὄσσε παρακλιδὸν ἔτραπεν ἄλλῃ·\nἂψ δʼ αὖτις χλαίνῃ τε καλύψατο καλὰ πρόσωπα.\n…\nτῷ δὲ καὶ Αἰνείας ὄνομʼ ἔσσεται, οὕνεκα μʼ αἰνὸν\nἔσχεν ἄχος, ἕνεκα βροτοῦ ἀνέρος ἔμπεσον εὐνῇ·",
+ translit:"tárbēsén te kaì ósse paraklidòn étrapen állēi· / àps d' aûtis khlaínēi te kalýpsato kalà prósōpa. … / tôi dè kaì Aineías ónom' éssetai, hoúneka m' ainòn / éskhen ákhos, héneka brotoû anéros émpeson eunêi·",
+ eng:"He was seized with fear and turned his eyes aside; and again he covered his fair face with his cloak. … And his name shall be Aeneas, because terrible grief held me, for that I fell into the bed of a mortal man.",
+ cite:"Homeric Hymn 5.182–183, 198–199",
+ prose:`<p>She stands at full stature, her head touching the roofbeam, beauty blazing from her cheeks. He looks, is terrified, and <strong>covers his face</strong>. The sequence — unbearable epiphany, aversion of the eyes, covering — is the standard grammar of a mortal who has seen too much.</p>
+ <p>Then the hymn does something no other Greek text does to Aphrodite. She names her son out of her own injury: <em>Αἰνείας</em>, from <span class="lex" title="ainon achos — terrible grief, dreadful pain">αἰνὸν ἄχος</span>, "terrible grief." <span class="lex" title="achos — sharp grief, distress, the pain of a wound">ἄχος</span> is not disappointment. It is the word for the pain of a wound.</p>
+ <p>This is the moral centre of the pharmacological reading. <strong>The operator is not exempt.</strong> She has just demonstrated total control over another body, and the price is a permanent grief she names her child after. Power over the mechanism did not confer immunity to it — because she was dosed first, at line 45, by someone above her.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5.181–184 — the fear and the covered face; Greek verified verbatim.", url:GREEKLIT},
+  {tier:"v", text:"Homeric Hymn 5.196–199 — the Aeneas / αἰνὸν ἄχος etymology; Greek verified verbatim.", url:GREEKLIT}
+ ],
+ museum:[
+  {t:"Aeneas carrying Anchises — Commons category (Archaic to Roman)", url:"https://commons.wikimedia.org/wiki/Category:Aeneas_carrying_Anchises"},
+  {t:"Aeneas — the ancestor the hymn is written to legitimate", url:"https://en.wikipedia.org/wiki/Aeneas"}
+ ],
+ axes:{
+  e:"Iatrogenic harm to the practitioner is a real and underwritten theme in ancient pharmacy. The hymn gives it a proper name.",
+  m:"Unbearable epiphany followed by covering is the standard structure of the theophany that must not be looked at directly.",
+  p:"The discovery narrative ends in cost. Whoever first worked out these preparations is being told, in mythic form: this knowledge marks you."
+ },
+ links:["s13","s15","t-achos","ag-aphrodite","ag-anchises","th-cost"]
+},
+
+/* ─────────────── 15 · INTERDICTION ─────────────── */
+{
+ id:"s15", type:"beat", order:15, art:"art-thunder",
+ act:"Act V · The Cost", label:"The Seal",
+ title:"ἴσχεο μηδʼ ὀνόμαινε", sub:"Hold back, and do not name it",
+ grk:"εἰ δέ κεν ἐξείπῃς καὶ ἐπεύξεαι ἄφρονι θυμῷ\nἐν φιλότητι μιγῆναι ἐυστεφάνῳ Κυθερείῃ,\nΖεύς σε χολωσάμενος βαλέει ψολόεντι κεραυνῷ.\n…\nἴσχεο μηδʼ ὀνόμαινε, θεῶν δʼ ἐποπίζεο μῆνιν.",
+ translit:"ei dé ken exeípēis kaì epeúxeai áphroni thymôi / en philótēti migênai eustephánōi Kythereíēi, / Zeús se kholōsámenos baléei psolóenti keraunôi. … / ískheo mēd' onómaine, theôn d' epopízeo mênin.",
+ eng:"But if you speak it out and boast with a foolish heart that you mingled in love with fair-crowned Cytherea, Zeus in anger will strike you with a smoking thunderbolt. … Hold back, and do not name it; fear the wrath of the gods.",
+ cite:"Homeric Hymn 5.286–288, 290",
+ prose:`<p>She gives him a cover story to tell — say the child is a nymph's — and then the interdiction, with a specified penalty. Note the verb in the penalty clause: <span class="lex" title="baleei — future of ballō, 'he will throw'">βαλέει</span>. Zeus will <em>throw</em> a thunderbolt at him. It is the same verb family as ἔμβαλε at line 45. The poem opens with Zeus throwing desire into a body and closes with Zeus threatening to throw fire into one.</p>
+ <p>And the last instruction of the whole encounter is a speech prohibition: <span class="lex" title="ischeo — hold back, restrain yourself">ἴσχεο</span> μηδʼ <span class="lex" title="onomaine — name it, speak the name">ὀνόμαινε</span>. <strong>Hold back and do not name.</strong> That is the formula of a mystery — <em>ἀπόρρητα</em>, things not to be spoken.</p>
+ <p>In the wider tradition, Anchises tells anyway, and is struck lame. The knowledge is transmissible and the transmission is punished — which is, historically, exactly the condition under which pharmacological knowledge in the ancient Mediterranean was actually held: inside priesthoods and guilds, under a prohibition on naming.</p>`,
+ sources:[
+  {tier:"v", text:"Homeric Hymn 5.281–290 — Greek verified verbatim, including ἴσχεο μηδʼ ὀνόμαινε.", url:GREEKLIT},
+  {tier:"a", text:"Anchises' later boast and his laming (or blinding) belongs to the wider mythographic tradition, not to Hymn 5 itself."}
+ ],
+ museum:[
+  {t:"Commons: keraunos — the thunderbolt in Greek art", url:"https://commons.wikimedia.org/wiki/Category:Thunderbolts_in_art"}
+ ],
+ axes:{
+  e:"Trade-secret protection around compounds is documented across the ancient world. The interdiction is a guild rule in mythic form.",
+  m:"ἀπόρρητον — the unspeakable thing — is the technical term of the mysteries. This is the seal being set on the rite just described.",
+  p:"Secrecy is why so much of this pharmacology reaches us encoded in myth in the first place. The prohibition <em>is</em> the transmission mechanism."
+ },
+ links:["s14","s16","th-secrecy","ag-zeus","src-hh5"]
+},
+
+/* ─────────────── 16 · SYNTHESIS ─────────────── */
+{
+ id:"s16", type:"beat", order:16, art:"art-synthesis",
+ act:"Act VI · Synthesis", label:"One Myth, Three Readings",
+ title:"τὸ φάρμακον τοῦ ἱμέρου", sub:"Where the three threads of your project actually meet",
+ grk:"φάρμακον · θέλξις · ἵμερος",
+ translit:"phármakon · thélxis · hímeros",
+ eng:"drug/remedy/poison · enchantment · desire",
+ cite:"the three words the argument runs on",
+ prose:`<p>Set the beats side by side and the hymn reads as a complete cycle: <strong>administration (45) → preparation (61–63) → broadcast test (73) → delivery (143) → endpoint (167) → sedation (170) → cost (199) → interdiction (290).</strong></p>
+ <p>What holds it together is <span class="lex" title="pharmakon — simultaneously remedy, poison, dye, charm; the word refuses to choose">φάρμακον</span> itself, the Greek word that never resolves into "medicine" or "poison" and was never asked to. In a system where one word covers cure, toxin and charm, and one substance covers offering, antidote and inhalant, the question "was this religion or was this medicine?" is not a hard question — it is a badly formed one.</p>
+ <p>The theology of Aphrodite is pharmacological at its root: she works through smell, through skin contact, through speech, through things that bypass consent and produce a documented cognitive endpoint. <strong>οὐ σάφα εἰδώς.</strong> Not clearly knowing. That is what the hymn says the drug does.</p>`,
+ sources:[
+  {tier:"v", text:"All Greek quoted in this map from Hymn 5 has been checked against the Perseus canonical-greekLit text.", url:GREEKLIT},
+  {tier:"a", text:"Dioscorides, De Materia Medica I; Aëtius of Amida, Libri Medicinales I; Cornutus, Greek Theology; Homer, Iliad 14 — attested from library editions, chapter-level citation still to be confirmed."},
+  {tier:"i", text:"The cycle-structure above is my synthesis, not a scholarly consensus. It is a working hypothesis for your series, and should be presented as one."}
+ ],
+ museum:[
+  {t:"Commons: Aphrodite — the full iconographic record", url:"https://commons.wikimedia.org/wiki/Category:Aphrodite"},
+  {t:"De Materia Medica — the transmission of ancient pharmacology", url:"https://en.wikipedia.org/wiki/De_materia_medica"}
+ ],
+ axes:{
+  e:"The hymn is usable as an ethnomedical document precisely because it does not know it is one. Nothing in it is arguing for a pharmacological thesis; the details are simply there.",
+  m:"Every stage of the sequence has a mystery-cult correlate: closed chamber, smoke, anointing, partial revelation, suspension of knowing, full epiphany, prohibition on speech.",
+  p:"The discovery is encoded, not stated. That is the general finding worth carrying beyond Aphrodite: <em>look for pharmacology in the ritual details of myths that are ostensibly about something else.</em>"
+ },
+ links:["s0","s12","s15","s17","t-pharmakon","th-discovery","th-epistemic"]
+},
+
+/* ─────────────── 17 · WORKBENCH ─────────────── */
+{
+ id:"s17", type:"beat", order:17, art:null,
+ act:"Act VI · Synthesis", label:"Open Threads",
+ title:"The Workbench", sub:"What is verified, what is not, and what to chase next",
+ grk:"ἴσχεο μηδʼ ὀνόμαινε — until you have checked it",
+ translit:"",
+ eng:"",
+ cite:"",
+ prose:`<p><strong>Verified in this session.</strong> Every line of Greek attributed to Homeric Hymn 5 on this map — lines 45–46, 53–55, 58–63, 68–74, 81–91, 107–112, 143–144, 155–157, 166–167, 168–175, 181–184, 196–199, 281–290 — was checked verbatim against the Perseus <em>canonical-greekLit</em> XML. The hymn is 293 lines.</p>
+ <p><strong>Attested but not re-verified.</strong> The Dioscorides material (kyphi, kyprinon, amarakinon), Aëtius, Cornutus, and the <em>Iliad</em> 14 kestos passage come from library editions consulted earlier in this project. The substance of the claims is sound; the <strong>chapter and line numbers are not confirmed</strong> and should be pinned before anything is published. That is what the amber <span class="tier t-a" style="display:inline-block">ATTESTED</span> chip means everywhere on this map.</p>
+ <h4 style="font-family:var(--sans);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#e07a45;margin:20px 0 8px">Threads worth pulling</h4>
+ <p>· <strong>Nepenthes.</strong> <em>Odyssey</em> 4.219–232: Helen — who learned it in <em>Egypt</em> — puts a drug in the wine that abolishes grief. Same culture, explicit φάρμακον, explicitly Egyptian, explicitly for ἄχος. Aphrodite's wound is ἄχος. That is a real link, not a stretch.</p>
+ <p>· <strong>The Paphian baetyl.</strong> If the cult image was a stone and the room was full of smoke, what was the rite actually <em>doing</em> to worshippers? Excavation reports from Palaipaphos are the primary source to chase.</p>
+ <p>· <strong>κύπρινον and Cyprus.</strong> Is the etymological link between the island, the goddess (Κύπρις), and the henna-oil load-bearing or coincidental? This is checkable and would be a strong episode if it holds.</p>
+ <p>· <strong>The animal skins.</strong> Bear and lion hides under the bed, and bears and lions doped on the path up. Nobody comments on this. Worth an essay by itself.</p>
+ <p>· <strong>Aristotle on Eleusis</strong> — μαθεῖν vs παθεῖν, to learn versus to undergo — as the theoretical frame for οὐ σάφα εἰδώς.</p>`,
+ sources:[
+  {tier:"v", text:"Hymn 5 Greek verified against Perseus canonical-greekLit, tlg0013.tlg005.perseus-grc2.", url:GREEKLIT},
+  {tier:"a", text:"Homer, Odyssey 4.219–232 — Helen's Egyptian nepenthes.", url:"https://en.wikipedia.org/wiki/Nepenthe"},
+  {tier:"i", text:"All 'threads worth pulling' are my proposals for where your research goes next, not findings."}
+ ],
+ museum:[
+  {t:"Perseus — Hymn 5 to Aphrodite, Greek text and apparatus", url:PERSEUS},
+  {t:"The raw canonical Greek XML used for verification", url:GREEKLIT}
+ ],
+ axes:{
+  e:"Keep the ethnomedical claims tied to named substances with named actions. That is what separates this from vibes.",
+  m:"Keep the mystical reading structural rather than experiential — describe the architecture of the rite, not what it felt like.",
+  p:"Pin every chapter number before publishing. The argument is strong enough that it does not need a single soft citation."
+ },
+ links:["s16","ph-nepenthes","src-hh5","src-dioscorides"]
+},
+
+/* ═══════════ GRAPH-ONLY: TERMS ═══════════ */
+{id:"t-himeros", type:"term", label:"ἵμερος", grk:"ἵμερος", translit:"hímeros", gloss:"desire, longing — a thing thrown into a chest",
+ prose:`<p>The hymn's active principle. Crucially, ἵμερος is almost never something you <em>have</em> in this poem — it is something <strong>cast, thrown, or put into</strong> a θυμός or a στῆθος. It appears in the ἔμβαλε formula at 5.45, 5.53 and 5.143, and in βάλʼ ἵμερον at 5.73.</p><p>Grammatically it behaves like a substance, not a feeling. It is also one of the four enumerated contents of the kestos himas at Iliad 14.216.</p>`,
+ sources:[{tier:"v",text:"Hymn 5.45, 53, 73, 143 — all four occurrences verified.",url:GREEKLIT},{tier:"a",text:"Iliad 14.216 — ἵμερος as a listed content of the kestos."}],
+ axes:{e:"The grammar of ἵμερος is the grammar of an administered agent.",m:"Desire arriving from outside is also the phenomenology of possession.",p:"If it can be thrown into a wolf and into a goddess with the same verb, it is being modelled as universal, not personal."},
+ links:["s2","s8","s11","t-pharmakon","s10"]},
+
+{id:"t-pharmakon", type:"term", label:"φάρμακον", grk:"φάρμακον", translit:"phármakon", gloss:"remedy · poison · dye · charm — the word that refuses to choose",
+ prose:`<p>The word does not appear in Hymn 5. It is the frame the hymn is being read <em>through</em>, and it is worth being explicit about that.</p><p>φάρμακον covers cure, poison, dye and magical charm in a single lexeme, and Greek never felt the need to split it. Any argument that ancient medicine and ancient religion were separate domains has to explain this word first.</p>`,
+ sources:[{tier:"i",text:"φάρμακον does not occur in Homeric Hymn 5. Its use here is an interpretive frame, applied deliberately and stated openly."},{tier:"a",text:"Odyssey 4.220 — Helen's φάρμακον, the classic Homeric instance."}],
+ axes:{e:"One word for cure and poison is a whole epistemology in miniature.",m:"The same indeterminacy runs through 'sacred' — the holy and the accursed share vocabulary too.",p:"Dose-dependence is built into the Greek word before anyone formalised it."},
+ links:["s16","t-himeros","ph-nepenthes","t-thelxis"]},
+
+{id:"t-thelxis", type:"term", label:"θέλξις / πάρφασις", grk:"θέλξις · πάρφασις", translit:"thélxis · párphasis", gloss:"enchantment; beguiling speech that steals the mind",
+ prose:`<p>The action-verb family for what Aphrodite does with words. <em>θέλγω</em> is the verb used of Circe, of Hermes' wand, of anything that suspends the will without force.</p><p>πάρφασις is the fourth content of the kestos himas, glossed by Homer himself as the thing "which steals away the νόος even of the shrewd" — the closest the epic tradition comes to naming a pharmacodynamic effect.</p>`,
+ sources:[{tier:"a",text:"Iliad 14.216–217 — πάρφασις and its stated effect on the νόος."},{tier:"a",text:"Cornutus, Greek Theology, on the kestos as having 'the power of tying and binding together'."}],
+ axes:{e:"Incantation is an ingredient, not an accompaniment.",m:"The suspension of critical judgement is the operative condition of the rite.",p:"'Steals the mind of the shrewd' is an effect statement with a specified population — it works even on the resistant."},
+ links:["s9","s10","t-pharmakon","src-cornutus","src-iliad14"]},
+
+{id:"t-ousafa", type:"term", label:"οὐ σάφα εἰδώς", grk:"οὐ σάφα εἰδώς", translit:"ou sápha eidṓs", gloss:"not clearly knowing — the endpoint",
+ prose:`<p>Three words at line 167, in the exact position where a modern write-up would state the result. σάφα is <em>clearly, distinctly, with certainty</em>. The negation targets the clarity, not the knowing.</p><p>Anchises acts, speaks, and consents. What has been removed is the distinctness of his cognition — which is a far more precise claim than 'he was tricked'.</p>`,
+ sources:[{tier:"v",text:"Homeric Hymn 5.167 — verified verbatim.",url:GREEKLIT},{tier:"i",text:"Reading this as a clinical-style endpoint statement is interpretive."}],
+ axes:{e:"The most citable three words on the map for an ethnomedical argument.",m:"Compare Aristotle on Eleusis: initiates do not learn but undergo. Same boundary, opposite valuation.",p:"An effect described by the faculty it abolishes is how ancient sources describe intoxicants."},
+ links:["s12","th-epistemic","ag-anchises","t-pharmakon"]},
+
+{id:"t-achos", type:"term", label:"ἄχος", grk:"αἰνὸν ἄχος", translit:"ainòn ákhos", gloss:"terrible grief — the pain of a wound",
+ prose:`<p>ἄχος is not sadness. In epic it is the sharp distress of injury and loss — the word for what you feel when something has been done to you.</p><p>Aphrodite uses it of herself at 5.198–199, and names Aeneas from it. The goddess of desire ends the poem describing her own experience with the vocabulary of a wound.</p>`,
+ sources:[{tier:"v",text:"Homeric Hymn 5.198–199 — the Αἰνείας / αἰνὸν ἄχος etymology, verified verbatim.",url:GREEKLIT}],
+ axes:{e:"Practitioner harm, named and made hereditary.",m:"The god is changed by the encounter too — unusual, and worth dwelling on.",p:"Every real pharmacology has a cost column. The hymn puts it in the child's name."},
+ links:["s14","th-cost","ag-aphrodite","ph-nepenthes"]},
+
+{id:"t-thuodes", type:"term", label:"θυώδης", grk:"θυώδης", translit:"thyṓdēs", gloss:"incense-fragrant; saturated with burnt offering",
+ prose:`<p>From θύω, to burn as sacrifice. Not 'sweet-smelling' — <em>smelling of the burnt aromatic</em>. Used twice within two lines at 5.58–59, of the temple and of the altar.</p><p>The related perfect passive τεθυωμένον at 5.63 describes the oil: it <em>had been</em> infused. Same root, applied to the compound rather than the room.</p>`,
+ sources:[{tier:"v",text:"Homeric Hymn 5.58–59 (θυώδεα / θυώδης) and 5.63 (τεθυωμένον) — verified verbatim.",url:GREEKLIT}],
+ axes:{e:"The vocabulary itself ties the room, the altar and the oil into one technology.",m:"Smoke as the medium of contact with the god.",p:"τεθυωμένον implies a process with an agent and a prior time — the grammar of a recipe."},
+ links:["s4","s5","s7","ph-kyphi","t-ambrotos"]},
+
+{id:"t-ambrotos", type:"term", label:"ἄμβροτος", grk:"ἔλαιον ἄμβροτον", translit:"élaion ámbroton", gloss:"immortal oil — deathless, of the gods' own substance",
+ prose:`<p>The carrier. ἄμβροτος (a-mbrotos, 'un-mortal') is the same root as ἀμβροσία. Applied to olive oil it marks the medium as belonging to the divine class of substances — the class that does not decay.</p><p>The hymn stacks the epithets: ἀμβρότῳ, ἀμβροσίῳ, ἑδανῷ, τεθυωμένον. Four qualifiers in three lines. Nothing else in the poem is described this carefully.</p>`,
+ sources:[{tier:"v",text:"Homeric Hymn 5.61–63 — verified verbatim.",url:GREEKLIT}],
+ axes:{e:"The carrier gets more descriptive attention than the goddess's own body.",m:"Incorruptibility is the defining property of divine matter.",p:"Density of description is a signal. The poet is lingering where the technology is."},
+ links:["s5","ph-elaion","t-thuodes"]},
+
+/* ═══════════ GRAPH-ONLY: PHARMAKA ═══════════ */
+{id:"ph-elaion", type:"pharmakon", label:"Immortal oil", grk:"ἔλαιον ἄμβροτον", translit:"élaion ámbroton", gloss:"the temple-held infused oil of Paphos",
+ prose:`<p>The hymn's own named preparation: an olive-oil base, ambrosial, sweet, and <em>tethyōmenon</em> — infused. Applied topically by three specialists after a bath, inside a closed, smoke-saturated chamber.</p><p>It is described as 'blooming upon' (ἐπενήνοθεν) the bodies of the gods — sitting on the skin as a film rather than soaking away.</p>`,
+ sources:[{tier:"v",text:"Homeric Hymn 5.61–63 — verified verbatim.",url:GREEKLIT},{tier:"a",text:"Real-world class: the compound unguents of Dioscorides, De Materia Medica I."}],
+ axes:{e:"A topical, temple-held, professionally applied compound with a stated production history.",m:"Anointing as consecration; the substance changes the category of the body it touches.",p:"This is the object the whole map is trying to characterise. Everything else is evidence about it."},
+ links:["s5","ph-kyprinon","ph-amarakinon","t-ambrotos","src-dioscorides"]},
+
+{id:"ph-kyprinon", type:"pharmakon", label:"Kyprinon", grk:"κύπρινον", translit:"kýprinon", gloss:"oil of cyprus (henna flowers) — warming, softening, opening",
+ prose:`<p>Named for the island Aphrodite flies to. Made from the flowers of henna in an oil base. Described in the Dioscoridean tradition as <strong>warming and softening</strong>, opening obstructions and inflammations around the vulva.</p><p>If the etymological chain Κύπρος → Κύπρις → κύπρινον holds, the hymn's Cyprus detour is doing double duty as geography and as ingredient.</p>`,
+ sources:[{tier:"a",text:"Dioscorides, De Materia Medica I (unguents sequence) — chapter number not re-verified in this session.",url:"https://en.wikipedia.org/wiki/De_materia_medica"},{tier:"i",text:"The Κύπρος/Κύπρις/κύπρινον chain as a load-bearing link is a hypothesis to be tested, flagged in Open Threads."}],
+ axes:{e:"A named substance with a stated action on the reproductive tract, in a text of practical medicine.",m:"The island, the goddess and the oil share a name. Whether that is aetiology or accident is a real question.",p:"Vasodilation and warming from volatile aromatics in a lipophilic carrier is a plausible mechanism behind the ancient description."},
+ links:["s6","ph-elaion","src-dioscorides","s4"]},
+
+{id:"ph-amarakinon", type:"pharmakon", label:"Amarakinon", grk:"ἀμαράκινον", translit:"amarákinon", gloss:"marjoram ointment — sharp, cleansing, warming",
+ prose:`<p>A compound unguent built on marjoram (sampsuchum) with costus, amomum, nard, myrrh and balsam. The tradition characterises its strength as <strong>sharp, cleansing and warming</strong>.</p><p>Representative of the class the hymn's ἔλαιον ἄμβροτον belongs to: many actives, one lipid carrier, applied to skin.</p>`,
+ sources:[{tier:"a",text:"Dioscorides, De Materia Medica I (unguents sequence) — chapter number not re-verified in this session.",url:"https://en.wikipedia.org/wiki/De_materia_medica"}],
+ axes:{e:"Multi-ingredient formulation is the ancient norm, not the exception.",m:"Marjoram carries funerary and nuptial associations in Greek practice — worth chasing.",p:"'Sharp, cleansing, warming' is a description of sensation used as a description of action."},
+ links:["s6","ph-elaion","src-dioscorides"]},
+
+{id:"ph-susinon", type:"pharmakon", label:"Susinon", grk:"σούσινον", translit:"soúsinon", gloss:"lily ointment — the softening, emollient member of the class",
+ prose:`<p>Lily-based unguent, the gentler counterpart in the same Dioscoridean sequence. Included here to mark the <em>range</em> of the class: these preparations were graded by strength and indication, not undifferentiated 'perfume'.</p>`,
+ sources:[{tier:"a",text:"Dioscorides, De Materia Medica I (unguents sequence) — chapter number not re-verified in this session.",url:"https://en.wikipedia.org/wiki/De_materia_medica"}],
+ axes:{e:"Graded strengths within a class imply clinical discrimination.",m:"The lily is Hera's flower — cross-deity aromatic attributions are a thread of their own.",p:"A graded class is evidence of accumulated empirical comparison."},
+ links:["s6","ph-elaion","src-dioscorides"]},
+
+{id:"ph-kyphi", type:"pharmakon", label:"Kyphi", grk:"κῦφι", translit:"kŷphi", gloss:"temple incense · antidote ingredient · asthmatic's drink",
+ prose:`<p>The compound incense of the Egyptian temples, adopted across the Greek and Roman world. Dioscorides records it as a perfume welcome to the gods and used abundantly by priests; as an ingredient in <strong>antidotes</strong>; and as a preparation <strong>given to asthmatics to drink</strong>.</p><p>Three categories, one substance, no border between them. The single best artefact for the argument that ancient pharmacy and ancient rite were the same activity.</p>`,
+ sources:[{tier:"a",text:"Dioscorides on kyphi — De Materia Medica I; exact chapter not re-verified in this session.",url:"https://en.wikipedia.org/wiki/Kyphi"},{tier:"i",text:"Kyphi specifically at Paphos is inference from regional practice, not attestation."}],
+ axes:{e:"Liturgy, antidote and respiratory medicine in one preparation.",m:"Smoke is the medium of divine contact and a route of administration at once.",p:"Indications discovered inside ritual use — a named pathway from rite to remedy."},
+ links:["s7","s4","t-thuodes","src-dioscorides","th-discovery"]},
+
+{id:"ph-hypnos", type:"pharmakon", label:"Poured sleep", grk:"νήδυμος ὕπνος", translit:"nḗdymos hýpnos", gloss:"the sedative — administered by pouring",
+ prose:`<p>The hymn's second agent, and the one whose administration is least ambiguous: ἔχευε, she <em>poured</em> it. νήδυμος is used in Homer almost exclusively of divinely induced sleep.</p><p>Its presence twenty lines after the arousal agent is what turns the reading from suggestive to structural: one operator, one subject, two opposite induced states.</p>`,
+ sources:[{tier:"v",text:"Homeric Hymn 5.170–171 — verified verbatim.",url:GREEKLIT},{tier:"a",text:"Hypnos pouring sleep over Zeus, Iliad 14 — the same episode as the kestos."}],
+ axes:{e:"Ancient soporifics are consistently described with verbs of pouring and giving.",m:"Temple incubation: induced sleep as a technique for receiving vision.",p:"Two opposite applied states in one scene is the map's strongest structural evidence."},
+ links:["s13","ag-hypnos","ph-nepenthes","src-iliad14"]},
+
+{id:"ph-nepenthes", type:"pharmakon", label:"Nepenthes", grk:"νηπενθές", translit:"nēpenthés", gloss:"Helen's Egyptian grief-killer — the explicit φάρμακον",
+ prose:`<p><em>Odyssey</em> 4.219–232. Helen drops a drug into the wine that abolishes grief and anger — <span class="lex" title="nēpenthes — 'no-grief'; a-penthos">νηπενθές</span>, literally 'no-grief' — and the poet says she had it <strong>from Egypt</strong>, where the earth bears many φάρμακα.</p><p>Why it belongs on this map: it is the same poetic tradition, it uses the word φάρμακον explicitly, it names a foreign source of pharmacological knowledge, and it targets exactly the state Aphrodite ends the hymn in — ἄχος.</p>`,
+ sources:[{tier:"a",text:"Homer, Odyssey 4.219–232 — quoted from a library edition; line numbers not re-verified in this session.",url:"https://en.wikipedia.org/wiki/Nepenthe"},{tier:"i",text:"The ἄχος-to-νηπενθές link is my proposal for a next episode, not an established connection."}],
+ axes:{e:"An explicit drug, an explicit foreign provenance, an explicit indication. The cleanest ethnomedical passage in Homer.",m:"Egypt as the source of hidden knowledge is a persistent Greek trope — and kyphi is Egyptian too.",p:"Where Hymn 5 encodes, Odyssey 4 states. Reading them together is how you show the encoding is real."},
+ links:["s17","t-pharmakon","t-achos","ph-kyphi","ph-hypnos"]},
+
+/* ═══════════ GRAPH-ONLY: AGENTS ═══════════ */
+{id:"ag-aphrodite", type:"agent", label:"Aphrodite", grk:"Ἀφροδίτη · Κύπρις", translit:"Aphrodítē · Kýpris", gloss:"operator and subject — dosed at line 45, dosing by line 143",
+ prose:`<p>The only figure in the hymn who is on both ends of the mechanism. Zeus administers to her at 45; she administers to the beasts at 73 and to Anchises at 143; she is wounded by her own procedure at 199.</p><p>Read strictly as a pharmacological agent she is: preparation-holder, applicator, delivery vehicle, and eventual casualty.</p>`,
+ sources:[{tier:"v",text:"Hymn 5.45, 73, 143, 198–199 — all verified verbatim.",url:GREEKLIT}],
+ axes:{e:"The practitioner who is not exempt from the practice.",m:"A god who suffers her own domain is unusual and theologically interesting.",p:"Personification of an agent that acts on its own owner."},
+ links:["s2","s5","s9","s14","t-himeros","th-cost"]},
+
+{id:"ag-zeus", type:"agent", label:"Zeus", grk:"Ζεύς", translit:"Zeús", gloss:"the one who throws — desire at 45, thunderbolt at 288",
+ prose:`<p>Zeus bookends the poem with the same verb family. He <em>casts</em> (ἔμβαλε) desire into Aphrodite at line 45; he will <em>throw</em> (βαλέει) a smoking thunderbolt at Anchises if the secret is spoken, at line 288.</p><p>Administration and punishment are the same gesture. That is not decoration — it is how the hymn understands power over bodies.</p>`,
+ sources:[{tier:"v",text:"Hymn 5.45 (ἔμβαλε) and 5.288 (βαλέει) — both verified verbatim.",url:GREEKLIT}],
+ axes:{e:"The authority who both prescribes and prohibits.",m:"The one whose μῆνις seals the mystery.",p:"Same verb for dose and for penalty — the poem's tightest formal joke."},
+ links:["s2","s15","t-himeros","th-secrecy"]},
+
+{id:"ag-anchises", type:"agent", label:"Anchises", grk:"Ἀγχίσης", translit:"Ankhísēs", gloss:"the subject — 'not clearly knowing'",
+ prose:`<p>Alone on Ida, godlike in build, playing a lyre. He suspects divinity immediately and offers sacrifice — his judgement is <em>working</em> — and is then talked out of it.</p><p>He acts throughout: he speaks, he declares, he leads her to the bed. What the hymn removes is not his agency but the clarity of his knowing. That distinction is the entire value of the passage.</p>`,
+ sources:[{tier:"v",text:"Hymn 5.53–55, 91–106, 155–167, 181–184 — verified verbatim.",url:GREEKLIT}],
+ axes:{e:"The subject in whom the effect is observed.",m:"The mortal who sees the god and cannot bear it afterward.",p:"Preserved motor function with abolished distinct cognition — a specific and unusual effect profile."},
+ links:["s3","s12","s14","t-ousafa","th-epistemic"]},
+
+{id:"ag-charites", type:"agent", label:"The Charites", grk:"Χάριτες", translit:"Khárites", gloss:"the three who bathe and anoint — the practitioners",
+ prose:`<p>They appear for exactly one line and do the most technically specific thing in the poem: λοῦσαν καὶ χρῖσαν — <strong>they bathed and they anointed</strong>.</p><p>A dedicated triad, resident in the temple, performing a two-stage procedure with a prepared compound. If you are looking for the hymn's practitioner class, this is it.</p>`,
+ sources:[{tier:"v",text:"Hymn 5.61 — verified verbatim.",url:GREEKLIT},{tier:"i",text:"Calling them a 'practitioner class' is interpretive."}],
+ axes:{e:"Division of labour: preparation-holders distinct from the one who uses the preparation.",m:"Attendants who prepare the body for the god's work — the structure of every initiation.",p:"A named, repeatable, two-stage protocol carried out by specialists."},
+ links:["s5","ph-elaion","th-armory"]},
+
+{id:"ag-therion", type:"agent", label:"The beasts of Ida", grk:"θῆρες", translit:"thêres", gloss:"wolves, lions, bears, leopards — the demonstration",
+ prose:`<p>They come fawning (σαίνοντες, the word for dogs), she doses all of them at once, and they pair off through the shadowy glens.</p><p>Their function in the argument is to rule out persuasion. Whatever acts on a leopard is not flattery.</p>`,
+ sources:[{tier:"v",text:"Hymn 5.70–74 — verified verbatim.",url:GREEKLIT}],
+ axes:{e:"Animal response as the ancient world's bioassay.",m:"The Mistress of Animals showing through the Olympian.",p:"Cross-species efficacy — the single most pharmacological detail in the poem."},
+ links:["s8","t-himeros","th-consent"]},
+
+{id:"ag-hypnos", type:"agent", label:"Hypnos", grk:"Ὕπνος", translit:"Hýpnos", gloss:"sleep as a person who pours",
+ prose:`<p>Not named in Hymn 5 — the goddess pours the sleep herself — but the register is his. In <em>Iliad</em> 14, Hypnos administers to Zeus in the very episode where Hera borrows the kestos.</p><p>The overlap is worth noting: the same book of Homer contains the compound object <em>and</em> the personified sedative.</p>`,
+ sources:[{tier:"a",text:"Iliad 14 — Hypnos and the Διὸς Ἀπάτη; not re-verified in this session.",url:"https://en.wikipedia.org/wiki/Hypnos"},{tier:"v",text:"Hymn 5.170–171 — Aphrodite pours the sleep herself, without Hypnos.",url:GREEKLIT}],
+ axes:{e:"Personified administration of a state.",m:"Sleep as the threshold state of vision and incubation.",p:"Iliad 14 as a single-book compendium of the tradition's applied-state technology."},
+ links:["s13","ph-hypnos","src-iliad14"]},
+
+/* ═══════════ GRAPH-ONLY: SOURCES ═══════════ */
+{id:"src-hh5", type:"source", label:"Homeric Hymn 5", grk:"Εἰς Ἀφροδίτην", translit:"Eis Aphrodítēn", gloss:"293 lines · the primary text · Greek verified in this session",
+ prose:`<p>Anonymous, in the Homeric manner, probably 7th–6th century BCE. 293 hexameters. The longest and strangest of the major Homeric Hymns, and the only one in which the honoured deity is humiliated by the story being told.</p><p>Every Greek line quoted on this map has been checked verbatim against the Perseus <em>canonical-greekLit</em> XML edition (tlg0013.tlg005.perseus-grc2).</p>`,
+ sources:[{tier:"v",text:"Perseus Digital Library — Hymn 5 to Aphrodite, Greek text.",url:PERSEUS},{tier:"v",text:"canonical-greekLit raw XML — the file used for verification.",url:GREEKLIT}],
+ axes:{e:"A non-medical text that preserves medical detail because it was not trying to.",m:"A hymn that is also an aetiology of a dynasty and a report of a rite.",p:"Primary. Everything else on this map is context for it."},
+ links:["s0","s17","s16"]},
+
+{id:"src-dioscorides", type:"source", label:"Dioscorides", grk:"Περὶ ὕλης ἰατρικῆς", translit:"Perì hýlēs iatrikês", gloss:"De Materia Medica, 1st c. CE — the substance record",
+ prose:`<p>Pedanius Dioscorides, army physician, compiled roughly a thousand drugs across five books. Book I covers aromatics, oils, unguents and trees — including the compound unguents and kyphi.</p><p>He is the reason the hymn's ἔλαιον ἄμβροτον can be given real-world content: he tells us what a temple-grade infused oil was actually made of and what it was believed to do.</p>`,
+ sources:[{tier:"a",text:"De Materia Medica, Book I (aromatics and unguents). Chapter-level citations on this map are attested from a library edition and not re-verified here.",url:"https://en.wikipedia.org/wiki/De_materia_medica"}],
+ axes:{e:"The single most important surviving ethnomedical text of the ancient Mediterranean.",m:"He records ritual uses without embarrassment, alongside clinical ones.",p:"A working formulary, organised by material and action."},
+ links:["s6","s7","ph-kyprinon","ph-amarakinon","ph-kyphi","ph-susinon","src-aetius"]},
+
+{id:"src-iliad14", type:"source", label:"Iliad 14", grk:"Διὸς Ἀπάτη", translit:"Diòs Apátē", gloss:"the Deception of Zeus — kestos and Hypnos in one book",
+ prose:`<p>Hera borrows Aphrodite's κεστὸς ἱμάς and enlists Hypnos to put Zeus to sleep. One book of Homer containing both the compound object with an enumerated contents list and the personified administration of sleep.</p><p>The indispensable comparandum for Hymn 5.</p>`,
+ sources:[{tier:"a",text:"Homer, Iliad 14.214–217 (kestos) and the Hypnos scene; quoted from a library edition, not re-verified here.",url:"https://en.wikisource.org/wiki/The_Iliad_(Butler)/Book_XIV"}],
+ axes:{e:"Two technologies of applied state in one narrative unit.",m:"Deception of the highest god by means of a borrowed object.",p:"The clearest 'contents list' in early Greek poetry."},
+ links:["s10","s13","t-thelxis","ph-hypnos","ag-hypnos"]},
+
+{id:"src-cornutus", type:"source", label:"Cornutus", grk:"Ἐπιδρομή", translit:"Epidromḗ", gloss:"Greek Theology, 1st c. CE — the girdle as a bound compound",
+ prose:`<p>L. Annaeus Cornutus, Stoic, teacher of Persius, wrote a compact handbook explaining the gods allegorically. On Aphrodite's girdle he glosses ποικίλος as 'as it were something elaborately pierced', and attributes to it 'the power of tying and binding together'.</p><p>Useful because it shows an ancient reader instinctively describing the object in terms of construction and binding force rather than ornament.</p>`,
+ sources:[{tier:"a",text:"Cornutus, Greek Theology (Boys-Stones trans.), on Aphrodite and the kestos. Section number not re-verified in this session.",url:"https://en.wikipedia.org/wiki/Lucius_Annaeus_Cornutus"}],
+ axes:{e:"An ancient reader treating a divine attribute as a made object.",m:"Allegorical theology as an ancient hermeneutic, not a modern imposition.",p:"'Tying and binding together' is a description of a compound holding actives in suspension."},
+ links:["s10","t-thelxis","src-iliad14"]},
+
+{id:"src-aetius", type:"source", label:"Aëtius of Amida", grk:"Λόγοι ἰατρικοί", translit:"Lógoi iatrikoí", gloss:"Libri Medicinales, 6th c. CE — the transmission",
+ prose:`<p>Byzantine physician whose <em>Libri Medicinales</em> Book I preserves and reorganises much earlier pharmacological material, including the unguent tradition.</p><p>He matters to this project as evidence of <strong>continuity</strong>: the same preparations described in the first century are still being transmitted five centuries later.</p>`,
+ sources:[{tier:"a",text:"Aëtius of Amida, Libri Medicinales Book I (Gowling). Attested from a library edition; not re-verified here.",url:"https://en.wikipedia.org/wiki/A%C3%ABtius_of_Amida"}],
+ axes:{e:"Continuity of a materia medica tradition across five centuries.",m:"Christian-era transmission of pagan temple pharmacology, largely unremarked.",p:"Persistence is weak evidence of efficacy but strong evidence of use."},
+ links:["s6","src-dioscorides"]},
+
+/* ═══════════ GRAPH-ONLY: THESES ═══════════ */
+{id:"th-consent", type:"thesis", label:"Desire is administered", gloss:"Nobody in the hymn chooses. Everyone transmits.",
+ prose:`<p><strong>Claim.</strong> The hymn consistently treats ἵμερος as an agent thrown into a body from outside, with the same verb, across three classes of recipient — immortal, beast, mortal.</p><p><strong>Evidence.</strong> ἔμβαλε at 45, 53, 143; βάλʼ at 73; θεῶν ἰότητι καὶ αἴσῃ at 166.</p><p><strong>Weakness to address.</strong> ἐμβάλλω is a common metaphor for the onset of emotion in epic generally. The argument rests on the <em>density and consistency</em> of the usage here, plus the cross-species demonstration — not on the verb alone. Say so before a classicist says it for you.</p>`,
+ sources:[{tier:"v",text:"All four occurrences verified against the canonical Greek.",url:GREEKLIT},{tier:"i",text:"This is your thesis, not a source claim."}],
+ axes:{e:"Foundational to the ethnomedical reading.",m:"Consonant with possession and with grace.",p:"Supported best by the animal passage, which no metaphor reading handles well."},
+ links:["s2","s8","s11","s12","t-himeros"]},
+
+{id:"th-armory", type:"thesis", label:"The temple is a laboratory", gloss:"The toilette scene is an arming scene, and the armour is a compound.",
+ prose:`<p><strong>Claim.</strong> Hymn 5.58–65 is structurally a Homeric arming type-scene, with an infused oil in the position normally occupied by greaves, corselet and helmet.</p><p><strong>Evidence.</strong> The detour to Cyprus before action; the closed doors; the specialist triad; the perfect passive τεθυωμένον implying prior manufacture; the immediate departure for the target afterwards.</p><p><strong>Weakness to address.</strong> Divine toilette scenes are a recognised type in their own right (compare Hera in Iliad 14). The stronger form of your claim is that the toilette type-scene and the arming type-scene are <em>the same scene</em> for a goddess whose weapon is a preparation.</p>`,
+ sources:[{tier:"v",text:"Hymn 5.58–65 verified verbatim.",url:GREEKLIT},{tier:"i",text:"Your thesis."}],
+ axes:{e:"Makes the temple a site of manufacture, not only of worship.",m:"Preparation of the body as the prerequisite of the rite.",p:"τεθυωμένον is the load-bearing word — a perfect passive implies a recipe."},
+ links:["s4","s5","s6","ag-charites","ph-elaion"]},
+
+{id:"th-epistemic", type:"thesis", label:"The signature is loss of clear knowing", gloss:"οὐ σάφα εἰδώς is the endpoint, and it is stated, not implied.",
+ prose:`<p><strong>Claim.</strong> The hymn reports its effect in the vocabulary of cognition, not of will: what is abolished is <em>σάφα</em>, clarity — while speech and action remain intact.</p><p><strong>Evidence.</strong> 5.167; and by contrast 5.92–106, where Anchises' judgement demonstrably works before the speech lands.</p><p><strong>Why it matters.</strong> This is the bridge between your mystical thread and your pharmacological one: the mystery-rite and the drug are described as producing the same epistemic condition, and the ancient sources do not treat that as a coincidence.</p>`,
+ sources:[{tier:"v",text:"Hymn 5.167 and 5.91–106 verified verbatim.",url:GREEKLIT},{tier:"i",text:"Your thesis."}],
+ axes:{e:"An observed, stated endpoint.",m:"Aristotle on Eleusis: not to learn but to undergo.",p:"An effect defined by the faculty it removes."},
+ links:["s12","t-ousafa","ag-anchises","s16"]},
+
+{id:"th-cost", type:"thesis", label:"The operator is not exempt", gloss:"Every act of pharmacological power in the hymn wounds the one who wields it.",
+ prose:`<p><strong>Claim.</strong> The hymn refuses the fantasy of controlled power. Aphrodite is dosed before she doses, and names her son after her own wound.</p><p><strong>Evidence.</strong> 5.45 (she is dosed first) → 5.198–199 (αἰνὸν ἄχος) → 5.247–255, where she anticipates the reproach of the other gods.</p><p><strong>Use.</strong> This is the ethical spine of the series. It is what keeps an ethnomedical reading from becoming a triumphalist one.</p>`,
+ sources:[{tier:"v",text:"Hymn 5.45, 198–199 verified verbatim.",url:GREEKLIT},{tier:"a",text:"Aphrodite's anticipated shame among the gods, Hymn 5.247–255 — line range not re-verified here."},{tier:"i",text:"Your thesis."}],
+ axes:{e:"Practitioner harm, made hereditary and named.",m:"A god altered by her own domain.",p:"The cost column of the pharmacology."},
+ links:["s14","t-achos","ag-aphrodite"]},
+
+{id:"th-secrecy", type:"thesis", label:"The interdiction is the transmission", gloss:"'Hold back and do not name' is why this reaches us as myth.",
+ prose:`<p><strong>Claim.</strong> The prohibition on speech at 5.286–290 is not an epilogue. It is a statement about how this class of knowledge was held: inside a priesthood, under penalty, unnameable.</p><p><strong>Consequence.</strong> If pharmacological knowledge was held under a naming prohibition, then we should expect to find it <em>encoded in narrative detail rather than stated</em> — which is exactly the methodological licence this whole map operates under.</p><p><strong>Weakness to address.</strong> This is a self-serving argument and you must say so. It licenses reading anything into anything. The discipline that saves it is the source-tier system: state clearly which details are in the text and which are your inference.</p>`,
+ sources:[{tier:"v",text:"Hymn 5.286–290 verified verbatim.",url:GREEKLIT},{tier:"i",text:"Your thesis — and the one most in need of a stated guard against over-reading."}],
+ axes:{e:"Guild secrecy around compounds is well documented across the ancient world.",m:"ἀπόρρητα — the unspeakable — is the technical vocabulary of the mysteries.",p:"Explains the encoding, and simultaneously explains why the encoding is hard to falsify. Handle with care."},
+ links:["s15","s10","th-discovery","ag-zeus"]},
+
+{id:"th-discovery", type:"thesis", label:"Myth as discovery record", gloss:"Read the god as the compound's origin story.",
+ prose:`<p><strong>Claim.</strong> Ancient pharmacological discovery is rarely reported as procedure. It is reported as an account of <em>who gave the substance to us</em> — Helen from Egypt, kyphi from the Egyptian priests, the immortal oil from the Charites at Paphos.</p><p><strong>Method.</strong> Where a myth contains an unusual density of procedural detail — named substances, named applicators, closed rooms, stated effects — treat that density as a signal and go looking for the material referent in the medical corpus.</p><p><strong>Test case.</strong> Hymn 5 predicts a temple-held compound aromatic oil at Cyprus with warming and reproductive action. Dioscorides has κύπρινον. That prediction-and-confirmation shape is the strongest form your argument can take — use it.</p>`,
+ sources:[{tier:"i",text:"Your thesis and, arguably, the general method of the whole project."},{tier:"a",text:"Dioscorides on kyprinon and kyphi; Odyssey 4 on Egyptian pharmaka."}],
+ axes:{e:"A method, not a finding.",m:"Gods as the mnemonic architecture of technical knowledge.",p:"Prediction-then-confirmation is the shape to aim for in every episode."},
+ links:["s0","s7","s16","s17","ph-kyphi","ph-nepenthes","th-secrecy"]}
+
+];
+
+/* ---- derive edges from links (dedup, both directions) ---- */
+const NBY = {}; N.forEach(n=>NBY[n.id]=n);
+const E = []; const seen = new Set();
+N.forEach(n => (n.links||[]).forEach(t => {
+  if(!NBY[t]) return;
+  const k = [n.id,t].sort().join("|");
+  if(seen.has(k)) return; seen.add(k);
+  E.push({s:n.id, t:t});
+}));
+const SLIDES = N.filter(n=>typeof n.order === "number").sort((a,b)=>a.order-b.order);
+</script>
+<script>
+/* ============================================================
+   ΦΑΡΜΑΚΟΝ ἹΜΕΡΟΥ — application layer
+   No browser storage is used. State lives in memory only;
+   Export / Import move it in and out as JSON.
+   ============================================================ */
+
+const STATUSES = [
+  ["", "· unexamined ·"],
+  ["question", "open question"],
+  ["working", "working claim"],
+  ["load", "load-bearing"],
+  ["source", "needs a source"],
+  ["drafted", "drafted"],
+  ["done", "settled"]
+];
+
+const state = {
+  mode: "scroll",
+  idx: 0,
+  ann: {},              // id -> {note, status}
+  sel: null,
+  hidden: new Set()
+};
+
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const brk = s => esc(s).replace(/\n/g,"<br>");
+
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("on");
+  clearTimeout(t._x); t._x = setTimeout(()=>t.classList.remove("on"), 2200);
+}
+function ann(id){ return state.ann[id] || (state.ann[id] = {note:"", status:""}); }
+function isAnnotated(id){ const a = state.ann[id]; return !!(a && (a.note.trim() || a.status)); }
+
+/* ---------------- shared fragments ---------------- */
+function tierChip(t){
+  const m = {v:["t-v","verified"], a:["t-a","attested"], i:["t-i","interpretive"]}[t] || ["t-i","note"];
+  return `<span class="tier ${m[0]}">${m[1]}</span>`;
+}
+function sourcesHTML(node){
+  const s = node.sources || [];
+  const mus = node.museum || [];
+  if(!s.length && !mus.length) return "";
+  let h = `<div class="sources"><div class="srchead">Sources & tiers</div>`;
+  s.forEach(x=>{
+    h += `<div class="src">${tierChip(x.tier)}<span>${esc(x.text)}${x.url?` <a href="${esc(x.url)}" target="_blank" rel="noopener">↗ open</a>`:""}</span></div>`;
+  });
+  if(mus.length){
+    h += `<div class="srchead" style="margin-top:10px">Ancient art & objects</div>`;
+    mus.forEach(x=>{
+      h += `<div class="src"><span class="tier t-i" style="background:rgba(201,85,44,.15);color:#e07a45;border-color:rgba(201,85,44,.4)">object</span><span><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.t)}</a></span></div>`;
+    });
+  }
+  return h + `</div>`;
+}
+function axesHTML(node){
+  if(!node.axes) return "";
+  return `<div class="axes">
+    <div class="axis ax-e"><h5><i></i>Ethnomedical</h5><p>${node.axes.e}</p></div>
+    <div class="axis ax-m"><h5><i></i>Mystical experience</h5><p>${node.axes.m}</p></div>
+    <div class="axis ax-p"><h5><i></i>Pharmacological discovery</h5><p>${node.axes.p}</p></div>
+  </div>`;
+}
+function noteHTML(node, where){
+  const a = ann(node.id);
+  const opts = STATUSES.map(([v,l])=>`<option value="${v}"${a.status===v?" selected":""}>${l}</option>`).join("");
+  return `<div class="notebox">
+    <label>Your narrativisation
+      <select class="status" data-node="${node.id}" data-where="${where}">${opts}</select>
+    </label>
+    <textarea data-node="${node.id}" data-where="${where}" placeholder="What this beat is doing in your story — the angle, the objection, the line you'd actually say out loud…">${esc(a.note)}</textarea>
+  </div>`;
+}
+function greekHTML(node){
+  if(!node.grk) return "";
+  return `<div class="greekblock">
+    <p class="grk">${brk(node.grk)}</p>
+    ${node.translit?`<p class="translit">${esc(node.translit)}</p>`:""}
+    ${node.eng?`<p class="eng">“${esc(node.eng)}”</p>`:""}
+    ${node.cite?`<p class="cite">${esc(node.cite)}</p>`:""}
+  </div>`;
+}
+
+/* ---------------- SCROLL VIEW ---------------- */
+function buildSlides(){
+  const stage = $("#stage");
+  stage.innerHTML = SLIDES.map((n,i)=>{
+    const art = n.art
+      ? `<div class="artframe"><svg viewBox="0 0 400 300"><use href="#${n.art}"/></svg>
+           <div class="artcap">Drawn for this map in the red-figure manner<br>real objects &amp; museum records linked below</div></div>${sourcesHTML(n)}`
+      : sourcesHTML(n);
+    const left = `${greekHTML(n)}<div class="prose">${n.prose||""}</div>${axesHTML(n)}${noteHTML(n,"slide")}`;
+    return `<section class="slide" data-i="${i}" id="slide-${i}"><div class="slideinner">
+      <div class="actline">${esc(n.act||"")} · ${String(i).padStart(2,"0")} / ${String(SLIDES.length-1).padStart(2,"0")}</div>
+      <h1 class="slidetitle">${esc(n.title||n.label)}</h1>
+      <div class="subtitle">${esc(n.label||"")}</div>
+      <div class="slidegrid"><div>${left}</div><div>${art}</div></div>
+    </div></section>`;
+  }).join("");
+
+  $("#dots").innerHTML = SLIDES.map((n,i)=>`<button class="dot" data-i="${i}" title="${esc(n.title||n.label)}"></button>`).join("");
+  $$("#dots .dot").forEach(d=>d.onclick=()=>goSlide(+d.dataset.i));
+
+  const stg = $("#stage");
+  stg.addEventListener("scroll", ()=>{
+    const i = Math.round(stg.scrollTop / stg.clientHeight);
+    if(i!==state.idx){ state.idx = Math.max(0,Math.min(SLIDES.length-1,i)); paintDots(); }
+  }, {passive:true});
+}
+function goSlide(i){
+  state.idx = Math.max(0, Math.min(SLIDES.length-1, i));
+  const el = document.getElementById("slide-"+state.idx);
+  if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
+  paintDots();
+}
+function paintDots(){
+  $$("#dots .dot").forEach(d=>{
+    const i = +d.dataset.i;
+    d.classList.toggle("on", i===state.idx);
+    d.classList.toggle("noted", isAnnotated(SLIDES[i].id));
+  });
+}
+
+/* ---------------- CONSTELLATION ---------------- */
+const G = {svg:null, root:null, w:0, h:0, nodes:[], links:[], raf:null, alpha:1,
+           k:1, tx:0, ty:0, drag:null, pan:null};
+
+function buildGraph(){
+  const svg = $("#graph"); G.svg = svg;
+  const wrap = $("#graphwrap");
+  G.w = wrap.clientWidth || 900; G.h = wrap.clientHeight || 600;
+
+  const R = Math.min(G.w, G.h) * 0.42;
+  G.nodes = N.map((n,i)=>{
+    const isBeat = n.type==="beat";
+    const a = isBeat ? ((n.order||0)/18)*Math.PI*2 : (i/N.length)*Math.PI*2 + 0.7;
+    const r = isBeat ? R*0.55 : R*1.15;
+    return {id:n.id, d:n, x:G.w/2 + Math.cos(a)*r*1.25 + (Math.random()-.5)*60,
+            y:G.h/2 + Math.sin(a)*r + (Math.random()-.5)*60, vx:0, vy:0, fixed:false};
+  });
+  const byId = {}; G.nodes.forEach(n=>byId[n.id]=n);
+  G.links = E.map(e=>({s:byId[e.s], t:byId[e.t]})).filter(l=>l.s&&l.t);
+
+  svg.innerHTML = `<g id="groot">
+    <g id="glinks">${G.links.map((l,i)=>`<line class="glink" data-i="${i}"/>`).join("")}</g>
+    <g id="gnodes">${G.nodes.map(n=>{
+      const c = TYPES[n.d.type].color;
+      const r = n.d.type==="beat" ? 9 : (n.d.type==="thesis" ? 8 : 7);
+      return `<g class="gnode" data-id="${n.id}" style="cursor:pointer">
+        <circle r="${r}" fill="${c}" stroke="#0d0906" stroke-width="2"/>
+        <circle class="ring" r="${r+4}" fill="none" stroke="${c}" stroke-width="1" opacity="0"/>
+        <text x="0" y="${-(r+7)}" text-anchor="middle">${esc(n.d.label)}</text>
+      </g>`;}).join("")}</g>
+  </g>`;
+  G.root = svg.querySelector("#groot");
+
+  // legend
+  const lg = $("#legend");
+  lg.innerHTML = `<h6>Strata</h6>` + Object.entries(TYPES).map(([k,v])=>{
+    const c = N.filter(n=>n.type===k).length;
+    return `<button data-t="${k}"><i style="background:${v.color}"></i>${v.label} <span style="opacity:.5;margin-left:auto">${c}</span></button>`;
+  }).join("");
+  lg.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    const t = b.dataset.t;
+    if(state.hidden.has(t)) state.hidden.delete(t); else state.hidden.add(t);
+    b.classList.toggle("off", state.hidden.has(t));
+    applyFilter();
+  });
+
+  svg.querySelectorAll(".gnode").forEach(g=>{
+    g.addEventListener("pointerdown", ev=>{
+      ev.stopPropagation();
+      const n = byId[g.dataset.id];
+      G.drag = {n, moved:false};
+      g.setPointerCapture(ev.pointerId);
+    });
+    g.addEventListener("pointermove", ev=>{
+      if(!G.drag || G.drag.n.id!==g.dataset.id) return;
+      const p = toLocal(ev); G.drag.n.x = p.x; G.drag.n.y = p.y;
+      G.drag.n.vx = G.drag.n.vy = 0; G.drag.n.fixed = true; G.drag.moved = true;
+      G.alpha = Math.max(G.alpha, .35); tick(true);
+    });
+    g.addEventListener("pointerup", ev=>{
+      if(G.drag && !G.drag.moved) select(g.dataset.id);
+      G.drag = null;
+    });
+    g.addEventListener("dblclick", ev=>{ ev.stopPropagation(); byId[g.dataset.id].fixed=false; G.alpha=.5; run(); });
+  });
+
+  svg.addEventListener("pointerdown", ev=>{ if(ev.target===svg||ev.target===G.root){ G.pan={x:ev.clientX,y:ev.clientY,tx:G.tx,ty:G.ty}; svg.classList.add("grabbing"); }});
+  window.addEventListener("pointermove", ev=>{
+    if(!G.pan) return;
+    G.tx = G.pan.tx + (ev.clientX-G.pan.x); G.ty = G.pan.ty + (ev.clientY-G.pan.y); applyTransform();
+  });
+  window.addEventListener("pointerup", ()=>{ G.pan=null; svg.classList.remove("grabbing"); });
+  svg.addEventListener("wheel", ev=>{
+    ev.preventDefault();
+    const f = ev.deltaY < 0 ? 1.1 : 1/1.1;
+    const nk = Math.max(.35, Math.min(3, G.k*f));
+    const r = svg.getBoundingClientRect();
+    const mx = ev.clientX-r.left, my = ev.clientY-r.top;
+    G.tx = mx - (mx-G.tx)*(nk/G.k); G.ty = my - (my-G.ty)*(nk/G.k);
+    G.k = nk; applyTransform();
+  }, {passive:false});
+
+  new ResizeObserver(()=>{
+    G.w = wrap.clientWidth||G.w; G.h = wrap.clientHeight||G.h; G.alpha=.4; run();
+  }).observe(wrap);
+
+  G.alpha = 1; run();
+}
+function applyTransform(){ G.root.setAttribute("transform", `translate(${G.tx},${G.ty}) scale(${G.k})`); }
+function toLocal(ev){
+  const r = G.svg.getBoundingClientRect();
+  return {x:((ev.clientX-r.left)-G.tx)/G.k, y:((ev.clientY-r.top)-G.ty)/G.k};
+}
+function tick(once){
+  const nodes = G.nodes, links = G.links;
+  const cx = G.w/2, cy = G.h/2, a = G.alpha;
+  for(let i=0;i<nodes.length;i++){
+    const p = nodes[i];
+    for(let j=i+1;j<nodes.length;j++){
+      const q = nodes[j];
+      let dx = q.x-p.x, dy = q.y-p.y;
+      let d2 = dx*dx+dy*dy; if(d2<1) d2=1;
+      const d = Math.sqrt(d2);
+      const f = 14000/d2;
+      const ux = dx/d, uy = dy/d;
+      p.vx -= ux*f*a; p.vy -= uy*f*a; q.vx += ux*f*a; q.vy += uy*f*a;
+      // hard collision floor so labels stay legible
+      const MIN = 62;
+      if(d < MIN){
+        const push = (MIN-d)*0.32;
+        if(!p.fixed){ p.x -= ux*push; p.y -= uy*push; }
+        if(!q.fixed){ q.x += ux*push; q.y += uy*push; }
+      }
+    }
+  }
+  links.forEach(l=>{
+    const dx = l.t.x-l.s.x, dy = l.t.y-l.s.y;
+    const d = Math.max(1, Math.hypot(dx,dy));
+    const rest = 190;
+    const f = (d-rest)*0.010*a;
+    const ux = dx/d, uy = dy/d;
+    l.s.vx += ux*f; l.s.vy += uy*f; l.t.vx -= ux*f; l.t.vy -= uy*f;
+  });
+  nodes.forEach(n=>{
+    n.vx += (cx-n.x)*0.0012*a; n.vy += (cy-n.y)*0.0012*a;
+    if(n.fixed){ n.vx=n.vy=0; return; }
+    n.vx *= 0.86; n.vy *= 0.86;
+    n.x += Math.max(-18,Math.min(18,n.vx));
+    n.y += Math.max(-18,Math.min(18,n.vy));
+  });
+  paintGraph();
+  if(!once) G.alpha = Math.max(0, G.alpha*0.985 - 0.0004);
+}
+function paintGraph(){
+  const ls = G.svg.querySelectorAll("#glinks line");
+  G.links.forEach((l,i)=>{
+    const e = ls[i]; if(!e) return;
+    e.setAttribute("x1",l.s.x); e.setAttribute("y1",l.s.y);
+    e.setAttribute("x2",l.t.x); e.setAttribute("y2",l.t.y);
+  });
+  G.svg.querySelectorAll(".gnode").forEach(g=>{
+    const n = G.nodes.find(x=>x.id===g.dataset.id);
+    if(n) g.setAttribute("transform",`translate(${n.x},${n.y})`);
+  });
+}
+function run(){
+  cancelAnimationFrame(G.raf);
+  const step = ()=>{ tick(); if(G.alpha>0.005) G.raf = requestAnimationFrame(step); };
+  step();
+}
+function applyFilter(){
+  const hid = state.hidden;
+  G.svg.querySelectorAll(".gnode").forEach(g=>{
+    const n = NBY[g.dataset.id];
+    g.style.display = hid.has(n.type) ? "none" : "";
+  });
+  const ls = G.svg.querySelectorAll("#glinks line");
+  G.links.forEach((l,i)=>{
+    const e = ls[i]; if(!e) return;
+    e.style.display = (hid.has(l.s.d.type)||hid.has(l.t.d.type)) ? "none" : "";
+  });
+}
+function select(id){
+  state.sel = id;
+  const nbrs = new Set([id]);
+  G.links.forEach(l=>{ if(l.s.id===id) nbrs.add(l.t.id); if(l.t.id===id) nbrs.add(l.s.id); });
+  G.svg.querySelectorAll(".gnode").forEach(g=>{
+    const on = nbrs.has(g.dataset.id);
+    g.classList.toggle("dim", !on);
+    g.classList.toggle("sel", g.dataset.id===id);
+    const ring = g.querySelector(".ring");
+    if(ring) ring.setAttribute("opacity", g.dataset.id===id ? ".85" : "0");
+  });
+  const ls = G.svg.querySelectorAll("#glinks line");
+  G.links.forEach((l,i)=>{
+    const e = ls[i]; if(!e) return;
+    const hot = l.s.id===id || l.t.id===id;
+    e.classList.toggle("hot", hot); e.classList.toggle("dim", !hot);
+  });
+  renderPanel(id);
+}
+function renderPanel(id){
+  const n = NBY[id]; if(!n) return;
+  const ty = TYPES[n.type];
+  const linked = (n.links||[]).filter(x=>NBY[x]);
+  $("#panel").innerHTML = `
+    <div class="ptype" style="color:${ty.color}"><i style="background:${ty.color}"></i>${ty.label}</div>
+    <h3>${esc(n.title || n.label)}</h3>
+    ${n.grk?`<div class="pgrk">${brk(n.grk)}</div>`:""}
+    ${n.translit?`<div class="ptr">${esc(n.translit)}</div>`:""}
+    ${n.gloss?`<div class="ptr" style="font-style:normal;color:#c9bda6;letter-spacing:0;font-size:12.5px">${esc(n.gloss)}</div>`:""}
+    ${n.eng&&n.type==="beat"?`<div class="ptr" style="font-style:normal;color:#c9bda6;letter-spacing:0;font-size:12.5px">“${esc(n.eng)}”</div>`:""}
+    ${n.cite?`<div class="ptr" style="color:#e07a45;text-transform:uppercase;font-size:9.5px;letter-spacing:.16em;font-style:normal">${esc(n.cite)}</div>`:""}
+    <div class="rule"></div>
+    <div class="pbody">${n.prose||""}</div>
+    ${axesHTML(n)}
+    ${sourcesHTML(n)}
+    ${noteHTML(n,"panel")}
+    ${typeof n.order==="number"?`<button class="gotoslide" data-go="${n.order}">Open beat ${String(n.order).padStart(2,"0")} in the Scroll →</button>`:""}
+    ${linked.length?`<div class="srchead" style="margin-top:18px;font-family:var(--sans);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--mute)">Connected</div>
+      <div class="linkedlist">${linked.map(x=>`<button data-jump="${x}">${esc(NBY[x].label)}</button>`).join("")}</div>`:""}
+  `;
+  $("#panel").scrollTop = 0;
+  const go = $("#panel [data-go]");
+  if(go) go.onclick = ()=>{ setMode("scroll"); goSlide(+go.dataset.go); };
+  $("#panel").querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>select(b.dataset.jump));
+}
+
+/* ---------------- notes wiring (delegated, syncs both views) ---------------- */
+document.addEventListener("input", e=>{
+  const t = e.target;
+  if(t.matches("textarea[data-node]")){
+    ann(t.dataset.node).note = t.value;
+    syncNode(t.dataset.node, t.dataset.where);
+    updateProgress();
+  }
+});
+document.addEventListener("change", e=>{
+  const t = e.target;
+  if(t.matches("select.status[data-node]")){
+    ann(t.dataset.node).status = t.value;
+    syncNode(t.dataset.node, t.dataset.where);
+    updateProgress();
+  }
+});
+function syncNode(id, from){
+  const a = ann(id);
+  $$(`textarea[data-node="${id}"]`).forEach(el=>{ if(el.dataset.where!==from) el.value = a.note; });
+  $$(`select.status[data-node="${id}"]`).forEach(el=>{ if(el.dataset.where!==from) el.value = a.status; });
+  paintDots();
+}
+function updateProgress(){
+  const done = N.filter(n=>isAnnotated(n.id)).length;
+  $("#progLabel").textContent = `${done} / ${N.length} ANNOTATED`;
+  $("#progFill").style.width = (done/N.length*100).toFixed(1)+"%";
+  paintDots();
+}
+
+/* ---------------- export / import ---------------- */
+function download(name, text, mime){
+  const b = new Blob([text], {type:mime||"text/plain;charset=utf-8"});
+  const u = URL.createObjectURL(b);
+  const a = document.createElement("a"); a.href=u; a.download=name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(u), 3000);
+}
+function exportAll(){
+  const stamp = new Date().toISOString().slice(0,10);
+  const payload = {
+    map:"Pharmakon Himerou — Homeric Hymn 5 working map",
+    version:1, exported:new Date().toISOString(),
+    annotations: Object.fromEntries(Object.entries(state.ann).filter(([k,v])=>v.note.trim()||v.status))
+  };
+  download(`aphrodite-map-${stamp}.json`, JSON.stringify(payload,null,2), "application/json");
+
+  let md = `# Φάρμακον Ἱμέρου — working notes\n\n_Homeric Hymn 5 read as an ethnomedical document · exported ${stamp}_\n\n`;
+  const groups = {beat:"Narrative beats", pharmakon:"Pharmaka", term:"Greek terms", agent:"Agents", source:"Sources", thesis:"Theses"};
+  Object.keys(groups).forEach(g=>{
+    const rows = N.filter(n=>n.type===g && isAnnotated(n.id));
+    if(!rows.length) return;
+    md += `## ${groups[g]}\n\n`;
+    rows.forEach(n=>{
+      const a = ann(n.id);
+      const st = (STATUSES.find(s=>s[0]===a.status)||["",""])[1];
+      md += `### ${n.title||n.label}${n.cite?` — ${n.cite}`:""}\n\n`;
+      if(n.grk) md += `> ${n.grk.replace(/\n/g,"\n> ")}\n>\n> _${n.translit||""}_\n>\n> ${n.eng||n.gloss||""}\n\n`;
+      if(a.status) md += `**Status:** ${st}\n\n`;
+      if(a.note.trim()) md += `${a.note.trim()}\n\n`;
+      md += `_Sources:_ ${(n.sources||[]).map(s=>`(${s.tier==="v"?"verified":s.tier==="a"?"attested":"interpretive"}) ${s.text}`).join(" · ")}\n\n`;
+    });
+  });
+  md += `\n---\n\nGreek for Homeric Hymn 5 verified against the Perseus canonical-greekLit XML (tlg0013.tlg005.perseus-grc2). Items marked *attested* still need chapter-level confirmation.\n`;
+  download(`aphrodite-map-${stamp}.md`, md, "text/markdown;charset=utf-8");
+  toast("Exported JSON + Markdown");
+}
+function importJSON(file){
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const d = JSON.parse(r.result);
+      const a = d.annotations || d;
+      let k = 0;
+      Object.entries(a).forEach(([id,v])=>{
+        if(!NBY[id] || !v) return;
+        state.ann[id] = {note:String(v.note||""), status:String(v.status||"")};
+        k++;
+      });
+      $$("textarea[data-node]").forEach(el=>el.value = ann(el.dataset.node).note);
+      $$("select.status[data-node]").forEach(el=>el.value = ann(el.dataset.node).status);
+      updateProgress();
+      if(state.sel) renderPanel(state.sel);
+      toast(`Imported ${k} notes`);
+    }catch(err){ toast("Could not read that file"); }
+  };
+  r.readAsText(file);
+}
+
+/* ---------------- modes, modal, keys ---------------- */
+function setMode(m){
+  state.mode = m;
+  $("#scrollview").classList.toggle("on", m==="scroll");
+  $("#webview").classList.toggle("on", m==="web");
+  $("#btnScroll").classList.toggle("on", m==="scroll");
+  $("#btnWeb").classList.toggle("on", m==="web");
+  if(m==="web"){
+    if(!G.svg) buildGraph();
+    else { G.w=$("#graphwrap").clientWidth; G.h=$("#graphwrap").clientHeight; G.alpha=Math.max(G.alpha,.25); run(); }
+  }
+}
+function openKey(){
+  $("#modalbody").innerHTML = `
+    <button class="closemodal" id="closeM">close</button>
+    <h2>Πῶς χρῆσθαι — how to work this map</h2>
+    <p style="color:#8d8069;font-family:var(--sans);font-size:10px;letter-spacing:.24em;text-transform:uppercase">Source tiers, keys, and the honesty policy</p>
+    <h4>Source tiers</h4>
+    <p>${tierChip("v")} The Greek was checked verbatim in this session against the Perseus <em>canonical-greekLit</em> XML for Homeric Hymn 5 (tlg0013.tlg005.perseus-grc2). If a line carries this chip, you can quote it.</p>
+    <p>${tierChip("a")} Attested from a library edition consulted earlier in this project — Dioscorides, Aëtius, Cornutus, <em>Iliad</em> 14, <em>Odyssey</em> 4. The substance of the claim is sound; the <strong>chapter and line numbers have not been re-verified</strong>. Pin them before publishing.</p>
+    <p>${tierChip("i")} An interpretation — mine or yours. Not a source claim. These are the moves a classicist would push back on, and they are flagged deliberately so you can defend them on purpose.</p>
+    <h4>The three axes</h4>
+    <ul>
+      <li><strong style="color:#7d9a6a">Ethnomedical</strong> — what this beat contributes as evidence about real substances and real practice.</li>
+      <li><strong style="color:#b58bc4">Mystical experience</strong> — what it says about the structure of the rite and the state it induces.</li>
+      <li><strong style="color:#e07a45">Pharmacological discovery</strong> — what it says about <em>how knowledge of a substance was found, held and transmitted</em>.</li>
+    </ul>
+    <h4>Keys</h4>
+    <p><kbd>←</kbd> <kbd>→</kbd> or <kbd>J</kbd> <kbd>K</kbd> move through beats · <kbd>G</kbd> toggles the constellation · <kbd>E</kbd> exports · <kbd>?</kbd> opens this · <kbd>Esc</kbd> closes.</p>
+    <h4>Where your notes live</h4>
+    <p>In memory, and nowhere else. This page writes nothing to your browser. Hit <strong>Export</strong> to pull a JSON (re-importable) and a Markdown file (readable, quotable, ready to draft from). <strong>Reloading loses unexported notes</strong> — export before you close.</p>
+    <h4>The Greek</h4>
+    <p>Polytonic accents matter and are reproduced as printed. If any glyph shows as a box, your system lacks a polytonic serif — the transliteration line underneath each passage carries the same information.</p>
+    <h4>One caution</h4>
+    <p>The strongest version of this argument is the one that names its own weak points. Every thesis node on the constellation carries a <em>“weakness to address”</em> paragraph. Use them. An ethnomedical reading of a hymn is a real contribution when it is disciplined and an embarrassment when it is not, and the difference is entirely in how the interpretive tier is handled.</p>`;
+  $("#modal").classList.add("on");
+  $("#closeM").onclick = ()=>$("#modal").classList.remove("on");
+}
+
+document.addEventListener("keydown", e=>{
+  if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) {
+    if(e.key==="Escape") e.target.blur();
+    return;
+  }
+  const k = e.key.toLowerCase();
+  if(k==="escape"){ $("#modal").classList.remove("on"); return; }
+  if(k==="?"||(e.shiftKey&&k==="/")){ openKey(); return; }
+  if(k==="g"){ setMode(state.mode==="web"?"scroll":"web"); return; }
+  if(k==="e"){ exportAll(); return; }
+  if(state.mode!=="scroll") return;
+  if(k==="arrowright"||k==="arrowdown"||k==="j"||k===" "){ e.preventDefault(); goSlide(state.idx+1); }
+  if(k==="arrowleft"||k==="arrowup"||k==="k"){ e.preventDefault(); goSlide(state.idx-1); }
+  if(k==="home"){ goSlide(0); } if(k==="end"){ goSlide(SLIDES.length-1); }
+});
+
+/* ---------------- boot ---------------- */
+buildSlides();
+paintDots();
+updateProgress();
+$("#btnScroll").onclick = ()=>setMode("scroll");
+$("#btnWeb").onclick    = ()=>setMode("web");
+$("#prevBtn").onclick   = ()=>goSlide(state.idx-1);
+$("#nextBtn").onclick   = ()=>goSlide(state.idx+1);
+$("#btnKey").onclick    = openKey;
+$("#btnExport").onclick = exportAll;
+$("#btnImport").onclick = ()=>$("#fileIn").click();
+$("#fileIn").onchange   = e=>{ if(e.target.files[0]) importJSON(e.target.files[0]); e.target.value=""; };
+$("#modal").addEventListener("click", e=>{ if(e.target.id==="modal") $("#modal").classList.remove("on"); });
+</script>
+</body>
+</html>
