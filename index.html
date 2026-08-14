@@ -199,9 +199,10 @@ h1.slidetitle{
 }
 .artstack .artphoto.in{opacity:1}
 .artframe.has-photo .artstack{overflow:hidden;border-radius:2px}
+/* Keep this whisper-light. At 60px/.55 it crushed the artefacts to near-black. */
 .artframe.has-photo .artstack::after{
   content:"";position:absolute;inset:0;pointer-events:none;
-  box-shadow:inset 0 0 60px rgba(13,9,6,.55);
+  box-shadow:inset 0 0 18px rgba(13,9,6,.22);
 }
 .artcap .cred{
   display:inline-block;margin-top:4px;font-size:8.5px;letter-spacing:.1em;
@@ -2047,8 +2048,13 @@ function buildSlides(){
 
   const stg = $("#stage");
   stg.addEventListener("scroll", ()=>{
-    const i = Math.round(stg.scrollTop / stg.clientHeight);
-    if(i!==state.idx){ state.idx = Math.max(0,Math.min(SLIDES.length-1,i)); paintDots(); }
+    /* Slides are taller than the viewport, so scrollTop/clientHeight lies.
+       Find the last slide whose top has passed the reading line. */
+    const line = stg.scrollTop + stg.clientHeight * 0.35;
+    const ss = stg.querySelectorAll(".slide");
+    let i = 0;
+    for(let n=0;n<ss.length;n++){ if(ss[n].offsetTop <= line) i = n; else break; }
+    if(i!==state.idx){ state.idx = i; paintDots(); }
   }, {passive:true});
 }
 function goSlide(i){
