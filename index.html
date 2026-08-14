@@ -188,9 +188,27 @@ h1.slidetitle{
 
 .artframe{
   border:1px solid var(--line);background:linear-gradient(160deg,#171009,#0e0a06);
-  padding:14px;position:relative;
+  padding:14px;position:relative;margin:0;
 }
 .artframe svg{display:block;width:100%;height:auto}
+/* photograph sits over the drawing; drawing shows if the photo never arrives */
+.artstack{position:relative}
+.artstack .artphoto{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .5s ease;background:#0d0906;
+}
+.artstack .artphoto.in{opacity:1}
+.artframe.has-photo .artstack{overflow:hidden;border-radius:2px}
+.artframe.has-photo .artstack::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 60px rgba(13,9,6,.55);
+}
+.artcap .cred{
+  display:inline-block;margin-top:4px;font-size:8.5px;letter-spacing:.1em;
+  color:rgba(141,128,105,.85);text-transform:none;
+}
+.artcap .cred a{color:var(--ochre);text-decoration:none;border-bottom:1px solid rgba(224,173,72,.3)}
+.artcap .cred a:hover{color:var(--gold)}
 .artcap{
   font-family:var(--sans);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--mute);margin-top:10px;text-align:center;line-height:1.7;
@@ -300,6 +318,30 @@ select.status:focus{outline:none;border-color:var(--line-strong)}
 }
 .legtoggle:hover{color:var(--gold)}
 .legtoggle span{margin-left:auto;font-size:10px}
+#gsearch{position:absolute;left:12px;bottom:14px;z-index:7;width:230px;max-width:calc(100% - 24px)}
+#gsearch input{
+  width:100%;font-family:var(--serif);font-size:13.5px;color:var(--bone);
+  background:rgba(13,9,6,.92);border:1px solid var(--line-strong);border-radius:2px;
+  padding:10px 12px;outline:none;
+}
+#gsearch input:focus{border-color:var(--ochre)}
+#gres{display:none;margin-top:6px;background:rgba(13,9,6,.96);border:1px solid var(--line-strong);border-radius:2px;overflow:hidden}
+#gres.on{display:block}
+#gres button{
+  display:flex;align-items:center;gap:9px;width:100%;text-align:left;cursor:pointer;
+  background:transparent;border:0;border-bottom:1px solid rgba(239,227,203,.07);
+  color:var(--bone-dim);font-family:var(--sans);font-size:11.5px;padding:10px 11px;transition:.13s;
+}
+#gres button:hover{background:rgba(224,173,72,.16);color:var(--gold)}
+#gres button i{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+#gres .gnone{padding:10px 11px;font-family:var(--sans);font-size:11px;color:var(--mute)}
+.panelclose{
+  position:absolute;right:12px;top:12px;z-index:3;width:34px;height:34px;border-radius:2px;
+  background:rgba(239,227,203,.06);border:1px solid var(--line);color:var(--bone-dim);
+  cursor:pointer;font-size:13px;line-height:1;padding:0;transition:.15s;
+}
+.panelclose:hover{background:var(--ochre);color:#150e07;border-color:var(--ochre)}
+#panel{position:relative}
 #zoomctl{
   position:absolute;right:12px;top:12px;display:flex;flex-direction:column;gap:6px;z-index:6;
 }
@@ -526,6 +568,11 @@ body{overflow-x:hidden}
   .legend{left:8px;top:8px;padding:8px 10px;max-width:150px}
   .legend button{font-size:10px;padding:4px 0}
   .graphhint{display:none}
+  #gsearch{left:8px;right:8px;bottom:10px;width:auto;max-width:none}
+  #gsearch input{font-size:16px;padding:12px}   /* 16px stops iOS zooming the page on focus */
+  #gres{max-height:44vh;overflow-y:auto}
+  #gres button{padding:13px 12px;font-size:12.5px}
+  .panelclose{width:40px;height:40px;right:9px;top:9px}
   .gnode text{font-size:11px}
 
   /* reader */
@@ -1832,6 +1879,43 @@ function toast(msg){
 function ann(id){ return state.ann[id] || (state.ann[id] = {note:"", status:""}); }
 function isAnnotated(id){ const a = state.ann[id]; return !!(a && (a.note.trim() || a.status)); }
 
+/* ================= REAL OBJECTS =================
+   Photographs of the actual artefacts, served from Wikimedia Commons via
+   Special:FilePath (a stable redirect — no MD5 hash path needed).
+   The hand-drawn SVG stays underneath as the fallback: if an image is
+   slow or blocked, the drawing shows instead of a hole. */
+const CF = f => `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(f)}?width=900`;
+const CPAGE = f => `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(f)}`;
+
+const PHOTOS = {
+  s0:  {f:"Marble Head of Aphrodite, Cnidus (Knidos) Type, Roman Imperial Era Copy of Praxiteles (28021465250).jpg",
+        cap:"Head of Aphrodite, Knidian type — Roman copy after Praxiteles", by:"Gary Todd", lic:"CC0"},
+  s1:  {f:"Hestia Giustiniani Torlonia Collection MT490.jpg",
+        cap:"The “Hestia Giustiniani” — Torlonia Collection MT490", by:"Marie-Lan Taÿ Pamart", lic:"Public domain"},
+  s2:  {f:"Greek Bronze Statuette of Zeus Casting Thunderbolt, from Sanctuary of Zeus at Dodona, c. 470 BC (28119982014).jpg",
+        cap:"Zeus casting the thunderbolt — bronze, Dodona, c. 470 BC", by:"Gary Todd", lic:"CC0"},
+  s4:  {f:"Santuary of Aphrodite at Palaepafos, Cyprus - panoramio (1).jpg",
+        cap:"Sanctuary of Aphrodite at Palaepaphos, Cyprus", by:"Wojciech Biegun", lic:"CC BY-SA 3.0"},
+  s5:  {f:"The Three Graces, from Pompeii (fresco).jpg",
+        cap:"The Three Graces — fresco from Pompeii", by:"—", lic:"Public domain"},
+  s6:  {f:"Terracotta alabastron (perfume vase) MET DP114962.jpg",
+        cap:"Terracotta alabastron (perfume vase) — Metropolitan Museum", by:"The Met", lic:"CC0"},
+  s7:  {f:"Roman Thymiaterion, Bronze Incense Burner, 1st-2nd AD (10451187234).jpg",
+        cap:"Thymiaterion — bronze incense burner, 1st–2nd c. AD", by:"Gary Todd", lic:"CC0"},
+  s8:  {f:"Potnia Theron, Akrotiri.jpg",
+        cap:"Potnia Therōn, the Mistress of Animals — Akrotiri, Thera", by:"—", lic:"Public domain"},
+  s9:  {f:"ACMA 679 Kore 2.JPG",
+        cap:"The Peplos Kore — Acropolis Museum 679, c. 530 BC", by:"—", lic:"CC BY-SA 2.5"},
+  s10: {f:"Aphrodite Eros Louvre CA928.jpg",
+        cap:"Aphrodite and Eros — Attic vase, Louvre CA 928", by:"—", lic:"Public domain"},
+  s12: {f:"Banqueters Met 1979.11.8.jpg",
+        cap:"Banqueters reclining on a klinē — kylix signed by Hieron, painted by Makron", by:"The Met", lic:"CC BY 2.5"},
+  s13: {f:"Bronze head of Hypnos (god of sleep), 1st - 2nd century AD, copy of a Hellenistic original, found at Civitella d'Arno (near Perugia, Italy), British Museum, London (15104634374).jpg",
+        cap:"Bronze head of Hypnos — British Museum", by:"Carole Raddato", lic:"CC BY-SA 2.0"},
+  s14: {f:"Aphrodisias Museum Anchises and Aphrodite 4649.jpg",
+        cap:"Aphrodite and Anchises — relief from the Sebasteion, Aphrodisias", by:"Dosseman", lic:"CC BY-SA 4.0"}
+};
+
 /* ---------------- reading links ----------------
    Line ranges in Hymn 5 for each node, used to deep-link a READABLE
    edition. The raw XML is provenance only — never the reading link. */
@@ -1934,9 +2018,20 @@ function greekHTML(node){
 function buildSlides(){
   const stage = $("#stage");
   stage.innerHTML = SLIDES.map((n,i)=>{
+    const ph = PHOTOS[n.id];
     const art = n.art
-      ? `<div class="artframe"><svg viewBox="0 0 400 300"><use href="#${n.art}"/></svg>
-           <div class="artcap">Drawn for this map in the red-figure manner<br>real objects &amp; museum records linked below</div></div>${sourcesHTML(n)}`
+      ? `<figure class="artframe${ph?" has-photo":""}">
+           <div class="artstack">
+             <svg viewBox="0 0 400 300" aria-hidden="true"><use href="#${n.art}"/></svg>
+             ${ph?`<img class="artphoto" src="${esc(CF(ph.f))}" alt="${esc(ph.cap)}"
+                     loading="lazy" decoding="async"
+                     onload="this.classList.add('in')"
+                     onerror="this.remove();this.closest('.artframe')?.classList.add('photo-failed')">`:``}
+           </div>
+           <figcaption class="artcap">${ph
+             ? `${esc(ph.cap)}<br><span class="cred">${ph.by && ph.by!=="—" ? esc(ph.by)+" · " : ""}${esc(ph.lic)} · <a href="${esc(CPAGE(ph.f))}" target="_blank" rel="noopener">Commons ↗</a></span>`
+             : `Drawn for this map in the red-figure manner<br>real objects &amp; museum records linked below`}</figcaption>
+         </figure>${sourcesHTML(n)}`
       : sourcesHTML(n);
     const left = `${greekHTML(n)}<div class="prose">${n.prose||""}</div>${axesHTML(n)}${noteHTML(n,"slide")}`;
     return `<section class="slide" data-i="${i}" id="slide-${i}"><div class="slideinner">
@@ -2028,6 +2123,31 @@ function buildGraph(){
     applyFilter(); fitGraph();
   });
 
+  // search — labels are hidden when zoomed out, so you need another way in
+  const gs = document.createElement("div");
+  gs.id = "gsearch";
+  gs.innerHTML = `<input type="search" id="gq" placeholder="find a node…" autocomplete="off" spellcheck="false"><div id="gres"></div>`;
+  wrap.appendChild(gs);
+  const gq = gs.querySelector("#gq"), gres = gs.querySelector("#gres");
+  gq.addEventListener("input", ()=>{
+    const v = gq.value.trim().toLowerCase();
+    if(!v){ gres.innerHTML=""; gres.classList.remove("on"); return; }
+    const hay = n => [n.label,n.title,n.gloss,n.translit,n.grk].filter(Boolean).join(" ").toLowerCase();
+    const hits = N.filter(n=>!state.hidden.has(n.type) && hay(n).includes(v)).slice(0,8);
+    gres.innerHTML = hits.length
+      ? hits.map(n=>`<button type="button" data-go="${n.id}"><i style="background:${TYPES[n.type].color}"></i>${esc(n.label)}</button>`).join("")
+      : `<div class="gnone">nothing matches</div>`;
+    gres.classList.add("on");
+    gres.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{
+      focusNode(b.dataset.go);
+      gq.value=""; gres.innerHTML=""; gres.classList.remove("on"); gq.blur();
+    });
+  });
+  gq.addEventListener("keydown", e=>{
+    if(e.key==="Escape"){ gq.value=""; gres.innerHTML=""; gres.classList.remove("on"); gq.blur(); }
+    if(e.key==="Enter"){ const f=gres.querySelector("[data-go]"); if(f) f.click(); }
+  });
+
   // zoom / fit controls — the only way to work a 49-node graph on a phone
   const zc = document.createElement("div");
   zc.id = "zoomctl";
@@ -2047,9 +2167,16 @@ function buildGraph(){
   svg.querySelectorAll(".gnode").forEach(g=>{
     g.addEventListener("pointerdown", ev=>{
       ev.stopPropagation();
+      PT.set(ev.pointerId, {x:ev.clientX, y:ev.clientY});
+      if(PT.size === 2){                 // a second finger — pinch wins over drag
+        const [a,b] = [...PT.values()];
+        pinch = {dist: Math.hypot(b.x-a.x, b.y-a.y) || 1, k: G.k};
+        G.drag = null;
+        return;
+      }
       const n = byId[g.dataset.id];
       G.drag = {n, moved:false};
-      g.setPointerCapture(ev.pointerId);
+      try{ g.setPointerCapture(ev.pointerId); }catch(e){}
     });
     g.addEventListener("pointermove", ev=>{
       if(!G.drag || G.drag.n.id!==g.dataset.id) return;
@@ -2058,18 +2185,91 @@ function buildGraph(){
       G.alpha = Math.max(G.alpha, .35); tick(true);
     });
     g.addEventListener("pointerup", ev=>{
-      if(G.drag && !G.drag.moved) select(g.dataset.id);
+      PT.delete(ev.pointerId);
+      if(PT.size < 2) pinch = null;
+      if(G.drag && !G.drag.moved){
+        // double-tap a node to unpin it — dblclick does not fire reliably on touch
+        const now = ev.timeStamp;
+        if(g._lastTap && now - g._lastTap < 320){
+          byId[g.dataset.id].fixed = false; G.alpha = .5; run();
+          toast("Node released");
+          g._lastTap = 0;
+        } else {
+          g._lastTap = now;
+          select(g.dataset.id);
+        }
+      }
       G.drag = null;
     });
-    g.addEventListener("dblclick", ev=>{ ev.stopPropagation(); byId[g.dataset.id].fixed=false; G.alpha=.5; run(); });
+    g.addEventListener("pointercancel", ev=>{ PT.delete(ev.pointerId); if(PT.size<2) pinch=null; G.drag=null; });
   });
 
-  svg.addEventListener("pointerdown", ev=>{ if(ev.target===svg||ev.target===G.root){ G.pan={x:ev.clientX,y:ev.clientY,tx:G.tx,ty:G.ty}; svg.classList.add("grabbing"); }});
-  window.addEventListener("pointermove", ev=>{
-    if(!G.pan) return;
-    G.tx = G.pan.tx + (ev.clientX-G.pan.x); G.ty = G.pan.ty + (ev.clientY-G.pan.y); applyTransform();
+  /* ---- pan, pinch-zoom, double-tap, momentum ----
+     Written against pointer events so one code path serves mouse and touch. */
+  const PT = new Map();          // live pointers, for pinch
+  let pinch = null;              // {dist, k, cx, cy}
+  let lastTap = 0, lastTapXY = null;
+
+  svg.addEventListener("pointerdown", ev=>{
+    PT.set(ev.pointerId, {x:ev.clientX, y:ev.clientY});
+
+    if(PT.size === 2){                       // second finger down -> start pinch
+      const [a,b] = [...PT.values()];
+      pinch = {
+        dist: Math.hypot(b.x-a.x, b.y-a.y) || 1,
+        k: G.k,
+        cx: (a.x+b.x)/2, cy: (a.y+b.y)/2
+      };
+      G.pan = null; G.vel = null;
+      return;
+    }
+
+    if(ev.target===svg || ev.target===G.root){
+      // double-tap on empty canvas = zoom in one step
+      const now = ev.timeStamp;
+      if(now - lastTap < 320 && lastTapXY &&
+         Math.hypot(ev.clientX-lastTapXY[0], ev.clientY-lastTapXY[1]) < 40){
+        zoomAt(G.k*1.6, ev.clientX, ev.clientY);
+        lastTap = 0;
+        return;
+      }
+      lastTap = now; lastTapXY = [ev.clientX, ev.clientY];
+
+      G.pan = {x:ev.clientX, y:ev.clientY, tx:G.tx, ty:G.ty, t:now, lx:ev.clientX, ly:ev.clientY};
+      G.vel = null;
+      svg.classList.add("grabbing");
+    }
   });
-  window.addEventListener("pointerup", ()=>{ G.pan=null; svg.classList.remove("grabbing"); });
+
+  window.addEventListener("pointermove", ev=>{
+    if(PT.has(ev.pointerId)) PT.set(ev.pointerId, {x:ev.clientX, y:ev.clientY});
+
+    if(pinch && PT.size >= 2){
+      const [a,b] = [...PT.values()];
+      const d = Math.hypot(b.x-a.x, b.y-a.y) || 1;
+      const cx = (a.x+b.x)/2, cy = (a.y+b.y)/2;
+      zoomAt(pinch.k * (d/pinch.dist), cx, cy);
+      return;
+    }
+    if(!G.pan) return;
+    const dt = Math.max(1, ev.timeStamp - G.pan.t);
+    G.vel = {x:(ev.clientX-G.pan.lx)/dt, y:(ev.clientY-G.pan.ly)/dt};
+    G.pan.lx = ev.clientX; G.pan.ly = ev.clientY; G.pan.t = ev.timeStamp;
+    G.tx = G.pan.tx + (ev.clientX-G.pan.x);
+    G.ty = G.pan.ty + (ev.clientY-G.pan.y);
+    applyTransform();
+  });
+
+  const endPointer = ev=>{
+    PT.delete(ev.pointerId);
+    if(PT.size < 2) pinch = null;
+    if(G.pan){
+      G.pan = null; svg.classList.remove("grabbing");
+      glide();                                  // momentum
+    }
+  };
+  window.addEventListener("pointerup", endPointer);
+  window.addEventListener("pointercancel", endPointer);
   svg.addEventListener("wheel", ev=>{
     ev.preventDefault();
     const f = ev.deltaY < 0 ? 1.1 : 1/1.1;
@@ -2094,6 +2294,35 @@ function applyTransform(){
      user zooms in. The selected node keeps its label either way. */
   G.svg.classList.toggle("labels-off", G.k < 0.52);
   paintGraph();
+}
+
+/* Zoom about a screen point, so pinch and double-tap anchor where the
+   fingers are rather than jumping to the centre. */
+function zoomAt(nk, sx, sy){
+  nk = Math.max(.22, Math.min(3.2, nk));
+  const r = G.svg.getBoundingClientRect();
+  const px = sx - r.left, py = sy - r.top;
+  G.tx = px - (px - G.tx) * (nk/G.k);
+  G.ty = py - (py - G.ty) * (nk/G.k);
+  G.k = nk;
+  applyTransform();
+}
+
+/* Momentum after a flick, with friction. */
+function glide(){
+  cancelAnimationFrame(G.glideRaf);
+  if(!G.vel) return;
+  const CAP = 38;                                 // px/frame ceiling — a hard flick
+  let vx = Math.max(-CAP, Math.min(CAP, G.vel.x * 16));
+  let vy = Math.max(-CAP, Math.min(CAP, G.vel.y * 16));
+  if(Math.hypot(vx,vy) < 1.2) return;
+  const step = ()=>{
+    vx *= 0.94; vy *= 0.94;
+    G.tx += vx; G.ty += vy;
+    applyTransform();
+    if(Math.hypot(vx,vy) > 0.35) G.glideRaf = requestAnimationFrame(step);
+  };
+  G.glideRaf = requestAnimationFrame(step);
 }
 
 /* Frame the whole constellation inside the viewport. Essential on phones,
@@ -2198,6 +2427,27 @@ function applyFilter(){
     e.style.display = (hid.has(l.s.d.type)||hid.has(l.t.d.type)) ? "none" : "";
   });
 }
+/* Centre a node and make sure we're zoomed in far enough for labels. */
+function focusNode(id){
+  const n = G.nodes.find(x=>x.id===id); if(!n) return;
+  G.k = Math.max(G.k, .72);
+  G.tx = G.w/2 - n.x*G.k;
+  G.ty = (G.h/2 - n.y*G.k) - (G.w < 760 ? G.h*0.12 : 0);   // leave room for the sheet
+  applyTransform();
+  select(id);
+}
+
+/* Clear the selection and collapse the detail sheet. */
+function clearSel(){
+  state.sel = null;
+  G.svg.querySelectorAll(".gnode").forEach(g=>{
+    g.classList.remove("dim","sel");
+    const r = g.querySelector(".ring"); if(r) r.setAttribute("opacity","0");
+  });
+  G.svg.querySelectorAll("#glinks line").forEach(e=>e.classList.remove("hot","dim"));
+  $("#panel").innerHTML = `<div class="emptypanel">Select a node.<br>Each one carries its Greek, its<br>source tier, and your notes.</div>`;
+}
+
 function select(id){
   state.sel = id;
   const nbrs = new Set([id]);
@@ -2222,6 +2472,7 @@ function renderPanel(id){
   const ty = TYPES[n.type];
   const linked = (n.links||[]).filter(x=>NBY[x]);
   $("#panel").innerHTML = `
+    <button class="panelclose" type="button" aria-label="Close">✕</button>
     <div class="ptype" style="color:${ty.color}"><i style="background:${ty.color}"></i>${ty.label}</div>
     <h3>${esc(n.title || n.label)}</h3>
     ${n.grk?`<div class="pgrk">${brk(n.grk)}</div>`:""}
@@ -2239,6 +2490,7 @@ function renderPanel(id){
       <div class="linkedlist">${linked.map(x=>`<button data-jump="${x}">${esc(NBY[x].label)}</button>`).join("")}</div>`:""}
   `;
   $("#panel").scrollTop = 0;
+  const pc = $("#panel .panelclose"); if(pc) pc.onclick = clearSel;
   upgradeLex($("#panel"));
   const go = $("#panel [data-go]");
   if(go) go.onclick = ()=>{ setMode("scroll"); goSlide(+go.dataset.go); };
