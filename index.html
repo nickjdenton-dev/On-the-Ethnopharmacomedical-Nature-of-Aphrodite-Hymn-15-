@@ -73,8 +73,9 @@ header.topbar{
 .modeswitch button:hover{color:var(--gold);background:rgba(224,173,72,.07)}
 .modeswitch button.on{background:var(--ochre);color:#150e07;font-weight:600}
 .spacer{flex:1 1 auto}
-@media(max-width:1180px){.brandtext{display:none}}
-@media(max-width:980px){.progresswrap{display:none}.modeswitch button{padding:8px 10px;font-size:9.5px;letter-spacing:.12em}header.topbar{gap:10px;padding:9px 12px}}
+@media(max-width:1340px){.brandtext{display:none}}
+@media(max-width:1150px){.progresswrap{display:none}}
+@media(max-width:980px){.modeswitch button{padding:8px 10px;font-size:9.5px;letter-spacing:.12em}header.topbar{gap:10px;padding:9px 12px}}
 @media(max-width:700px){#btnImport{display:none}.navhint{display:none}}
 .tool{
   font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
@@ -131,9 +132,57 @@ h1.slidetitle{
 .prose p:last-child{margin-bottom:0}
 .prose em{color:var(--gold);font-style:italic}
 .prose strong{color:var(--bone);font-weight:600}
+/* gloss word — a definition, NOT a link. Dotted underline + degree marker. */
 .lex{
-  font-family:var(--grk);color:var(--ochre);border-bottom:1px dotted rgba(224,173,72,.5);
-  cursor:help;
+  font-family:var(--grk);color:var(--ochre);border-bottom:1px dotted rgba(224,173,72,.55);
+  cursor:help;position:relative;transition:.15s;
+}
+.lex::after{
+  content:"°";font-family:var(--sans);font-size:.72em;vertical-align:super;
+  color:rgba(224,173,72,.62);margin-left:1px;line-height:0;
+}
+.lex:hover,.lex:focus,.lex.open{
+  background:rgba(224,173,72,.14);color:var(--gold);
+  border-bottom-color:var(--gold);outline:none;border-radius:2px;
+}
+
+/* the popover itself */
+#pop{
+  position:fixed;z-index:500;max-width:330px;pointer-events:none;opacity:0;
+  transform:translateY(4px);transition:opacity .12s,transform .12s;
+  background:linear-gradient(165deg,#221a10,#100b07);
+  border:1px solid var(--line-strong);border-radius:3px;padding:11px 13px;
+  box-shadow:0 14px 40px rgba(0,0,0,.72);
+}
+#pop.on{opacity:1;transform:translateY(0)}
+#pop b{
+  display:block;font-family:var(--grk);font-size:17px;color:var(--gold);
+  margin-bottom:5px;font-weight:600;line-height:1.25;
+}
+#pop span{display:block;font-size:13.2px;line-height:1.55;color:var(--bone-dim)}
+#pop i{
+  display:block;margin-top:7px;font-family:var(--sans);font-size:8.5px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--mute);font-style:normal;
+}
+
+/* "read these lines" row — real outbound links, visually distinct from glosses */
+.readrow{
+  margin-top:16px;border:1px solid rgba(125,154,106,.3);border-radius:2px;
+  background:rgba(125,154,106,.06);padding:10px 12px;
+}
+.readrow h6{
+  margin:0 0 8px;font-family:var(--sans);font-size:9px;letter-spacing:.26em;
+  text-transform:uppercase;color:#a7c493;font-weight:600;
+}
+.readrow .btns{display:flex;flex-wrap:wrap;gap:7px}
+.readrow a{
+  font-family:var(--sans);font-size:10.5px;letter-spacing:.1em;text-decoration:none;
+  color:var(--bone);background:rgba(239,227,203,.07);border:1px solid rgba(239,227,203,.2);
+  padding:6px 11px;border-radius:2px;transition:.16s;white-space:nowrap;
+}
+.readrow a:hover{background:var(--ochre);color:#150e07;border-color:var(--ochre)}
+.readrow p{
+  margin:8px 0 0;font-size:11.5px;line-height:1.55;color:var(--mute);
 }
 
 .artframe{
@@ -314,6 +363,90 @@ kbd{
 ::-webkit-scrollbar-track{background:rgba(0,0,0,.3)}
 ::-webkit-scrollbar-thumb{background:rgba(224,173,72,.22);border-radius:0}
 ::-webkit-scrollbar-thumb:hover{background:rgba(224,173,72,.4)}
+
+/* ============ ΑΝΑΓΝΩΣΤΗΣ — in-app TEI reader ============
+   Built on the user's own reader.html: TEI walk, apparatus stripping,
+   transliteration and word-gloss links are their logic, restyled. */
+#reader{
+  position:fixed;inset:0;z-index:400;background:var(--ink);display:none;
+  flex-direction:column;
+}
+#reader.on{display:flex}
+#reader .rhead{
+  flex:0 0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:11px 18px;border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,#1f1710,#0d0906);
+}
+#reader .rtitle{min-width:0}
+#reader .rtitle b{
+  display:block;font-family:var(--grk);font-size:15px;letter-spacing:.16em;
+  color:var(--gold);font-weight:600;white-space:nowrap;
+}
+#reader .rtitle span{
+  display:block;font-family:var(--sans);font-size:9px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--mute);
+}
+#reader input[type=search]{
+  font-family:var(--serif);font-size:13px;color:var(--bone);
+  background:rgba(239,227,203,.05);border:1px solid var(--line);
+  border-radius:2px;padding:6px 10px;outline:none;width:170px;
+}
+#reader input[type=search]:focus{border-color:var(--line-strong)}
+#rbody{
+  flex:1 1 auto;overflow-y:auto;padding:30px 22px 90px;
+  --fs:19px;
+}
+#rinner{max-width:820px;margin:0 auto}
+#rstatus{
+  font-family:var(--sans);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mute);margin-bottom:20px;line-height:1.9;
+}
+#rstatus.err{color:var(--terra-lt)}
+#rstatus b{color:var(--gold)}
+.vs{display:flex;gap:14px;align-items:baseline;padding:1px 8px;border-radius:2px;scroll-margin-top:120px}
+.vs .n{
+  flex:0 0 42px;text-align:right;font-family:var(--sans);font-size:10px;
+  color:var(--mute);letter-spacing:.06em;user-select:none;
+}
+.vs .t{font-family:var(--grk);font-size:var(--fs);line-height:1.72;color:var(--bone)}
+.vs.cited{background:linear-gradient(90deg,rgba(224,173,72,.14),rgba(224,173,72,.03));
+  box-shadow:inset 2px 0 0 var(--ochre)}
+.vs.cited .t{color:var(--gold)}
+.vs.hi{background:rgba(125,154,106,.16)}
+.grk{cursor:pointer;border-radius:2px;transition:.12s}
+.grk:hover{background:rgba(224,173,72,.2);color:var(--gold)}
+.grk.hit{background:rgba(125,154,106,.32);color:#cfe0c2}
+.rsec{
+  font-family:var(--sans);font-size:10px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--terra-lt);margin:26px 0 12px;
+}
+.rnote{
+  margin:4px 0 4px 56px;font-size:12.5px;color:var(--mute);font-style:italic;
+  border-left:1px solid var(--line);padding-left:10px;
+}
+#rpaste{
+  display:none;width:100%;min-height:150px;margin-top:14px;font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:11px;background:rgba(0,0,0,.5);color:var(--bone-dim);
+  border:1px solid var(--line);border-radius:2px;padding:10px;
+}
+#wpop{
+  position:fixed;z-index:520;max-width:330px;opacity:0;pointer-events:none;
+  transform:translateY(4px);transition:.12s;
+  background:linear-gradient(165deg,#221a10,#100b07);
+  border:1px solid var(--line-strong);border-radius:3px;padding:12px 14px;
+  box-shadow:0 14px 40px rgba(0,0,0,.72);
+}
+#wpop.on{opacity:1;transform:translateY(0);pointer-events:auto}
+#wpop .w{font-family:var(--grk);font-size:20px;color:var(--gold);margin-bottom:2px}
+#wpop .tr{font-family:var(--sans);font-size:11px;letter-spacing:.1em;color:var(--mute);font-style:italic;margin-bottom:10px}
+#wpop a{
+  display:block;font-family:var(--sans);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ochre);text-decoration:none;border:1px solid rgba(224,173,72,.3);
+  border-radius:2px;padding:6px 9px;margin-top:5px;transition:.15s;
+}
+#wpop a:hover{background:var(--ochre);color:#150e07}
+#wpop .x{position:absolute;top:6px;right:9px;color:var(--mute);cursor:pointer;font-size:12px}
+#wpop .x:hover{color:var(--gold)}
 
 .warn{
   font-family:var(--sans);font-size:10px;letter-spacing:.1em;color:var(--mute);
@@ -749,6 +882,7 @@ kbd{
       <span class="progressbar"><i id="progFill" style="width:0"></i></span>
     </div>
 
+    <button class="tool" id="btnReader">Ἀναγνώστης · Text</button>
     <button class="tool" id="btnKey">Key</button>
     <button class="tool" id="btnImport">Import</button>
     <button class="tool accent" id="btnExport">Export</button>
@@ -784,6 +918,32 @@ kbd{
     </section>
   </main>
 </div>
+
+<!-- ΑΝΑΓΝΩΣΤΗΣ — in-app reader for the canonical TEI text -->
+<div id="reader">
+  <div class="rhead">
+    <div class="rtitle">
+      <b>ΑΝΑΓΝΩΣΤΗΣ</b>
+      <span id="rsub">Homeric Hymn 5 · canonical Greek</span>
+    </div>
+    <div class="spacer"></div>
+    <input type="search" id="rfind" placeholder="find a Greek word…">
+    <button class="tool" id="rfindBtn">Find</button>
+    <button class="tool" id="rnotes">Notes: hidden</button>
+    <button class="tool" id="rsmaller">A−</button>
+    <button class="tool" id="rbigger">A+</button>
+    <button class="tool" id="rcopy">Copy text</button>
+    <button class="tool accent" id="rclose">Close ✕</button>
+  </div>
+  <div id="rbody">
+    <div id="rinner">
+      <div id="rstatus">Fetching the canonical text…</div>
+      <div id="rtext"></div>
+      <textarea id="rpaste" placeholder="Paste the raw XML here and it will render identically…"></textarea>
+    </div>
+  </div>
+</div>
+<div id="wpop"></div>
 
 <div class="modal" id="modal"><div class="modalbox" id="modalbody"></div></div>
 <div class="toast" id="toast"></div>
@@ -823,6 +983,7 @@ const N = [
  cite:"Homeric Hymn 5.1",
  prose:`<p>This is not a retelling. It is a <strong>workbench</strong>. The <em>Homeric Hymn to Aphrodite</em> runs 293 lines and contains, on my reading, a complete pharmacological sequence: a compound is prepared in a temple, applied to a body, carried to a target, delivered through scent and speech, and produces a measurable effect — <em>the loss of clear knowing</em>. Then a sedative is administered. Then the operator is wounded by her own procedure, and seals it with an interdiction.</p>
  <p>Every panel here carries the <strong>original Greek</strong>, a line citation, a source tier, and three parallel readings — <span style="color:#7d9a6a">ethnomedical</span>, <span style="color:#b58bc4">mystical</span>, <span style="color:#e07a45">pharmacological-discovery</span>. Write into any of them. Nothing is stored in your browser; use <strong>Export</strong> to take your notes with you and <strong>Import</strong> to bring them back.</p>
+ <p><strong>Two kinds of highlight.</strong> A word with a dotted underline and a little ° — like <span class="lex" title="hímeros — desire, longing; in this hymn, a thing thrown into a chest from outside. Hover, tap, or tab to any word marked this way.">ἵμερος</span> — is a <em>gloss</em>: hover or tap it for the meaning. It never opens a page. A solid underline with an arrow is a real link. Press <strong>?</strong> for the full key.</p>
  <p><strong>Two modes.</strong> <em>Ἡ Ῥαψῳδία</em> walks the story in order. <em>Τὸ Δίκτυον</em> dissolves it into a constellation of beats, substances, terms, agents, sources and your own theses — so you can find the thread that isn't chronological.</p>`,
  sources:[
   {tier:"v", text:"Homeric Hymn 5 (To Aphrodite), 293 lines. Greek verified against the Perseus canonical-greekLit XML.", url:GREEKLIT},
@@ -1316,8 +1477,8 @@ const N = [
   {tier:"i", text:"All 'threads worth pulling' are my proposals for where your research goes next, not findings."}
  ],
  museum:[
-  {t:"Perseus — Hymn 5 to Aphrodite, Greek text and apparatus", url:PERSEUS},
-  {t:"The raw canonical Greek XML used for verification", url:GREEKLIT}
+  {t:"Perseus — Hymn 5 to Aphrodite, readable Greek text and apparatus", url:PERSEUS},
+  {t:"The raw TEI-XML verification file (source code, not a reading edition)", url:GREEKLIT}
  ],
  axes:{
   e:"Keep the ethnomedical claims tied to named substances with named actions. That is what separates this from vibes.",
@@ -1568,6 +1729,52 @@ function toast(msg){
 function ann(id){ return state.ann[id] || (state.ann[id] = {note:"", status:""}); }
 function isAnnotated(id){ const a = state.ann[id]; return !!(a && (a.note.trim() || a.status)); }
 
+/* ---------------- reading links ----------------
+   Line ranges in Hymn 5 for each node, used to deep-link a READABLE
+   edition. The raw XML is provenance only — never the reading link. */
+const LINES = {
+  s0:"1-10", s1:"7-32", s2:"43-46", s3:"53-55", s4:"58-60", s5:"61-63",
+  s7:"58-59", s8:"68-74", s9:"81-91", s10:"107-112", s11:"143-144",
+  s12:"158-167", s13:"168-175", s14:"181-199", s15:"281-290",
+  "t-himeros":"43-46", "t-ousafa":"166-167", "t-achos":"196-199",
+  "t-thuodes":"58-63", "t-ambrotos":"61-63",
+  "ph-elaion":"61-63", "ph-hypnos":"168-175",
+  "ag-aphrodite":"43-46", "ag-zeus":"43-46", "ag-anchises":"53-55",
+  "ag-charites":"61-63", "ag-therion":"68-74",
+  "src-hh5":"1-100",
+  "th-consent":"43-46", "th-armory":"58-65", "th-epistemic":"166-167",
+  "th-cost":"196-199", "th-secrecy":"281-290"
+};
+const SCAIFE_G = r => `https://scaife.perseus.org/reader/urn:cts:greekLit:tlg0013.tlg005.perseus-grc2:${r}/`;
+const SCAIFE_E = r => `https://scaife.perseus.org/reader/urn:cts:greekLit:tlg0013.tlg005.perseus-eng2:${r}/`;
+
+function readRowHTML(node){
+  const r = LINES[node.id];
+  if(!r) return "";
+  return `<div class="readrow">
+    <h6>Read these lines</h6>
+    <div class="btns">
+      <a href="#" data-read="${r}" class="readnow">Open lines ${r} in the reader</a>
+      <a href="${SCAIFE_G(r)}" target="_blank" rel="noopener">Greek at Perseus ↗</a>
+      <a href="${SCAIFE_E(r)}" target="_blank" rel="noopener">English ↗</a>
+    </div>
+    <p>The reader opens the canonical Greek inside this map, scrolled to these lines. Click any Greek word in it for transliteration and dictionary links.</p>
+  </div>`;
+}
+
+/* Honest labels: an XML link should never say "open" as if it were prose. */
+function linkLabel(url){
+  if(url === GREEKLIT) return "↗ raw XML file";
+  if(url === PERSEUS)  return "↗ Perseus";
+  if(/wikipedia|wikisource|wikimedia/.test(url)) return "↗ read";
+  return "↗ open";
+}
+function linkTitle(url){
+  return url === GREEKLIT
+    ? "This is the raw TEI-XML source file I diffed the Greek against — it is machine-readable code, not a reading edition. Use the green 'Read these lines' buttons above for readable text."
+    : "";
+}
+
 /* ---------------- shared fragments ---------------- */
 function tierChip(t){
   const m = {v:["t-v","verified"], a:["t-a","attested"], i:["t-i","interpretive"]}[t] || ["t-i","note"];
@@ -1577,14 +1784,17 @@ function sourcesHTML(node){
   const s = node.sources || [];
   const mus = node.museum || [];
   if(!s.length && !mus.length) return "";
-  let h = `<div class="sources"><div class="srchead">Sources & tiers</div>`;
+  let h = readRowHTML(node) + `<div class="sources"><div class="srchead">Sources & tiers</div>`;
   s.forEach(x=>{
-    h += `<div class="src">${tierChip(x.tier)}<span>${esc(x.text)}${x.url?` <a href="${esc(x.url)}" target="_blank" rel="noopener">↗ open</a>`:""}</span></div>`;
+    const a = x.url
+      ? ` <a href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(linkTitle(x.url))}">${linkLabel(x.url)}</a>`
+      : "";
+    h += `<div class="src">${tierChip(x.tier)}<span>${esc(x.text)}${a}</span></div>`;
   });
   if(mus.length){
     h += `<div class="srchead" style="margin-top:10px">Ancient art & objects</div>`;
     mus.forEach(x=>{
-      h += `<div class="src"><span class="tier t-i" style="background:rgba(201,85,44,.15);color:#e07a45;border-color:rgba(201,85,44,.4)">object</span><span><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.t)}</a></span></div>`;
+      h += `<div class="src"><span class="tier t-i" style="background:rgba(201,85,44,.15);color:#e07a45;border-color:rgba(201,85,44,.4)">object</span><span><a href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(linkTitle(x.url))}">${esc(x.t)} ↗</a></span></div>`;
     });
   }
   return h + `</div>`;
@@ -1860,6 +2070,7 @@ function renderPanel(id){
       <div class="linkedlist">${linked.map(x=>`<button data-jump="${x}">${esc(NBY[x].label)}</button>`).join("")}</div>`:""}
   `;
   $("#panel").scrollTop = 0;
+  upgradeLex($("#panel"));
   const go = $("#panel [data-go]");
   if(go) go.onclick = ()=>{ setMode("scroll"); goSlide(+go.dataset.go); };
   $("#panel").querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>select(b.dataset.jump));
@@ -1970,6 +2181,14 @@ function openKey(){
     <button class="closemodal" id="closeM">close</button>
     <h2>Πῶς χρῆσθαι — how to work this map</h2>
     <p style="color:#8d8069;font-family:var(--sans);font-size:10px;letter-spacing:.24em;text-transform:uppercase">Source tiers, keys, and the honesty policy</p>
+    <h4>Two kinds of highlighted text — they behave differently</h4>
+    <p><span class="lex" data-gloss="Like this. Hover, tap, or tab to it and a definition card appears — it does not navigate anywhere.">ἵμερος</span> &nbsp;<strong>Dotted underline with a little °</strong> — a gloss. Hover it, tap it on a touchscreen, or tab to it and press Enter. A card appears with the meaning. <em>It is not a link and never opens a page.</em> Try the one in this sentence.</p>
+    <p><a href="#" onclick="return false" style="color:var(--ochre);border-bottom:1px solid rgba(224,173,72,.5)">solid underline ↗</a> &nbsp;<strong>Solid underline with an arrow</strong> — a real outbound link. It opens in a new tab.</p>
+    <h4>Ἀναγνώστης — the built-in reader</h4>
+    <p>Press <kbd>R</kbd>, or hit <strong>Ἀναγνώστης · Text</strong> in the top bar, or use the green <strong>“Open lines … in the reader”</strong> button on any panel. It fetches the canonical Perseus text, strips the editorial apparatus, and lays out all 293 lines numbered — <em>inside this map</em>. Opened from a panel, it scrolls straight to those lines and highlights them in gold.</p>
+    <p><strong>Click any Greek word in the reader</strong> for its transliteration plus one-click links to the Perseus morphological parser and the LSJ lexicon. There's an accent-insensitive find box, adjustable type size, an apparatus-notes toggle, and a copy-the-whole-text button.</p>
+    <p>This is built on the TEI reader you wrote — your parser, your transliterator, your word-gloss idea — rewired so it lives in the map and knows which lines each panel is citing. If the fetch is ever blocked, it falls back to your paste box and renders identically.</p>
+    <p>So the link marked <strong>“raw XML file”</strong> is now only ever provenance — the evidence behind the <span class="tier t-v" style="display:inline-block">verified</span> chip. You should never need to open it. Labelling that “open” in the first build was my mistake.</p>
     <h4>Source tiers</h4>
     <p>${tierChip("v")} The Greek was checked verbatim in this session against the Perseus <em>canonical-greekLit</em> XML for Homeric Hymn 5 (tlg0013.tlg005.perseus-grc2). If a line carries this chip, you can quote it.</p>
     <p>${tierChip("a")} Attested from a library edition consulted earlier in this project — Dioscorides, Aëtius, Cornutus, <em>Iliad</em> 14, <em>Odyssey</em> 4. The substance of the claim is sound; the <strong>chapter and line numbers have not been re-verified</strong>. Pin them before publishing.</p>
@@ -1989,6 +2208,7 @@ function openKey(){
     <h4>One caution</h4>
     <p>The strongest version of this argument is the one that names its own weak points. Every thesis node on the constellation carries a <em>“weakness to address”</em> paragraph. Use them. An ethnomedical reading of a hymn is a real contribution when it is disciplined and an embarrassment when it is not, and the difference is entirely in how the interpretive tier is handled.</p>`;
   $("#modal").classList.add("on");
+  upgradeLex($("#modalbody"));
   $("#closeM").onclick = ()=>$("#modal").classList.remove("on");
 }
 
@@ -1998,7 +2218,8 @@ document.addEventListener("keydown", e=>{
     return;
   }
   const k = e.key.toLowerCase();
-  if(k==="escape"){ $("#modal").classList.remove("on"); return; }
+  if(k==="escape"){ $("#modal").classList.remove("on"); closeReader(); return; }
+  if(k==="r"){ $("#reader").classList.contains("on") ? closeReader() : openReader(null); return; }
   if(k==="?"||(e.shiftKey&&k==="/")){ openKey(); return; }
   if(k==="g"){ setMode(state.mode==="web"?"scroll":"web"); return; }
   if(k==="e"){ exportAll(); return; }
@@ -2008,14 +2229,260 @@ document.addEventListener("keydown", e=>{
   if(k==="home"){ goSlide(0); } if(k==="end"){ goSlide(SLIDES.length-1); }
 });
 
+/* ============ ΑΝΑΓΝΩΣΤΗΣ — in-app reader ============
+   TEI walk, apparatus stripping, transliteration and the word-gloss
+   popover are adapted from the user's own reader.html. The additions
+   here: fetch-and-cache, citation highlighting, and jump-to-range. */
+const R = { raw:"", plain:"", notes:false, fs:19, loaded:false, pending:null };
+
+const TR1={α:'a',β:'b',γ:'g',δ:'d',ε:'e',ζ:'z',η:'ē',θ:'th',ι:'i',κ:'k',λ:'l',μ:'m',ν:'n',
+  ξ:'x',ο:'o',π:'p',ρ:'r',σ:'s',ς:'s',τ:'t',υ:'y',φ:'ph',χ:'ch',ψ:'ps',ω:'ō'};
+function translit(word){
+  const d=word.normalize('NFD'); const rough=/̔/.test(d.slice(0,4));
+  const base=d.replace(/[̀-ͯ]/g,'').toLowerCase(); let out='';
+  for(let i=0;i<base.length;i++){const a=base[i],b=base[i+1];
+    if(a==='ο'&&b==='υ'){out+='ou';i++;continue} if(a==='ε'&&b==='ι'){out+='ei';i++;continue}
+    if(a==='α'&&b==='ι'){out+='ai';i++;continue} if(a==='ο'&&b==='ι'){out+='oi';i++;continue}
+    if(a==='α'&&b==='υ'){out+='au';i++;continue} if(a==='ε'&&b==='υ'){out+='eu';i++;continue}
+    if(a==='γ'&&(b==='γ'||b==='κ'||b==='χ')){out+='n';continue}
+    out+=TR1[a]!==undefined?TR1[a]:a;}
+  if(rough) out = base[0]==='ρ' ? out.replace(/^r/,'rh') : 'h'+out;
+  return out;
+}
+const GREEKRE=/[Ͱ-Ͽἀ-῿]+[Ͱ-Ͽἀ-῿’ʼ']*/g;
+function greekify(str){
+  let out='',last=0,m; GREEKRE.lastIndex=0;
+  const e=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  while((m=GREEKRE.exec(str))){ out+=e(str.slice(last,m.index))+'<span class="grk">'+e(m[0])+'</span>'; last=m.index+m[0].length; }
+  return out+e(str.slice(last));
+}
+const DROP=new Set(['note','app','bibl','gap','pb','lb','figure','fw']);
+function teiTxt(el){ return el ? el.textContent.replace(/\s+/g,' ').trim() : ''; }
+function teiClean(el){
+  let t='', notes=[];
+  (function rec(n){
+    for(const c of n.childNodes){
+      if(c.nodeType===3){ t+=c.nodeValue; continue; }
+      if(c.nodeType!==1) continue;
+      const nm=c.nodeName.toLowerCase();
+      if(DROP.has(nm)){ if(nm==='note'||nm==='app') notes.push(teiTxt(c)); continue; }
+      if(nm==='milestone') continue;
+      rec(c);
+    }
+  })(el);
+  return [t.replace(/\s+/g,' ').trim(), notes];
+}
+function renderTEI(xml, range){
+  const st=$("#rstatus");
+  let doc;
+  try{ doc=new DOMParser().parseFromString(xml,'application/xml'); }
+  catch(e){ st.className='err'; st.textContent='Could not parse that as XML.'; return; }
+  if(doc.querySelector('parsererror')){
+    st.className='err';
+    st.textContent='That did not parse as XML. If you pasted it, make sure you copied the whole file including the first line.';
+    return;
+  }
+  const body = doc.querySelector('text > body') || doc.querySelector('body');
+  if(!body){ st.className='err'; st.textContent='Parsed, but found no <text><body>.'; return; }
+
+  const lo = range ? +String(range).split('-')[0] : 0;
+  const hi = range ? +(String(range).split('-')[1] || lo) : -1;
+  const out=[], plain=[];
+  (function walk(node){
+    for(const c of node.childNodes){
+      if(c.nodeType!==1) continue;
+      const nm=c.nodeName.toLowerCase();
+      if(nm==='note'||nm==='app'||nm==='bibl'){
+        if(R.notes) out.push(`<div class="rnote">${greekify(teiTxt(c))}</div>`);
+        continue;
+      }
+      if(nm==='l'){
+        const n=c.getAttribute('n');
+        const [lt,ln]=teiClean(c);
+        const num=+n;
+        const cited = range && num>=lo && num<=hi;
+        const show = n && (num%5===0 || num===1 || cited);
+        out.push(`<div class="vs${cited?' cited':''}" data-n="${n||''}" id="vs-${n||''}">`
+          +`<div class="n">${show?n:''}</div><div class="t">${greekify(lt)}</div></div>`);
+        if(R.notes) ln.forEach(x=>out.push(`<div class="rnote">${greekify(x)}</div>`));
+        plain.push((n?String(n).padStart(5)+'  ':'')+lt+'\n');
+        continue;
+      }
+      if(nm==='p'){ const [pt]=teiClean(c); out.push(`<div class="vs"><div class="n"></div><div class="t">${greekify(pt)}</div></div>`); plain.push('\n'+pt+'\n'); continue; }
+      if(nm==='head'||nm==='label'){ out.push(`<div class="rsec">${teiTxt(c)}</div>`); plain.push('\n== '+teiTxt(c)+' ==\n'); continue; }
+      if(nm==='pb'||nm==='gap'||nm==='lb'||nm==='milestone') continue;
+      walk(c);
+    }
+  })(body);
+
+  $("#rtext").innerHTML = out.join('');
+  R.plain = plain.join('');
+  const n = $("#rtext").querySelectorAll('.vs[data-n]').length;
+  st.className='';
+  st.innerHTML = `<b>${n}</b> verse lines · Perseus canonical text, editorial apparatus stripped`
+    + (range ? ` · lines <b>${range}</b> highlighted below` : ``)
+    + ` · click any Greek word for transliteration and dictionaries`;
+  if(range){
+    const el = document.getElementById('vs-'+lo);
+    if(el) setTimeout(()=>el.scrollIntoView({block:'center', behavior:'smooth'}), 60);
+  }
+}
+async function openReader(range){
+  $("#reader").classList.add("on");
+  $("#rsub").textContent = range ? `Homeric Hymn 5 · lines ${range}` : `Homeric Hymn 5 · canonical Greek`;
+  if(R.loaded){ renderTEI(R.raw, range); return; }
+  $("#rstatus").className=''; $("#rstatus").textContent='Fetching the canonical text from Perseus…';
+  try{
+    const res = await fetch(GREEKLIT);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    R.raw = await res.text(); R.loaded = true;
+    renderTEI(R.raw, range);
+  }catch(e){
+    $("#rstatus").className='err';
+    $("#rstatus").innerHTML = 'Could not fetch the text from here ('+esc(e.message)+'). '
+      + 'Open <a href="'+GREEKLIT+'" target="_blank" rel="noopener" style="color:var(--ochre)">the raw file</a>, '
+      + 'select all, copy, and paste it into the box below — it will render identically. '
+      + 'Or read it at <a href="'+PERSEUS+'" target="_blank" rel="noopener" style="color:var(--ochre)">Perseus</a>.';
+    $("#rpaste").style.display='block';
+    R.pending = range;
+  }
+}
+function closeReader(){ $("#reader").classList.remove("on"); hideWPop(); }
+
+/* word gloss popover inside the reader (their design, restyled) */
+const wpop = document.getElementById("wpop");
+function hideWPop(){ wpop.classList.remove("on"); }
+function showWPop(word, x, y){
+  const w = word.replace(/[·,.;:’'ʼ]+$/,'');
+  const morph = 'https://www.perseus.tufts.edu/hopper/morph?l='+encodeURIComponent(w)+'&la=greek';
+  const lsj   = 'https://lsj.gr/wiki/'+encodeURIComponent(w);
+  wpop.innerHTML = `<div class="x">✕</div><div class="w">${esc(w)}</div>`
+    + `<div class="tr">${esc(translit(w))}</div>`
+    + `<a href="${morph}" target="_blank" rel="noopener">Parse it · Perseus morphology ↗</a>`
+    + `<a href="${lsj}" target="_blank" rel="noopener">Look it up · LSJ ↗</a>`;
+  wpop.classList.add("on");
+  const r = wpop.getBoundingClientRect();
+  wpop.style.left = Math.max(10, Math.min(innerWidth - r.width - 10, x - r.width/2)) + "px";
+  wpop.style.top  = (y + 18 + r.height > innerHeight ? y - r.height - 14 : y + 18) + "px";
+  wpop.querySelector('.x').onclick = hideWPop;
+}
+function readerFind(){
+  const v = $("#rfind").value.trim(); if(!v) return;
+  const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/ς/g,'σ');
+  const target = norm(v); let first=null, count=0;
+  $("#rtext").querySelectorAll('.grk').forEach(g=>{
+    const hit = norm(g.textContent).includes(target);
+    g.classList.toggle('hit', hit);
+    if(hit){ count++; if(!first) first=g; }
+  });
+  $("#rtext").querySelectorAll('.vs').forEach(v2=>v2.classList.remove('hi'));
+  if(first){
+    const row = first.closest('.vs'); if(row) row.classList.add('hi');
+    first.scrollIntoView({block:'center'});
+    $("#rstatus").className=''; $("#rstatus").innerHTML = `<b>${count}</b> match${count===1?'':'es'} highlighted.`;
+  } else {
+    $("#rstatus").className='err'; $("#rstatus").textContent='No match in the rendered text.';
+  }
+}
+document.addEventListener("click", e=>{
+  const open = e.target.closest && e.target.closest("[data-read]");
+  if(open){ e.preventDefault(); openReader(open.dataset.read); return; }
+  const g = e.target.closest && e.target.closest("#rtext .grk");
+  if(g){ showWPop(g.textContent, e.clientX, e.clientY); e.stopPropagation(); return; }
+  if(!e.target.closest("#wpop")) hideWPop();
+});
+$("#rclose").onclick   = closeReader;
+$("#rfindBtn").onclick = readerFind;
+$("#rfind").addEventListener("keydown", e=>{ if(e.key==="Enter") readerFind(); });
+$("#rnotes").onclick   = ()=>{ R.notes=!R.notes; $("#rnotes").textContent='Notes: '+(R.notes?'shown':'hidden'); if(R.loaded) renderTEI(R.raw, null); };
+$("#rbigger").onclick  = ()=>{ R.fs=Math.min(30,R.fs+2); $("#rbody").style.setProperty('--fs',R.fs+'px'); };
+$("#rsmaller").onclick = ()=>{ R.fs=Math.max(13,R.fs-2); $("#rbody").style.setProperty('--fs',R.fs+'px'); };
+$("#rcopy").onclick    = ()=>{
+  const t = R.plain || 'nothing loaded yet';
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>toast("Greek text copied")); }
+  else { const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select();
+         try{ document.execCommand('copy'); toast("Greek text copied"); }catch(err){ toast("Select and copy manually"); }
+         document.body.removeChild(ta); }
+};
+$("#rpaste").addEventListener("input", e=>{
+  const v = e.target.value.trim();
+  if(v.length > 400){ R.raw=v; R.loaded=true; e.target.style.display='none'; renderTEI(R.raw, R.pending); }
+});
+
+/* ---------------- gloss popovers ----------------
+   The native title= tooltip needed a ~1.5s hover, never fired on touch,
+   and made these look like broken links. Replaced with a real popover:
+   instant on hover, tap-to-toggle on touch, focusable by keyboard. */
+const pop = document.createElement("div");
+pop.id = "pop";
+document.body.appendChild(pop);
+let popFor = null;
+
+function upgradeLex(root){
+  (root || document).querySelectorAll(".lex").forEach(el=>{
+    if(el.hasAttribute("title")){
+      el.dataset.gloss = el.getAttribute("title");
+      el.removeAttribute("title");        // kill the slow native tooltip
+    }
+    if(!el.dataset.gloss) return;
+    el.setAttribute("tabindex","0");
+    el.setAttribute("role","button");
+    el.setAttribute("aria-label", el.textContent + " — show gloss");
+  });
+}
+function showPop(el){
+  const g = el.dataset.gloss; if(!g) return;
+  popFor = el;
+  document.querySelectorAll(".lex.open").forEach(x=>x.classList.remove("open"));
+  el.classList.add("open");
+  pop.innerHTML = `<b>${esc(el.textContent.replace(/°$/,""))}</b><span>${esc(g)}</span><i>gloss · not a link</i>`;
+  pop.classList.add("on");
+  const r = el.getBoundingClientRect();
+  const pr = pop.getBoundingClientRect();
+  let left = r.left + r.width/2 - pr.width/2;
+  left = Math.max(10, Math.min(window.innerWidth - pr.width - 10, left));
+  let top = r.top - pr.height - 9;
+  if(top < 8) top = r.bottom + 9;
+  pop.style.left = left + "px";
+  pop.style.top  = top + "px";
+}
+function hidePop(){
+  pop.classList.remove("on");
+  if(popFor){ popFor.classList.remove("open"); popFor = null; }
+}
+document.addEventListener("mouseover", e=>{
+  const el = e.target.closest && e.target.closest(".lex");
+  if(el){ showPop(el); }
+  else if(popFor && !e.target.closest("#pop")) hidePop();
+});
+document.addEventListener("focusin", e=>{
+  const el = e.target.closest && e.target.closest(".lex");
+  if(el) showPop(el);
+});
+document.addEventListener("click", e=>{
+  const el = e.target.closest && e.target.closest(".lex");
+  if(el){ e.preventDefault(); (popFor === el) ? hidePop() : showPop(el); }
+  else hidePop();
+});
+document.addEventListener("keydown", e=>{
+  if(e.key === "Escape") hidePop();
+  if((e.key === "Enter" || e.key === " ") && e.target.classList && e.target.classList.contains("lex")){
+    e.preventDefault(); (popFor === e.target) ? hidePop() : showPop(e.target);
+  }
+});
+window.addEventListener("scroll", hidePop, true);
+window.addEventListener("resize", hidePop);
+
 /* ---------------- boot ---------------- */
 buildSlides();
+upgradeLex();
 paintDots();
 updateProgress();
 $("#btnScroll").onclick = ()=>setMode("scroll");
 $("#btnWeb").onclick    = ()=>setMode("web");
 $("#prevBtn").onclick   = ()=>goSlide(state.idx-1);
 $("#nextBtn").onclick   = ()=>goSlide(state.idx+1);
+$("#btnReader").onclick = ()=>openReader(null);
 $("#btnKey").onclick    = openKey;
 $("#btnExport").onclick = exportAll;
 $("#btnImport").onclick = ()=>$("#fileIn").click();
